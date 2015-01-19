@@ -30,7 +30,9 @@ void init_item(item_t item);
 void draw_item(item_t item);
 
 /* player.c */
-void player_run(char c, entity_t *entity);
+bool can_step(int x, int y);
+void move_entity(entity_t *e, int x_0, int y_0);
+void player_run(char c, entity_t *e);
 
 item_t gold;
 entity_t entity[MAX_ENTITIES];
