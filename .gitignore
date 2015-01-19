@@ -1,0 +1,21 @@
+# Swap Files
+*~
+*.swp
+*.swo
+\#*\#
+
+# Compiled Files
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.o
+*.obj
+*.so
+*.so.*
+ratium
+
+# Misc
+Session*.vim
+misc/*
