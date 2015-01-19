@@ -1,20 +1,14 @@
 #include "ratium.h"
 
-void move_player(char c, entity_t entity) {
+void player_run(char c, entity_t *e) {
 
 	switch (c) {
-		case 'h': --entity.x; break;
-		case 'j': ++entity.y; break;
-		case 'k': --entity.y; break;
-		case 'l': ++entity.x; break;
+		case 'h': e->x--; break;
+		case 'j': e->y++; break;
+		case 'k': e->y--; break;
+		case 'l': e->x++; break;
 	}
 
-	/* if (c == 'h')        { entity.x--; */
-	/* } else if (c == 'j') { entity.y++; */
-	/* } else if (c == 'k') { entity.y--; */
-	/* } else if (c == 'l') { entity.x++; */
-	/* } */
-
-	mvaddch(entity.y, entity.x, entity.face);
+	/* mvaddch(e->y, e->x, e->face + e->color); */
 
 }

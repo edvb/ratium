@@ -16,6 +16,10 @@ typedef struct {
 	int x, y;
 	char face;
 	int color;
+
+	/* int hp, hpFull; */
+	/* int damage; */
+	/* char holding; */
 } entity_t;
 
 /* map.c */
@@ -26,7 +30,7 @@ void init_item(item_t item);
 void draw_item(item_t item);
 
 /* player.c */
-void move_player(char c, entity_t entity);
+void player_run(char c, entity_t *entity);
 
 item_t gold;
 entity_t entity[MAX_ENTITIES];
