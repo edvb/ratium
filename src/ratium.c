@@ -77,10 +77,8 @@ int main() {
 
 		player_run(c, &entity[0]);
 
-		/* for (int i; i < 1; i++) */
-			/* mvaddch(entity[i].y, entity[i].x, entity[i].face + entity[i].color); */
-		mvaddch(entity[0].y, entity[0].x, entity[0].face + entity[0].color);
-		mvaddch(entity[1].y, entity[1].x, entity[1].face + entity[1].color);
+		for (int i = 0; i <= 1; i++)
+			mvaddch(entity[i].y, entity[i].x, entity[i].face + entity[i].color);
 
 		c = getch();
 
