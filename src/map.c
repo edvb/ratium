@@ -38,9 +38,9 @@ void draw_map() {
 			} else if (worldMap[j][i] == '.') {
 				mvaddch(j, i, '.');
 			} else if (worldMap[j][i] == 'g') {
-				mvaddch(j, i, '.' + COLOR_PAIR(10));
+				mvaddch(j, i, '.' + GRASS);
 			} else if (worldMap[j][i] == 'w') {
-				mvaddch(j, i, '~' + COLOR_PAIR(9));
+				mvaddch(j, i, '~' + WATER);
 			} else {
 				mvaddch(j, i, worldMap[j][i]);
 			}

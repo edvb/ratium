@@ -44,7 +44,7 @@ int main() {
 	getmaxyx(stdscr, maxy, maxx);
 
 	gold.face = '$';
-	gold.color = COLOR_PAIR(4);
+	gold.color = YELLOW;
 	init_item(&gold);
 	gold.map[7][4]   = gold.face;
 	gold.map[9][16]  = gold.face;
@@ -59,7 +59,7 @@ int main() {
 	gold.map[21][25] = gold.face;
 
 	door.face = '+';
-	door.color = COLOR_PAIR(5);
+	door.color = BROWN;
 	init_item(&door);
 	door.map[8][8]   = door.face;
 	door.map[14][8]  = door.face;

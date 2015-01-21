@@ -3,11 +3,11 @@
 bool can_step(int x, int y) {
 	if (mvinch(y, x) == '.') {
 		return true;
-	} else if (mvinch(y, x) == '.' + COLOR_PAIR(10)) {
+	} else if (mvinch(y, x) == '.' + GRASS) {
 		return true;
-	} else if (mvinch(y, x) == '$' + COLOR_PAIR(4)) {
+	} else if (mvinch(y, x) == '$' + YELLOW) {
 		return true;
-	} else if (mvinch(y, x) == '-' + COLOR_PAIR(5)) {
+	} else if (mvinch(y, x) == '-' + BROWN) {
 		return true;
 	} else {
 		return false;
