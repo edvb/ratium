@@ -34,9 +34,11 @@ void draw_item(item_t item);
 /* door.c */
 void toggle_door(int x, int y);
 
-/* player.c */
+/* entity.c */
 bool can_step(int x, int y);
 void move_entity(entity_t *e, int x_0, int y_0);
+
+/* player.c */
 void get_item(entity_t *e);
 void player_run(char c, entity_t *e);
 
