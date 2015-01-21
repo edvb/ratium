@@ -45,6 +45,7 @@ int main() {
 
 	gold.face = '$';
 	gold.color = COLOR_PAIR(4);
+	init_item(&gold);
 	gold.map[7][4]   = gold.face;
 	gold.map[9][16]  = gold.face;
 	gold.map[9][17]  = gold.face;
@@ -56,7 +57,19 @@ int main() {
 	gold.map[15][33] = gold.face;
 	gold.map[18][32] = gold.face;
 	gold.map[21][25] = gold.face;
-	init_item(gold);
+
+	door.face = '+';
+	door.color = COLOR_PAIR(5);
+	init_item(&door);
+	door.map[8][8]   = door.face;
+	door.map[14][8]  = door.face;
+	door.map[7][14]  = door.face;
+	door.map[8][19]  = door.face;
+	door.map[13][24] = door.face;
+	door.map[16][32] = door.face;
+	door.map[18][13] = door.face;
+	door.map[13][30] = door.face;
+	door.map[8][61]  = door.face;
 
 	entity[0].x = 5;
 	entity[0].y = 5;
@@ -74,6 +87,7 @@ int main() {
 
 		draw_map();
 		draw_item(gold);
+		draw_item(door);
 
 		player_run(c, &entity[0]);
 
