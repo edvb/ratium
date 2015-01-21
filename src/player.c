@@ -19,6 +19,12 @@ void move_entity(entity_t *e, int dx, int dy) {
 	}
 }
 
+void get_item(char c, entity_t *e) {
+	switch (mvinch(e->y, e->x)) {
+		case '$' + COLOR_PAIR(4): e->gold++; clear_item(&gold, e->x, e->y); break;
+	}
+}
+
 void player_run(char c, entity_t *e) {
 
 	switch (c) {
@@ -26,15 +32,10 @@ void player_run(char c, entity_t *e) {
 		case 'j': move_entity(e,  0,  1); break;
 		case 'k': move_entity(e,  0, -1); break;
 		case 'l': move_entity(e,  1,  0); break;
+		case 'g': get_item(c, e); break;
 	}
 
-	/* switch (c) { */
-	/* 	case 'h': e->x--; break; */
-	/* 	case 'j': e->y++; break; */
-	/* 	case 'k': e->y--; break; */
-	/* 	case 'l': e->x++; break; */
-	/* } */
-
+	mvprintw(0, 0, "Gold:%2d", e->gold);
 	/* mvaddch(e->y, e->x, e->face + e->color); */
 
 }
