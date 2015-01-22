@@ -43,6 +43,8 @@ int main() {
 
 	getmaxyx(stdscr, maxy, maxx);
 
+	srand(time(NULL));
+
 	gold.face = '$';
 	gold.color = YELLOW;
 	init_item(&gold);
@@ -93,6 +95,8 @@ int main() {
 
 		for (int i = 0; i <= 1; i++)
 			mvaddch(entity[i].y, entity[i].x, entity[i].face + entity[i].color);
+
+		dumb_ai(&entity[1], entity[0].x, entity[0].y, 4);
 
 		c = getch();
 

@@ -3,6 +3,8 @@
 
 #include <ncurses.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define MAX_ENTITIES 256
 
@@ -47,6 +49,8 @@ void toggle_door(int x, int y);
 /* entity.c */
 bool can_step(int x, int y);
 void move_entity(entity_t *e, int x_0, int y_0);
+void rand_ai(entity_t *e, int speed);
+void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
 
 /* player.c */
 void get_item(entity_t *e);
