@@ -18,6 +18,6 @@ void player_run(char c, entity_t *e) {
 	}
 
 	mvprintw(0, 0, "Gold:%2d", e->gold);
-	/* mvaddch(e->y, e->x, e->face + e->color); */
+	mvaddch(e->y, e->x, e->face + e->color);
 
 }

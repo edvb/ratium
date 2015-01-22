@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_ENTITIES 256
-
 #define RED COLOR_PAIR(1)
 #define GREEN COLOR_PAIR(2)
 #define BLUE COLOR_PAIR(3)
@@ -17,6 +15,12 @@
 #define DARK_YELLOW COLOR_PAIR(8)
 #define WATER COLOR_PAIR(9)
 #define GRASS COLOR_PAIR(10)
+
+#define MAX_ENTITIES 256
+#define MAX_ITEMS 256
+
+#define gold item[0]
+#define door item[1]
 
 typedef struct {
 	char map[24][81];
@@ -54,8 +58,7 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
 void get_item(entity_t *e);
 void player_run(char c, entity_t *e);
 
-item_t gold;
-item_t door;
+item_t item[MAX_ITEMS];
 entity_t entity[MAX_ENTITIES];
 
 #endif

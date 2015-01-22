@@ -88,14 +88,11 @@ int main() {
 		clear();
 
 		draw_map();
-		draw_item(gold);
-		draw_item(door);
-
-		player_run(c, &entity[0]);
 
 		for (int i = 0; i <= 1; i++)
-			mvaddch(entity[i].y, entity[i].x, entity[i].face + entity[i].color);
+			draw_item(item[i]);
 
+		player_run(c, &entity[0]);
 		dumb_ai(&entity[1], entity[0].x, entity[0].y, 4);
 
 		c = getch();
