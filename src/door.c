@@ -17,4 +17,5 @@ void toggle_door(int x, int y) {
 		door.map[y][x-1] = '+';
 	else if (door.map[y][x+1] == '-')
 		door.map[y][x+1] = '+';
+	draw_item(door);
 }
