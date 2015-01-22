@@ -39,7 +39,7 @@ typedef struct {
 void draw_map();
 
 /* item.c */
-void init_item(item_t *item);
+void alloc_item(item_t *item);
 void clear_item(item_t *item, int x, int y);
 void draw_item(item_t item);
 

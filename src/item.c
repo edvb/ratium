@@ -1,6 +1,6 @@
 #include "ratium.h"
 
-void init_item(item_t *item) {
+void alloc_item(item_t *item) {
 	for (int j = 0; j < 24; j++)
 		for (int i = 0; i < 80; i++)
 			item->map[j][i] = ' ';

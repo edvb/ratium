@@ -47,7 +47,7 @@ int main() {
 
 	gold.face = '$';
 	gold.color = YELLOW;
-	init_item(&gold);
+	alloc_item(&gold);
 	gold.map[7][4]   = gold.face;
 	gold.map[9][16]  = gold.face;
 	gold.map[9][17]  = gold.face;
@@ -62,7 +62,7 @@ int main() {
 
 	door.face = '+';
 	door.color = BROWN;
-	init_item(&door);
+	alloc_item(&door);
 	door.map[8][8]   = door.face;
 	door.map[14][8]  = door.face;
 	door.map[7][14]  = door.face;
