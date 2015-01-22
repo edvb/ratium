@@ -40,11 +40,9 @@ void draw_map();
 
 /* item.c */
 void alloc_item(item_t *item);
+void toggle_door(int x, int y);
 void clear_item(item_t *item, int x, int y);
 void draw_item(item_t item);
-
-/* door.c */
-void toggle_door(int x, int y);
 
 /* entity.c */
 bool can_step(int x, int y);
