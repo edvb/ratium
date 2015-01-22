@@ -40,6 +40,7 @@ typedef struct {
 } entity_t;
 
 /* map.c */
+char get_map(int x, int y);
 void draw_map();
 
 /* item.c */
