@@ -75,13 +75,26 @@ int main() {
 
 	entity[0].x = 5;
 	entity[0].y = 5;
+	entity[0].oldx = 5;
+	entity[0].oldy = 5;
 	entity[0].face = '@';
 	entity[0].color = COLOR_PAIR(3);
+	entity[0].maxhp = 10;
+	/* entity[0].hp = entity[0].maxhp; */
+	entity[0].hp = 10;
+	entity[0].gold = 0;
+	entity[0].damage = 3;
 
 	entity[1].x = 12;
 	entity[1].y = 5;
+	entity[1].oldx = 12;
+	entity[1].oldy = 5;
 	entity[1].face = 'r';
 	entity[1].color = COLOR_PAIR(5);
+	entity[1].maxhp = 5;
+	entity[1].hp = entity[1].maxhp;
+	entity[1].gold = 0;
+	entity[1].damage = 1;
 
 	do {
 

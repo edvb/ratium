@@ -7,17 +7,25 @@ void get_item(entity_t *e) {
 }
 
 void player_run(char c, entity_t *e) {
+	if (e->hp > 0) {
 
-	switch (c) {
-		case 'h': move_entity(e, -1,  0); break;
-		case 'j': move_entity(e,  0,  1); break;
-		case 'k': move_entity(e,  0, -1); break;
-		case 'l': move_entity(e,  1,  0); break;
-		case 'g': get_item(e); break;
-		case 'o': toggle_door(e->x, e->y); break;
+		e->oldx = e->x;
+		e->oldy = e->y;
+
+		switch (c) {
+			case 'h': move_entity(e, -1,  0); break;
+			case 'j': move_entity(e,  0,  1); break;
+			case 'k': move_entity(e,  0, -1); break;
+			case 'l': move_entity(e,  1,  0); break;
+			case 'g': get_item(e); break;
+			case 'o': toggle_door(e->x, e->y); break;
+		}
+
+		attack(e, &entity[1]);
+
+		mvprintw(0, 0, "Gold: %d", e->gold);
+		mvprintw(0, 8, "HP: %d", e->hp);
+		mvaddch(e->y, e->x, e->face + e->color);
+
 	}
-
-	mvprintw(0, 0, "Gold:%2d", e->gold);
-	mvaddch(e->y, e->x, e->face + e->color);
-
 }
