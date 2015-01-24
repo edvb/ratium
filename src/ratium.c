@@ -60,6 +60,7 @@ int main() {
 	gold.map[15][33] = gold.face;
 	gold.map[18][32] = gold.face;
 	gold.map[21][25] = gold.face;
+	itemCount = 0;
 
 	item[2].name = "spam";
 	item[2].face = '=';
@@ -67,6 +68,7 @@ int main() {
 	alloc_item(&item[2]);
 	item[2].map[6][4]   = item[2].face;
 	item[2].map[5][4]   = item[2].face;
+	itemCount++;
 
 	door.name = "door";
 	door.face = '+';
@@ -81,6 +83,7 @@ int main() {
 	door.map[18][13] = door.face;
 	door.map[13][30] = door.face;
 	door.map[8][61]  = door.face;
+	itemCount++;
 
 	init_entity(0, 3);
 	entity[0].bary = 0;
@@ -94,7 +97,7 @@ int main() {
 
 		draw_map();
 
-		for (int i = 0; i <= 2; i++)
+		for (int i = 0; i <= itemCount; i++)
 			draw_item(item[i]);
 
 		player_run(c, &entity[0]);

@@ -35,7 +35,7 @@ void draw_inv(entity_t *e) {
 
 	draw_map();
 
-	for (int i = 0; i <= 2; i++)
+	for (int i = 0; i <= itemCount; i++)
 		draw_item(item[i]);
 
 }
@@ -58,7 +58,7 @@ void inv_add_item(entity_t *e, item_t *item, int qty) {
 
 void get_item(entity_t *e) {
 
-	for (int i = 0; i <= 2; i++)
+	for (int i = 0; i <= itemCount; i++)
 		if (item[i].map[e->y][e->x] == item[i].face) {
 			inv_add_item(e, &item[i], 1);
 			clear_item(&item[i], e->x, e->y);
@@ -88,6 +88,7 @@ void player_run(char c, entity_t *e) {
 		move(e->bary, 0);
 		printw("HP: %d", e->hp);
 		printw(" (%d, %d)", e->x, e->y);
+		printw(" %d", itemCount);
 		mvaddch(e->y, e->x, e->face + e->color);
 
 	}

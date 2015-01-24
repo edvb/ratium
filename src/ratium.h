@@ -24,6 +24,7 @@
 #define door item[1]
 
 int entityCount;
+int itemCount;
 
 typedef struct {
 	char *name;
