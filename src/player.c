@@ -24,8 +24,9 @@ void player_run(char c, entity_t *e) {
 		attack(e, &entity[1]);
 		attack(e, &entity[2]);
 
-		mvprintw(0, 0, "Gold: %d", e->gold);
-		mvprintw(0, 8, "HP: %d", e->hp);
+		move(e->bary, 0);
+		printw("HP: %d", e->hp);
+		printw(" Gold: %d", e->gold);
 		mvaddch(e->y, e->x, e->face + e->color);
 
 	}

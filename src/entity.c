@@ -3,7 +3,6 @@
 void init_entity(int from, int to) {
 
 	int x_0, y_0;
-	int bary = 25;
 	char face;
 	int color;
 	int maxhp;
@@ -11,7 +10,7 @@ void init_entity(int from, int to) {
 
 	FILE *f = fopen("data/entities.txt", "r");
 
-	for (int i = from; i <= to; i++, bary++) {
+	for (int i = from; i <= to; i++) {
 		fscanf(f, "%c %i %i %i %i %i\n", &face, &color, &x_0, &y_0, &maxhp, &damage);
 
 		entity[i].face = face;
@@ -20,12 +19,11 @@ void init_entity(int from, int to) {
 		entity[i].y = y_0;
 		entity[i].oldx = x_0;
 		entity[i].oldy = y_0;
-		entity[i].bary = bary;
 		entity[i].maxhp = maxhp;
 		entity[i].hp = maxhp;
 		entity[i].damage = damage;
-		entity[i].gold = 0;
 		entity[i].holding = ' ';
+		entity[i].gold = 0;
 	}
 
 	fclose(f);

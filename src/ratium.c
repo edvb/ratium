@@ -73,19 +73,10 @@ int main() {
 	door.map[13][30] = door.face;
 	door.map[8][61]  = door.face;
 
-	entity[0].face = '@';
-	entity[0].color = COLOR_PAIR(3);
-	entity[0].x = 5;
-	entity[0].y = 5;
-	entity[0].oldx = 5;
-	entity[0].oldy = 5;
-	entity[0].maxhp = 10;
-	/* entity[0].hp = entity[0].maxhp; */
-	entity[0].hp = 10;
-	entity[0].damage = 3;
-	entity[0].gold = 0;
-
-	init_entity(1, 2);
+	init_entity(0, 2);
+	entity[0].bary = 0;
+	entity[1].bary = 25;
+	entity[2].bary = 26;
 
 	do {
 
