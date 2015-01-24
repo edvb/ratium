@@ -12,8 +12,22 @@ void draw_inv(entity_t *e) {
 		attroff(A_REVERSE);
 
 		for (int i = 0; i < MAX_INV_SLOTS; i++)
-			if (e->inv[i].qty != 0)
-				printw("%d: %s (%d)\n", i + 1, e->inv[i].name, e->inv[i].qty);
+			if (e->inv[i].qty != 0) {
+				/* printw("%d) %c %s (%d)\n", i + 1, e->inv[i].face, e->inv[i].name, e->inv[i].qty); */
+				attron(GREY);
+				printw("%c)", i + 97);
+				attroff(GREY);
+
+				attron(e->inv[i].color);
+				printw(" %c", e->inv[i].face);
+				attroff(e->inv[i].color);
+
+				printw(" %s", e->inv[i].name);
+
+				attron(GREY);
+				printw(" (%d)\n", e->inv[i].qty);
+				attroff(GREY);
+			}
 
 	} while ((k = getch()) != 'i');
 

@@ -63,7 +63,7 @@ int main() {
 
 	item[2].name = "spam";
 	item[2].face = '=';
-	item[2].color = YELLOW;
+	item[2].color = DARK_YELLOW;
 	alloc_item(&item[2]);
 	item[2].map[6][4]   = item[2].face;
 	item[2].map[5][4]   = item[2].face;
@@ -90,8 +90,10 @@ int main() {
 
 	entity[0].inv[0].name = "gold";
 	entity[0].inv[0].face = '$';
+	entity[0].inv[0].color = YELLOW;
 	entity[0].inv[1].name = "spam";
 	entity[0].inv[1].face = '=';
+	entity[0].inv[1].color = DARK_YELLOW;
 
 	do {
 
