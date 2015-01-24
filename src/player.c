@@ -33,6 +33,11 @@ void draw_inv(entity_t *e) {
 
 	clear();
 
+	draw_map();
+
+	for (int i = 0; i <= 2; i++)
+		draw_item(item[i]);
+
 }
 
 void inv_add_item(entity_t *e, item_t *item, int qty) {
