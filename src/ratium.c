@@ -73,10 +73,11 @@ int main() {
 	door.map[13][30] = door.face;
 	door.map[8][61]  = door.face;
 
-	init_entity(0, 2);
+	init_entity(0, 3);
 	entity[0].bary = 0;
 	entity[1].bary = 25;
 	entity[2].bary = 26;
+	entity[3].bary = 27;
 
 	do {
 
@@ -90,6 +91,7 @@ int main() {
 		player_run(c, &entity[0]);
 		dumb_ai(&entity[1], entity[0].x, entity[0].y, 8);
 		dumb_ai(&entity[2], entity[0].x, entity[0].y, 8);
+		rand_ai(&entity[3], 8);
 
 		c = getch();
 

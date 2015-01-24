@@ -24,6 +24,8 @@ void init_entity(int from, int to) {
 		entity[i].damage = damage;
 		entity[i].holding = ' ';
 		entity[i].gold = 0;
+
+		entityCount++;
 	}
 
 	fclose(f);
@@ -71,6 +73,7 @@ void rand_ai(entity_t *e, int speed) {
 			case 3: move_entity(e,  1,  0); break;
 		}
 
+		mvprintw(e->bary, 0, "HP: %d", e->hp);
 		mvaddch(e->y, e->x, e->face + e->color);
 	}
 

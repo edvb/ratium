@@ -21,12 +21,13 @@ void player_run(char c, entity_t *e) {
 			case 'o': toggle_door(e->x, e->y); break;
 		}
 
-		attack(e, &entity[1]);
-		attack(e, &entity[2]);
+		for (int i = 1; i < entityCount; i++)
+			attack(e, &entity[i]);
 
 		move(e->bary, 0);
 		printw("HP: %d", e->hp);
 		printw(" Gold: %d", e->gold);
+		printw(" (%d, %d)", e->x, e->y);
 		mvaddch(e->y, e->x, e->face + e->color);
 
 	}

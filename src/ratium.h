@@ -22,6 +22,8 @@
 #define gold item[0]
 #define door item[1]
 
+int entityCount;
+
 typedef struct {
 	char map[24][81];
 	char face;
