@@ -41,6 +41,8 @@ typedef struct {
 	int damage;
 	int gold;
 	char holding;
+
+	int passive;
 } entity_t;
 
 /* map.c */

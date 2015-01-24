@@ -7,11 +7,12 @@ void init_entity(int from, int to) {
 	int color;
 	int maxhp;
 	int damage;
+	int passive;
 
 	FILE *f = fopen("data/entities.txt", "r");
 
 	for (int i = from; i <= to; i++) {
-		fscanf(f, "%c %i %i %i %i %i\n", &face, &color, &x_0, &y_0, &maxhp, &damage);
+		fscanf(f, "%c %i %i %i %i %i %i\n", &face, &color, &x_0, &y_0, &maxhp, &damage, &passive);
 
 		entity[i].face = face;
 		entity[i].color = COLOR_PAIR(color);
@@ -23,6 +24,7 @@ void init_entity(int from, int to) {
 		entity[i].hp = maxhp;
 		entity[i].damage = damage;
 		entity[i].holding = ' ';
+		entity[i].passive = passive;
 		entity[i].gold = 0;
 
 		entityCount++;
@@ -55,15 +57,16 @@ void attack(entity_t *e, entity_t *foe) {
 		if (foe->hp > 0)
 			if (e->x == foe->x)
 				if (e->y == foe->y) {
-					foe->hp -= e->damage;
+					if (e->passive != 0)
+						foe->hp -= e->damage;
 					e->x = e->oldx;
 					e->y = e->oldy;
 				}
 }
 
 void rand_ai(entity_t *e, int speed) {
-
 	if (e->hp > 0) {
+
 		int direc = rand() % speed;
 
 		switch (direc) {
@@ -73,14 +76,15 @@ void rand_ai(entity_t *e, int speed) {
 			case 3: move_entity(e,  1,  0); break;
 		}
 
+		attack(e, &entity[0]);
+
 		mvprintw(e->bary, 0, "HP: %d", e->hp);
 		mvaddch(e->y, e->x, e->face + e->color);
-	}
 
+	}
 }
 
 void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
-
 	if (e->hp > 0) {
 
 		e->oldx = e->x;
@@ -103,6 +107,6 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
 
 		mvprintw(e->bary, 0, "HP: %d", e->hp);
 		mvaddch(e->y, e->x, e->face + e->color);
-	}
 
+	}
 }
