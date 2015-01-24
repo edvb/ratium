@@ -18,6 +18,7 @@
 
 #define MAX_ENTITIES 256
 #define MAX_ITEMS 256
+#define MAX_INV_SLOTS 16
 
 #define gold item[0]
 #define door item[1]
@@ -25,6 +26,14 @@
 int entityCount;
 
 typedef struct {
+	char *name;
+	char face;
+	int color;
+	int qty;
+} inv_t;
+
+typedef struct {
+	char *name;
 	char map[24][81];
 	char face;
 	int color;
@@ -39,10 +48,10 @@ typedef struct {
 
 	int maxhp, hp;
 	int damage;
-	int gold;
 	char holding;
-
 	int passive;
+
+	inv_t inv[MAX_INV_SLOTS];
 } entity_t;
 
 /* map.c */
@@ -64,6 +73,8 @@ void rand_ai(entity_t *e, int speed);
 void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
 
 /* player.c */
+void draw_inv(entity_t *e);
+void inv_add_item(entity_t *e, char face, int qty);
 void get_item(entity_t *e);
 void player_run(char c, entity_t *e);
 

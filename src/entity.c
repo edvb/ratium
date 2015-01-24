@@ -25,7 +25,13 @@ void init_entity(int from, int to) {
 		entity[i].damage = damage;
 		entity[i].holding = ' ';
 		entity[i].passive = passive;
-		entity[i].gold = 0;
+
+		for (int j = 0; j < 16; j++) {
+			entity[i].inv[j].name = "";
+			entity[i].inv[j].face = ' ';
+			entity[i].inv[j].color = 0;
+			entity[i].inv[j].qty = 0;
+		}
 
 		entityCount++;
 	}

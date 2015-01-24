@@ -1,9 +1,42 @@
 #include "ratium.h"
 
+void draw_inv(entity_t *e) {
+
+	char k;
+
+	do {
+		clear();
+
+		attron(A_REVERSE);
+		mvprintw(0, 0, "-- Inventory --\n");
+		attroff(A_REVERSE);
+
+		for (int i = 0; i < MAX_INV_SLOTS; i++)
+			if (e->inv[i].qty != 0)
+				printw("%d: %s (%d)\n", i + 1, e->inv[i].name, e->inv[i].qty);
+
+	} while ((k = getch()) != 'i');
+
+	clear();
+
+}
+
+void inv_add_item(entity_t *e, char face, int qty) {
+
+	for (int i = 0; i < MAX_ITEMS; i++)
+		if (e->inv[i].face == face)
+			e->inv[i].qty += qty;
+
+}
+
 void get_item(entity_t *e) {
-	switch (mvinch(e->y, e->x)) {
-		case '$' + COLOR_PAIR(4): e->gold++; clear_item(&gold, e->x, e->y); break;
-	}
+
+	for (int i = 0; i < MAX_ITEMS; i++)
+		if (item[i].map[e->y][e->x] == item[i].face) {
+			inv_add_item(e, item[i].face, 1);
+			clear_item(&item[i], e->x, e->y);
+		}
+
 }
 
 void player_run(char c, entity_t *e) {
@@ -19,6 +52,7 @@ void player_run(char c, entity_t *e) {
 			case 'l': move_entity(e,  1,  0); break;
 			case 'g': get_item(e); break;
 			case 'o': toggle_door(e->x, e->y); break;
+			case 'i': draw_inv(e); break;
 		}
 
 		for (int i = 1; i < entityCount; i++)
@@ -26,7 +60,6 @@ void player_run(char c, entity_t *e) {
 
 		move(e->bary, 0);
 		printw("HP: %d", e->hp);
-		printw(" Gold: %d", e->gold);
 		printw(" (%d, %d)", e->x, e->y);
 		mvaddch(e->y, e->x, e->face + e->color);
 

@@ -45,6 +45,7 @@ int main() {
 
 	srand(time(NULL));
 
+	gold.name = "gold";
 	gold.face = '$';
 	gold.color = YELLOW;
 	alloc_item(&gold);
@@ -60,6 +61,14 @@ int main() {
 	gold.map[18][32] = gold.face;
 	gold.map[21][25] = gold.face;
 
+	item[2].name = "spam";
+	item[2].face = '=';
+	item[2].color = YELLOW;
+	alloc_item(&item[2]);
+	item[2].map[6][4]   = item[2].face;
+	item[2].map[5][4]   = item[2].face;
+
+	door.name = "door";
 	door.face = '+';
 	door.color = BROWN;
 	alloc_item(&door);
@@ -79,13 +88,18 @@ int main() {
 	entity[2].bary = 26;
 	entity[3].bary = 27;
 
+	entity[0].inv[0].name = "gold";
+	entity[0].inv[0].face = '$';
+	entity[0].inv[1].name = "spam";
+	entity[0].inv[1].face = '=';
+
 	do {
 
 		clear();
 
 		draw_map();
 
-		for (int i = 0; i <= 1; i++)
+		for (int i = 0; i <= 2; i++)
 			draw_item(item[i]);
 
 		player_run(c, &entity[0]);
