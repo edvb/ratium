@@ -29,12 +29,12 @@ typedef struct {
 } item_t;
 
 typedef struct {
-	int x, y;
-	int oldx, oldy;
 	char face;
 	int color;
+	int x, y;
+	int oldx, oldy;
 
-	int hp, maxhp;
+	int maxhp, hp;
 	int damage;
 	int gold;
 	char holding;
@@ -51,6 +51,7 @@ void clear_item(item_t *item, int x, int y);
 void draw_item(item_t item);
 
 /* entity.c */
+void init_entity(int from, int to);
 bool can_step(int x, int y);
 void move_entity(entity_t *e, int x_0, int y_0);
 void attack(entity_t *e, entity_t *foe);

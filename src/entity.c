@@ -1,5 +1,37 @@
 #include "ratium.h"
 
+void init_entity(int from, int to) {
+
+	int x_0, y_0;
+	char face;
+	int color;
+	int maxhp;
+	int damage;
+
+	int r;
+
+	FILE *f = fopen("data/entities.txt", "r");
+
+	for (int i = from; i <= to; i++) {
+		r = fscanf(f, "%c %i %i %i %i %i", &face, &color, &x_0, &y_0, &maxhp, &damage);
+
+		entity[i].face = face;
+		entity[i].color = COLOR_PAIR(color);
+		entity[i].x = x_0;
+		entity[i].y = y_0;
+		entity[i].oldx = x_0;
+		entity[i].oldy = y_0;
+		entity[i].maxhp = maxhp;
+		entity[i].hp = maxhp;
+		entity[i].damage = damage;
+		entity[i].gold = 0;
+		entity[i].holding = ' ';
+	}
+
+	fclose(f);
+
+}
+
 bool can_step(int x, int y) {
 
 	switch (get_map(x, y)) {
