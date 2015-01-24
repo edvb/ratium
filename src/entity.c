@@ -3,17 +3,16 @@
 void init_entity(int from, int to) {
 
 	int x_0, y_0;
+	int bary = 25;
 	char face;
 	int color;
 	int maxhp;
 	int damage;
 
-	int r;
-
 	FILE *f = fopen("data/entities.txt", "r");
 
-	for (int i = from; i <= to; i++) {
-		r = fscanf(f, "%c %i %i %i %i %i", &face, &color, &x_0, &y_0, &maxhp, &damage);
+	for (int i = from; i <= to; i++, bary++) {
+		fscanf(f, "%c %i %i %i %i %i\n", &face, &color, &x_0, &y_0, &maxhp, &damage);
 
 		entity[i].face = face;
 		entity[i].color = COLOR_PAIR(color);
@@ -21,6 +20,7 @@ void init_entity(int from, int to) {
 		entity[i].y = y_0;
 		entity[i].oldx = x_0;
 		entity[i].oldy = y_0;
+		entity[i].bary = bary;
 		entity[i].maxhp = maxhp;
 		entity[i].hp = maxhp;
 		entity[i].damage = damage;
@@ -100,7 +100,7 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
 
 		attack(e, &entity[0]);
 
-		mvprintw(25, 0, "HP: %d", e->hp);
+		mvprintw(e->bary, 0, "HP: %d", e->hp);
 		mvaddch(e->y, e->x, e->face + e->color);
 	}
 

@@ -85,7 +85,7 @@ int main() {
 	entity[0].damage = 3;
 	entity[0].gold = 0;
 
-	init_entity(1, 1);
+	init_entity(1, 2);
 
 	do {
 
@@ -98,6 +98,7 @@ int main() {
 
 		player_run(c, &entity[0]);
 		dumb_ai(&entity[1], entity[0].x, entity[0].y, 8);
+		dumb_ai(&entity[2], entity[0].x, entity[0].y, 8);
 
 		c = getch();
 

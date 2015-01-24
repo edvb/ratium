@@ -33,6 +33,7 @@ typedef struct {
 	int color;
 	int x, y;
 	int oldx, oldy;
+	int bary;
 
 	int maxhp, hp;
 	int damage;
