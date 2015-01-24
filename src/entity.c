@@ -36,7 +36,7 @@ bool can_step(int x, int y) {
 
 	switch (get_map(x, y)) {
 		case '#': return false;
-		case '~': return false;
+		case 'w': return false;
 	}
 
 	if (door.map[y][x] == '+')
