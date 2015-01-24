@@ -74,7 +74,7 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
 
 /* player.c */
 void draw_inv(entity_t *e);
-void inv_add_item(entity_t *e, char face, int qty);
+void inv_add_item(entity_t *e, item_t *i, int qty);
 void get_item(entity_t *e);
 void player_run(char c, entity_t *e);
 

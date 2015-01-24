@@ -88,13 +88,6 @@ int main() {
 	entity[2].bary = 26;
 	entity[3].bary = 27;
 
-	entity[0].inv[0].name = "gold";
-	entity[0].inv[0].face = '$';
-	entity[0].inv[0].color = YELLOW;
-	entity[0].inv[1].name = "spam";
-	entity[0].inv[1].face = '=';
-	entity[0].inv[1].color = DARK_YELLOW;
-
 	do {
 
 		clear();

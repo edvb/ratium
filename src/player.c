@@ -35,19 +35,27 @@ void draw_inv(entity_t *e) {
 
 }
 
-void inv_add_item(entity_t *e, char face, int qty) {
+void inv_add_item(entity_t *e, item_t *item, int qty) {
 
-	for (int i = 0; i < MAX_ITEMS; i++)
-		if (e->inv[i].face == face)
+	for (int i = 0; i <= MAX_INV_SLOTS; i++)
+		if (e->inv[i].face == ' ') {
+			e->inv[i].face = item->face;
+			e->inv[i].name = item->name;
+			e->inv[i].color = item->color;
+			e->inv[i].qty = qty;
+			return;
+		} else if (e->inv[i].face == item->face) {
 			e->inv[i].qty += qty;
+			return;
+		}
 
 }
 
 void get_item(entity_t *e) {
 
-	for (int i = 0; i < MAX_ITEMS; i++)
+	for (int i = 0; i <= 2; i++)
 		if (item[i].map[e->y][e->x] == item[i].face) {
-			inv_add_item(e, item[i].face, 1);
+			inv_add_item(e, &item[i], 1);
 			clear_item(&item[i], e->x, e->y);
 		}
 
