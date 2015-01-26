@@ -2,20 +2,20 @@
 
 void draw_inv(entity_t *e) {
 
+	int arrow_y = 1;
 	char k;
 
 	do {
 		clear();
 
 		attron(A_REVERSE);
-		mvprintw(0, 0, "-- Inventory --\n");
+		mvprintw(0, 0, " -- Inventory -- \n");
 		attroff(A_REVERSE);
 
 		for (int i = 0; i < MAX_INV_SLOTS; i++)
 			if (e->inv[i].qty != 0) {
-				/* printw("%d) %c %s (%d)\n", i + 1, e->inv[i].face, e->inv[i].name, e->inv[i].qty); */
 				attron(GREY);
-				printw("%c)", i + 97);
+				printw("   %c)", i + 97);
 				attroff(GREY);
 
 				attron(e->inv[i].color);
@@ -28,6 +28,23 @@ void draw_inv(entity_t *e) {
 				printw(" (%d)\n", e->inv[i].qty);
 				attroff(GREY);
 			}
+
+		switch (k) {
+			/* TODO: Make moving selector work better */
+			case 'j':
+				if (e->inv[arrow_y].qty != 0)
+					arrow_y++;
+				break;
+			case 'k':
+				if (e->inv[arrow_y-1].qty != 0)
+					arrow_y--;
+				break;
+		}
+
+		if (arrow_y <= 0)
+			arrow_y = 1;
+
+		mvprintw(arrow_y, 1, ">");
 
 	} while ((k = getch()) != 'i');
 

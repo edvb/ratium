@@ -12,7 +12,8 @@ void init_entity(int from, int to) {
 	FILE *f = fopen("data/entities.txt", "r");
 
 	for (int i = from; i <= to; i++) {
-		fscanf(f, "%c %i %i %i %i %i %i\n", &face, &color, &x_0, &y_0, &maxhp, &damage, &passive);
+		fscanf(f, "%c %i %i %i %i %i %i\n",
+			   &face, &color, &x_0, &y_0, &maxhp, &damage, &passive);
 
 		entity[i].face = face;
 		entity[i].color = COLOR_PAIR(color);
