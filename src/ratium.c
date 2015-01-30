@@ -70,6 +70,14 @@ int main() {
 	item[2].map[5][4]   = item[2].face;
 	itemCount++;
 
+	item[3].name = "sword";
+	item[3].face = '/';
+	item[3].color = GREY;
+	alloc_item(&item[3]);
+	item[3].map[4][8]   = item[3].face;
+	item[3].map[4][9]   = item[3].face;
+	itemCount++;
+
 	door.name = "door";
 	door.face = '+';
 	door.color = BROWN;
