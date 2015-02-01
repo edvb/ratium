@@ -22,6 +22,10 @@ void draw_inv(entity_t *e) {
 					arrow_y--;
 				break;
 			case 'd':
+				for (int i = 0; i < MAX_ITEMS; i++)
+					if (e->inv[arrow_y-1].face == item[i].face)
+						if (e->inv[arrow_y-1].color == item[i].color)
+							item[i].map[e->y][e->x] = item[i].face;
 				if (e->inv[arrow_y-1].qty > 0)
 					e->inv[arrow_y-1].qty--;
 				if (e->inv[arrow_y-1].face == ' ')
