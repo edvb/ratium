@@ -12,8 +12,29 @@ void draw_inv(entity_t *e) {
 		mvprintw(0, 0, " -- Inventory -- \n");
 		attroff(A_REVERSE);
 
+		switch (k) {
+			case 'j':
+				if (e->inv[arrow_y].face != ' ')
+					arrow_y++;
+				break;
+			case 'k':
+				if (e->inv[arrow_y-1].face != ' ')
+					arrow_y--;
+				break;
+			case 'd':
+				if (e->inv[arrow_y-1].qty > 0)
+					e->inv[arrow_y-1].qty--;
+				if (e->inv[arrow_y-1].face == ' ')
+					arrow_y--;
+				break;
+		}
+
+		/* TODO: Make moving arrow work better so this is not needed */
+		if (arrow_y <= 0)
+			arrow_y = 1;
+
 		for (int i = 0; i < MAX_INV_SLOTS; i++)
-			if (e->inv[i].qty != 0) {
+			if (e->inv[i].face != ' ') {
 				attron(GREY);
 				printw("   %c)", i + 97);
 				attroff(GREY);
@@ -28,21 +49,6 @@ void draw_inv(entity_t *e) {
 				printw(" (%d)\n", e->inv[i].qty);
 				attroff(GREY);
 			}
-
-		switch (k) {
-			/* TODO: Make moving selector work better */
-			case 'j':
-				if (e->inv[arrow_y].qty != 0)
-					arrow_y++;
-				break;
-			case 'k':
-				if (e->inv[arrow_y-1].qty != 0)
-					arrow_y--;
-				break;
-		}
-
-		if (arrow_y <= 0)
-			arrow_y = 1;
 
 		mvprintw(arrow_y, 1, ">");
 
@@ -105,7 +111,6 @@ void player_run(char c, entity_t *e) {
 		move(e->bary, 0);
 		printw("HP: %d", e->hp);
 		printw(" (%d, %d)", e->x, e->y);
-		printw(" %d", itemCount);
 		mvaddch(e->y, e->x, e->face + e->color);
 
 	}
