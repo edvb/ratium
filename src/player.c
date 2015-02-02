@@ -31,6 +31,13 @@ void draw_inv(entity_t *e) {
 				if (e->inv[arrow_y-1].face == ' ')
 					arrow_y--;
 				break;
+			case 'g':
+				if (e->inv[arrow_y-1].qty > 0) {
+					if (e->inv[arrow_y-1].type == ITEM_FOOD) {
+						e->hp += e->inv[arrow_y-1].stat;
+						e->inv[arrow_y-1].qty--;
+					}
+				}
 		}
 
 		/* TODO: Make moving arrow work better so this is not needed */
@@ -74,6 +81,8 @@ void inv_add_item(entity_t *e, item_t *item, int qty) {
 			e->inv[i].face = item->face;
 			e->inv[i].name = item->name;
 			e->inv[i].color = item->color;
+			e->inv[i].type = item->type;
+			e->inv[i].stat = item->stat;
 			e->inv[i].qty = qty;
 			return;
 		} else if (e->inv[i].face == item->face) {

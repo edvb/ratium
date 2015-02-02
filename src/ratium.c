@@ -48,6 +48,7 @@ int main() {
 	gold.name = "gold";
 	gold.face = '$';
 	gold.color = YELLOW;
+	gold.type = ITEM_MISC;
 	alloc_item(&gold);
 	gold.map[7][4]   = gold.face;
 	gold.map[9][16]  = gold.face;
@@ -65,6 +66,8 @@ int main() {
 	item[2].name = "spam";
 	item[2].face = '=';
 	item[2].color = DARK_YELLOW;
+	item[2].type = ITEM_FOOD;
+	item[2].stat = 3;
 	alloc_item(&item[2]);
 	item[2].map[6][4]   = item[2].face;
 	item[2].map[5][4]   = item[2].face;
@@ -73,6 +76,8 @@ int main() {
 	item[3].name = "sword";
 	item[3].face = '/';
 	item[3].color = GREY;
+	item[3].type = ITEM_SWORD;
+	item[3].stat = 3;
 	alloc_item(&item[3]);
 	item[3].map[4][8]   = item[3].face;
 	item[3].map[4][9]   = item[3].face;
@@ -81,6 +86,7 @@ int main() {
 	door.name = "door";
 	door.face = '+';
 	door.color = BROWN;
+	door.type = ITEM_MISC;
 	alloc_item(&door);
 	door.map[8][8]   = door.face;
 	door.map[14][8]  = door.face;

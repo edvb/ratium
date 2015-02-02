@@ -26,11 +26,20 @@
 int entityCount;
 int itemCount;
 
+typedef enum {
+	ITEM_MISC,
+	ITEM_FOOD,
+	ITEM_SWORD
+} item_type;
+
 typedef struct {
 	char *name;
 	char face;
 	int color;
 	int qty;
+
+	item_type type;
+	int stat;
 } inv_t;
 
 typedef struct {
@@ -38,6 +47,9 @@ typedef struct {
 	char map[24][81];
 	char face;
 	int color;
+
+	item_type type;
+	int stat;
 } item_t;
 
 typedef struct {
@@ -79,7 +91,9 @@ void inv_add_item(entity_t *e, item_t *i, int qty);
 void get_item(entity_t *e);
 void player_run(char c, entity_t *e);
 
+/* TODO: Split door item from items array into new blocks array*/
 item_t item[MAX_ITEMS];
+/* TODO: Split players from entity array into thier own array */
 entity_t entity[MAX_ENTITIES];
 
 #endif

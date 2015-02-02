@@ -26,6 +26,7 @@ void toggle_door(int x, int y) {
 	draw_item(door);
 }
 
+/* TODO: Add add_item function */
 void clear_item(item_t *item, int x, int y) {
 	item->map[y][x] = ' ';
 }
