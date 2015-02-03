@@ -75,6 +75,7 @@ void draw_map();
 void alloc_item(item_t *item);
 void toggle_door(int x, int y);
 void clear_item(item_t *item, int x, int y);
+void add_item(item_t *item, int x, int y, char newch);
 void draw_item(item_t item);
 
 /* entity.c */

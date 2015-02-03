@@ -31,6 +31,10 @@ void clear_item(item_t *item, int x, int y) {
 	item->map[y][x] = ' ';
 }
 
+void add_item(item_t *item, int x, int y, char newch) {
+	item->map[y][x] = newch;
+}
+
 void draw_item(item_t item) {
 	for (int j = 0; j < 24; j++)
 		for (int i = 0; i < 80; i++)
