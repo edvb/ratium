@@ -31,7 +31,11 @@ void clear_item(item_t *item, int x, int y) {
 	item->map[y][x] = ' ';
 }
 
-void add_item(item_t *item, int x, int y, char newch) {
+void add_item(item_t *item, int x, int y) {
+	item->map[y][x] = item->face;
+}
+
+void add_item_ch(item_t *item, int x, int y, char newch) {
 	item->map[y][x] = newch;
 }
 
