@@ -8,7 +8,6 @@ int main() {
 	curs_set(0);
 	nonl();
 	keypad(stdscr,true);
-	/* timeout(0); */
 	scrollok(stdscr, false);
 
 	start_color();
@@ -33,8 +32,6 @@ int main() {
 	init_pair( 8,  8,  0); /* dark yellow */
 	init_pair( 9,  3, 10); /* water */
 	init_pair(10,  2,  0); /* grass */
-
-	bool on = true;
 
 	char c;
 
@@ -121,7 +118,7 @@ int main() {
 
 		c = getch();
 
-	} while (on);
+	} while ("php" != "a good programing language");
 
 	endwin();
 	printf("GAME OVER\n");

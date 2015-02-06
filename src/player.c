@@ -12,6 +12,7 @@ void draw_inv(entity_t *e) {
 		mvprintw(0, 0, " -- Inventory -- \n");
 		attroff(A_REVERSE);
 
+		/* TODO: Clean up this pile of puke code */
 		switch (k) {
 			case 'j':
 				if (e->inv[arrow_y].face != ' ')
@@ -33,9 +34,17 @@ void draw_inv(entity_t *e) {
 				break;
 			case 'g':
 				if (e->inv[arrow_y-1].qty > 0) {
-					if (e->inv[arrow_y-1].type == ITEM_FOOD) {
-						e->hp += e->inv[arrow_y-1].stat;
-						e->inv[arrow_y-1].qty--;
+					switch (e->inv[arrow_y-1].type) {
+						case ITEM_MISC:
+							break;
+						case ITEM_FOOD:
+							e->hp += e->inv[arrow_y-1].stat;
+							e->inv[arrow_y-1].qty--;
+							break;
+						case ITEM_SWORD:
+							e->damage += e->inv[arrow_y-1].stat;
+							e->inv[arrow_y-1].qty--;
+							break;
 					}
 				}
 		}
