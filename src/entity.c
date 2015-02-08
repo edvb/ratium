@@ -43,13 +43,14 @@ void init_entity(int from, int to) {
 
 bool can_step(int x, int y) {
 
+	if (door.map[y][x] == '+')
+		return false;
+
 	switch (get_map(x, y)) {
 		case '#': return false;
 		case 'w': return false;
+		default: return true;
 	}
-
-	if (door.map[y][x] == '+')
-		return false;
 
 }
 
