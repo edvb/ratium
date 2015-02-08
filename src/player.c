@@ -1,5 +1,46 @@
 #include "ratium.h"
 
+void init_player(int from, int to) {
+
+	int x_0, y_0;
+	char face;
+	int color;
+	int maxhp;
+	int damage;
+	int passive;
+
+	FILE *f = fopen("data/players.txt", "r");
+
+	for (int i = from; i <= to; i++) {
+		fscanf(f, "%c %i %i %i %i %i %i\n",
+			   &face, &color, &x_0, &y_0, &maxhp, &damage, &passive);
+
+		player[i].face = face;
+		player[i].color = COLOR_PAIR(color);
+		player[i].x = x_0;
+		player[i].y = y_0;
+		player[i].oldx = x_0;
+		player[i].oldy = y_0;
+		player[i].maxhp = maxhp;
+		player[i].hp = maxhp;
+		player[i].damage = damage;
+		player[i].holding = ' ';
+		player[i].passive = passive;
+
+		for (int j = 0; j < 16; j++) {
+			player[i].inv[j].name = "";
+			player[i].inv[j].face = ' ';
+			player[i].inv[j].color = 0;
+			player[i].inv[j].qty = 0;
+		}
+
+		/* entityCount++; */
+	}
+
+	fclose(f);
+
+}
+
 void draw_inv(entity_t *e) {
 
 	int arrow_y = 1;
@@ -127,7 +168,7 @@ void player_run(char c, entity_t *e) {
 			case 'i': draw_inv(e); break;
 		}
 
-		for (int i = 1; i < entityCount; i++)
+		for (int i = 0; i < entityCount; i++)
 			attack(e, &entity[i]);
 
 		move(e->bary, 0);

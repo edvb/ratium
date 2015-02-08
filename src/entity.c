@@ -83,7 +83,7 @@ void rand_ai(entity_t *e, int speed) {
 			case 3: move_entity(e,  1,  0); break;
 		}
 
-		attack(e, &entity[0]);
+		attack(e, &player[0]);
 
 		mvprintw(e->bary, 0, "HP: %d", e->hp);
 		mvaddch(e->y, e->x, e->face + e->color);
@@ -101,19 +101,20 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
 
 		if (shouldMove != 0) {
 			if (xNew > e->x)
-				move_entity(e,  1,  0);
+				move_entity(e, 1, 0);
 			else if (xNew < e->x)
-				move_entity(e, -1,  0);
+				move_entity(e, -1, 0);
 			if (yNew > e->y)
-				move_entity(e,  0,  1);
+				move_entity(e, 0, 1);
 			else if (yNew < e->y)
-				move_entity(e,  0, -1);
+				move_entity(e, 0, -1);
 		}
 
-		attack(e, &entity[0]);
+		attack(e, &player[0]);
 
 		mvprintw(e->bary, 0, "HP: %d", e->hp);
 		mvaddch(e->y, e->x, e->face + e->color);
 
 	}
 }
+

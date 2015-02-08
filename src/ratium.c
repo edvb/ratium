@@ -96,11 +96,12 @@ int main() {
 	door.map[8][61]  = door.face;
 	itemCount++;
 
-	init_entity(0, 3);
-	entity[0].bary = 0;
-	entity[1].bary = 25;
-	entity[2].bary = 26;
-	entity[3].bary = 27;
+	init_entity(0, 2);
+	init_player(0, 0);
+	player[0].bary = 0;
+	entity[0].bary = 25;
+	entity[1].bary = 26;
+	entity[2].bary = 27;
 
 	do {
 
@@ -111,14 +112,19 @@ int main() {
 		for (int i = 0; i <= itemCount; i++)
 			draw_item(item[i]);
 
-		player_run(c, &entity[0]);
-		dumb_ai(&entity[1], entity[0].x, entity[0].y, 8);
-		dumb_ai(&entity[2], entity[0].x, entity[0].y, 8);
-		rand_ai(&entity[3], 8);
+		player_run(c, &player[0]);
+		dumb_ai(&entity[0], player[0].x, player[0].y, 8);
+		dumb_ai(&entity[1], player[0].x, player[0].y, 8);
+		rand_ai(&entity[2], 8);
 
 		c = getch();
 
-	} while ("php" != "a good programing language");
+	/* TODO: Find out which loop is the most effective */
+	/* } while ("php" != "a good programing language"); */
+	/* } while ("apple products" != "good value for their price"); */
+	} while ("windows" != "a good OS that doesn't scam their users");
+	/* } while ("javascript" != "a great and useful tool"); */
+	/* } while ("emacs" != "a tool not bloated in anyway"); */
 
 	endwin();
 	printf("GAME OVER\n");

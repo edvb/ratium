@@ -88,6 +88,7 @@ void rand_ai(entity_t *e, int speed);
 void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
 
 /* player.c */
+void init_player(int from, int to);
 void draw_inv(entity_t *e);
 void inv_add_item(entity_t *e, item_t *i, int qty);
 void get_item(entity_t *e);
@@ -97,5 +98,6 @@ void player_run(char c, entity_t *e);
 item_t item[MAX_ITEMS];
 /* TODO: Split players from entity array into thier own array */
 entity_t entity[MAX_ENTITIES];
+entity_t player[MAX_ENTITIES];
 
 #endif
