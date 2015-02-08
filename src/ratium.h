@@ -16,6 +16,7 @@
 #define WATER COLOR_PAIR(9)
 #define GRASS COLOR_PAIR(10)
 
+#define MAX_PLAYERS 8
 #define MAX_ENTITIES 256
 #define MAX_ITEMS 256
 #define MAX_INV_SLOTS 16
@@ -23,7 +24,6 @@
 #define gold item[0]
 #define door item[1]
 
-int entityCount;
 int itemCount;
 
 typedef enum {
@@ -69,6 +69,8 @@ typedef struct {
 
 /* map.c */
 char get_map(int x, int y);
+void set_map(int x, int y);
+void set_map_char(int x, int y, char newch);
 void draw_map();
 
 /* item.c */
@@ -90,14 +92,13 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
 /* player.c */
 void init_player(int from, int to);
 void draw_inv(entity_t *e);
-void inv_add_item(entity_t *e, item_t *i, int qty);
+void inv_add_item(entity_t *e, item_t *item, int qty);
 void get_item(entity_t *e);
 void player_run(char c, entity_t *e);
 
 /* TODO: Split door item from items array into new blocks array*/
 item_t item[MAX_ITEMS];
-/* TODO: Split players from entity array into thier own array */
+entity_t player[MAX_PLAYERS];
 entity_t entity[MAX_ENTITIES];
-entity_t player[MAX_ENTITIES];
 
 #endif

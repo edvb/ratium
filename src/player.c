@@ -143,13 +143,11 @@ void inv_add_item(entity_t *e, item_t *item, int qty) {
 }
 
 void get_item(entity_t *e) {
-
 	for (int i = 0; i <= itemCount; i++)
 		if (item[i].map[e->y][e->x] == item[i].face) {
 			inv_add_item(e, &item[i], 1);
 			clear_item(&item[i], e->x, e->y);
 		}
-
 }
 
 void player_run(char c, entity_t *e) {
@@ -168,7 +166,7 @@ void player_run(char c, entity_t *e) {
 			case 'i': draw_inv(e); break;
 		}
 
-		for (int i = 0; i < entityCount; i++)
+		for (int i = 0; i < MAX_ENTITIES; i++)
 			attack(e, &entity[i]);
 
 		move(e->bary, 0);

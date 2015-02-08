@@ -42,23 +42,33 @@ int main() {
 
 	srand(time(NULL));
 
-	gold.name = "gold";
-	gold.face = '$';
-	gold.color = YELLOW;
-	gold.type = ITEM_MISC;
-	alloc_item(&gold);
-	gold.map[7][4]   = gold.face;
-	gold.map[9][16]  = gold.face;
-	gold.map[9][17]  = gold.face;
-	gold.map[11][8]  = gold.face;
-	gold.map[16][6]  = gold.face;
-	gold.map[16][13] = gold.face;
-	gold.map[10][24] = gold.face;
-	gold.map[14][33] = gold.face;
-	gold.map[15][33] = gold.face;
-	gold.map[18][32] = gold.face;
-	gold.map[21][25] = gold.face;
+	item[0].name = "gold";
+	item[0].face = '$';
+	item[0].color = YELLOW;
+	item[0].type = ITEM_MISC;
+	alloc_item(&item[0]);
+	item[0].map[7][4]   = item[0].face;
+	item[0].map[9][16]  = item[0].face;
+	item[0].map[9][17]  = item[0].face;
+	item[0].map[11][8]  = item[0].face;
+	item[0].map[16][6]  = item[0].face;
+	item[0].map[16][13] = item[0].face;
+	item[0].map[10][24] = item[0].face;
+	item[0].map[14][33] = item[0].face;
+	item[0].map[15][33] = item[0].face;
+	item[0].map[18][32] = item[0].face;
+	item[0].map[21][25] = item[0].face;
 	itemCount = 0;
+
+	item[1].name = "sword";
+	item[1].face = '/';
+	item[1].color = GREY;
+	item[1].type = ITEM_SWORD;
+	item[1].stat = 3;
+	alloc_item(&item[1]);
+	item[1].map[4][8]   = item[1].face;
+	item[1].map[4][9]   = item[1].face;
+	itemCount++;
 
 	item[2].name = "spam";
 	item[2].face = '=';
@@ -70,31 +80,21 @@ int main() {
 	item[2].map[5][4]   = item[2].face;
 	itemCount++;
 
-	item[3].name = "sword";
-	item[3].face = '/';
-	item[3].color = GREY;
-	item[3].type = ITEM_SWORD;
-	item[3].stat = 3;
-	alloc_item(&item[3]);
-	item[3].map[4][8]   = item[3].face;
-	item[3].map[4][9]   = item[3].face;
-	itemCount++;
-
-	door.name = "door";
-	door.face = '+';
-	door.color = BROWN;
-	door.type = ITEM_MISC;
-	alloc_item(&door);
-	door.map[8][8]   = door.face;
-	door.map[14][8]  = door.face;
-	door.map[7][14]  = door.face;
-	door.map[8][19]  = door.face;
-	door.map[13][24] = door.face;
-	door.map[16][32] = door.face;
-	door.map[18][13] = door.face;
-	door.map[13][30] = door.face;
-	door.map[8][61]  = door.face;
-	itemCount++;
+	/* door.name = "door"; */
+	/* door.face = '+'; */
+	/* door.color = BROWN; */
+	/* door.type = ITEM_MISC; */
+	/* alloc_item(&door); */
+	/* door.map[8][8]   = door.face; */
+	/* door.map[14][8]  = door.face; */
+	/* door.map[7][14]  = door.face; */
+	/* door.map[8][19]  = door.face; */
+	/* door.map[13][24] = door.face; */
+	/* door.map[16][32] = door.face; */
+	/* door.map[18][13] = door.face; */
+	/* door.map[13][30] = door.face; */
+	/* door.map[8][61]  = door.face; */
+	/* itemCount++; */
 
 	init_entity(0, 2);
 	init_player(0, 0);
@@ -107,8 +107,8 @@ int main() {
 
 		clear();
 
+		/* TODO: Put these lines into thier own function */
 		draw_map();
-
 		for (int i = 0; i <= itemCount; i++)
 			draw_item(item[i]);
 
@@ -122,8 +122,8 @@ int main() {
 	/* TODO: Find out which loop is the most effective */
 	/* } while ("php" != "a good programing language"); */
 	/* } while ("apple products" != "good value for their price"); */
-	} while ("windows" != "a good OS that doesn't scam their users");
-	/* } while ("javascript" != "a great and useful tool"); */
+	/* } while ("windows" != "a good OS that doesn't scam their users"); */
+	} while ("javascript" != "a great and useful tool");
 	/* } while ("emacs" != "a tool not bloated in anyway"); */
 
 	endwin();

@@ -8,18 +8,18 @@ char worldMap[24][81] = {
 "   #..........#                                              #ggggggwwwwww#     ",
 "   #..........######                                         #ggggggggwwww#     ",
 "   #..........#....#                                         #.ggggggggwww#     ",
-"   #...............#######   #################################..ggggggggww#     ",
-"   #####.######..........#   #..................................gggggggggg#     ",
+"   #..........+....#######   #################################..ggggggggww#     ",
+"   #####+######....+.....#   #...............................+..gggggggggg#     ",
 "       #.#    #....#####.#   #.###############################.g.ggggggggg#     ",
 "       #.#    ######   #.#   #.#                             #gggggggggggg#     ",
 "       #.#             #.#   #.#                             #gggggggggggg#     ",
 "       #.#             #.#   #.#                             #gggggggggggg#     ",
-"       #.#           ###.#####.####                          ##############     ",
-"    ####.#######     #............#                                             ",
+"       #.#           ###+#####+####                          ##############     ",
+"    ####+#######     #............#                                             ",
 "    #..........#     #............#                                             ",
-"    #..........#     ###########.##                                             ",
+"    #..........#     ###########+##                                             ",
 "    #..........#               #.#                                              ",
-"    #########.##               #.#                                              ",
+"    #########+##               #.#                                              ",
 "            #.#                #.#                                              ",
 "            #.##################.#                                              ",
 "            #....................#                                              ",
@@ -35,24 +35,31 @@ char get_map(int x, int y) {
 	return ch;
 }
 
+void set_map(int x, int y) {
+	worldMap[y][x] = ' ';
+}
+
+void set_map_char(int x, int y, char newch) {
+	worldMap[y][x] = newch;
+}
+
 void draw_map() {
-
-	for (int j = 0; j < 24; j++) {
-		for (int i = 0; i < 80; i++) {
-			if (worldMap[j][i] == ' ') {
+	for (int j = 0; j < 24; j++)
+		for (int i = 0; i < 80; i++)
+			if (worldMap[j][i] == ' ')
 				mvaddch(j, i, worldMap[j][i]);
-			} else if (worldMap[j][i] == '#') {
+			else if (worldMap[j][i] == '#')
 				mvaddch(j, i, '#' + A_BOLD);
-			} else if (worldMap[j][i] == '.') {
+			else if (worldMap[j][i] == '.')
 				mvaddch(j, i, '.');
-			} else if (worldMap[j][i] == 'g') {
+			else if (worldMap[j][i] == 'g')
 				mvaddch(j, i, '.' + GRASS);
-			} else if (worldMap[j][i] == 'w') {
+			else if (worldMap[j][i] == 'w')
 				mvaddch(j, i, '~' + WATER);
-			} else {
+			else if (worldMap[j][i] == '+')
+				mvaddch(j, i, '+' + BROWN);
+			else if (worldMap[j][i] == '-')
+				mvaddch(j, i, '-' + BROWN);
+			else
 				mvaddch(j, i, worldMap[j][i]);
-			}
-		}
-	}
-
 }

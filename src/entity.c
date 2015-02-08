@@ -34,7 +34,6 @@ void init_entity(int from, int to) {
 			entity[i].inv[j].qty = 0;
 		}
 
-		entityCount++;
 	}
 
 	fclose(f);
@@ -43,12 +42,13 @@ void init_entity(int from, int to) {
 
 bool can_step(int x, int y) {
 
-	if (door.map[y][x] == '+')
-		return false;
+	/* if (door.map[y][x] == '+') */
+	/* 	return false; */
 
 	switch (get_map(x, y)) {
 		case '#': return false;
 		case 'w': return false;
+		case '+': return false;
 		default: return true;
 	}
 

@@ -7,26 +7,20 @@ void alloc_item(item_t *item) {
 }
 
 void toggle_door(int x, int y) {
-	if (door.map[y-1][x] == '+')
-		door.map[y-1][x] = '-';
-	else if (door.map[y+1][x] == '+')
-		door.map[y+1][x] = '-';
-	else if (door.map[y][x-1] == '+')
-		door.map[y][x-1] = '-';
-	else if (door.map[y][x+1] == '+')
-		door.map[y][x+1] = '-';
-	else if (door.map[y-1][x] == '-')
-		door.map[y-1][x] = '+';
-	else if (door.map[y+1][x] == '-')
-		door.map[y+1][x] = '+';
-	else if (door.map[y][x-1] == '-')
-		door.map[y][x-1] = '+';
-	else if (door.map[y][x+1] == '-')
-		door.map[y][x+1] = '+';
-	draw_item(door);
+	if (get_map(y-1, x) == '+') set_map_char(y-1, x, '-');
+	else if (get_map(y+1, x) == '+') set_map_char(y+1, x, '-');
+	else if (get_map(y, x-1) == '+') set_map_char(y, x-1, '-');
+	else if (get_map(y, x+1) == '+') set_map_char(y, x+1, '-');
+	else if (get_map(y-1, x) == '-') set_map_char(y-1, x, '+');
+	else if (get_map(y+1, x) == '-') set_map_char(y+1, x, '+');
+	else if (get_map(y, x-1) == '-') set_map_char(y, x-1, '+');
+	else if (get_map(y, x+1) == '-') set_map_char(y, x+1, '+');
+
+	draw_map();
+	for (int i = 0; i <= itemCount; i++)
+		draw_item(item[i]);
 }
 
-/* TODO: Add add_item function */
 void clear_item(item_t *item, int x, int y) {
 	item->map[y][x] = ' ';
 }
@@ -45,3 +39,4 @@ void draw_item(item_t item) {
 			if (item.map[j][i] != ' ')
 				mvaddch(j, i, item.map[j][i] + item.color);
 }
+
