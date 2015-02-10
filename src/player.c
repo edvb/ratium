@@ -33,8 +33,6 @@ void init_player(int from, int to) {
 			player[i].inv[j].color = 0;
 			player[i].inv[j].qty = 0;
 		}
-
-		/* entityCount++; */
 	}
 
 	fclose(f);

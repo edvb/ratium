@@ -12,16 +12,18 @@ int main() {
 
 	start_color();
 
+	/* TODO: Improve how colors are assigned */
 	init_color(0,  100,  100,  100); /* black */
 	init_color(1,  600,    0,    0); /* red */
 	init_color(2,    0,  600,    0); /* green */
 	init_color(3,    0,  400,  800); /* blue */
-	init_color(4,  800,  800,    0); /* yello */
+	init_color(4,  800,  800,    0); /* yellow */
 	init_color(5,  370,  280,    0); /* brown */
 	init_color(6,  500,  500,  500); /* grey */
 	init_color(8,  650,  550,    0); /* dark yellow */
 	init_color(9,    0,  400,    0); /* dark green */
 	init_color(10,   0,  200,  400); /* dark blue */
+	init_color(11, 450,  450,  150); /* haggis */
 
 	init_pair( 1,  1,  0); /* red */
 	init_pair( 2,  2,  0); /* green */
@@ -32,6 +34,7 @@ int main() {
 	init_pair( 8,  8,  0); /* dark yellow */
 	init_pair( 9,  3, 10); /* water */
 	init_pair(10,  2,  0); /* grass */
+	init_pair(11, 11,  0); /* haggis */
 
 	char c;
 
@@ -49,13 +52,14 @@ int main() {
 	entity[1].bary = 26;
 	entity[2].bary = 27;
 
-	alloc_item(0, 2);
+	alloc_item(0, 3);
 
 	item[0].map[7][4] = item[0].face;
 	item[1].map[6][4] = item[1].face;
 	item[1].map[5][4] = item[1].face;
 	item[2].map[4][8] = item[2].face;
 	item[2].map[4][9] = item[2].face;
+	item[3].map[4][10] = item[3].face;
 
 	do {
 

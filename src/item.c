@@ -23,6 +23,9 @@ void alloc_item(int from, int to) {
 		for (int j = 0; j < 24; j++)
 			for (int i = 0; i < 80; i++)
 				item[num].map[j][i] = ' ';
+
+		/* TODO: Randomly assign item position */
+
 	}
 
 	itemCount = to;
