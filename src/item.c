@@ -1,9 +1,36 @@
 #include "ratium.h"
 
-void alloc_item(item_t *item) {
-	for (int j = 0; j < 24; j++)
-		for (int i = 0; i < 80; i++)
-			item->map[j][i] = ' ';
+void alloc_item(int from, int to) {
+
+	char *name = malloc(MAX_NAME * sizeof(char));
+	char face;
+	int color;
+	item_type type;
+	int stat;
+
+	FILE *f = fopen("data/items.txt", "r");
+
+	for (int num = from; num <= to; num++) {
+		fscanf(f, "%s %c %i %i %i\n", name, &face, &color, &type, &stat);
+
+		item[num].name = malloc(MAX_NAME * sizeof(char));
+		strcpy(item[num].name, name);
+		item[num].face = face;
+		item[num].color = COLOR_PAIR(color);
+		item[num].type = type;
+		item[num].stat = stat;
+
+		for (int j = 0; j < 24; j++)
+			for (int i = 0; i < 80; i++)
+				item[num].map[j][i] = ' ';
+	}
+
+	itemCount = to;
+
+	fclose(f);
+
+	free(name);
+
 }
 
 void toggle_door(int x, int y) {

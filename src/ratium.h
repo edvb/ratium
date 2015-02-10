@@ -4,6 +4,7 @@
 #include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #define RED COLOR_PAIR(1)
@@ -16,6 +17,7 @@
 #define WATER COLOR_PAIR(9)
 #define GRASS COLOR_PAIR(10)
 
+#define MAX_NAME 16
 #define MAX_PLAYERS 8
 #define MAX_ENTITIES 256
 #define MAX_ITEMS 256
@@ -74,7 +76,7 @@ void set_map_char(int x, int y, char newch);
 void draw_map();
 
 /* item.c */
-void alloc_item(item_t *item);
+void alloc_item(int to, int from);
 void toggle_door(int x, int y);
 void clear_item(item_t *item, int x, int y);
 void add_item(item_t *item, int x, int y);

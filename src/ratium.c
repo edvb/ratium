@@ -42,66 +42,20 @@ int main() {
 
 	srand(time(NULL));
 
-	item[0].name = "gold";
-	item[0].face = '$';
-	item[0].color = YELLOW;
-	item[0].type = ITEM_MISC;
-	alloc_item(&item[0]);
-	item[0].map[7][4]   = item[0].face;
-	item[0].map[9][16]  = item[0].face;
-	item[0].map[9][17]  = item[0].face;
-	item[0].map[11][8]  = item[0].face;
-	item[0].map[16][6]  = item[0].face;
-	item[0].map[16][13] = item[0].face;
-	item[0].map[10][24] = item[0].face;
-	item[0].map[14][33] = item[0].face;
-	item[0].map[15][33] = item[0].face;
-	item[0].map[18][32] = item[0].face;
-	item[0].map[21][25] = item[0].face;
-	itemCount = 0;
-
-	item[1].name = "sword";
-	item[1].face = '/';
-	item[1].color = GREY;
-	item[1].type = ITEM_SWORD;
-	item[1].stat = 3;
-	alloc_item(&item[1]);
-	item[1].map[4][8]   = item[1].face;
-	item[1].map[4][9]   = item[1].face;
-	itemCount++;
-
-	item[2].name = "spam";
-	item[2].face = '=';
-	item[2].color = DARK_YELLOW;
-	item[2].type = ITEM_FOOD;
-	item[2].stat = 3;
-	alloc_item(&item[2]);
-	item[2].map[6][4]   = item[2].face;
-	item[2].map[5][4]   = item[2].face;
-	itemCount++;
-
-	/* door.name = "door"; */
-	/* door.face = '+'; */
-	/* door.color = BROWN; */
-	/* door.type = ITEM_MISC; */
-	/* alloc_item(&door); */
-	/* door.map[8][8]   = door.face; */
-	/* door.map[14][8]  = door.face; */
-	/* door.map[7][14]  = door.face; */
-	/* door.map[8][19]  = door.face; */
-	/* door.map[13][24] = door.face; */
-	/* door.map[16][32] = door.face; */
-	/* door.map[18][13] = door.face; */
-	/* door.map[13][30] = door.face; */
-	/* door.map[8][61]  = door.face; */
-	/* itemCount++; */
-
 	init_entity(0, 2);
 	init_player(0, 0);
 	player[0].bary = 0;
 	entity[0].bary = 25;
 	entity[1].bary = 26;
 	entity[2].bary = 27;
+
+	alloc_item(0, 2);
+
+	item[0].map[7][4] = item[0].face;
+	item[1].map[6][4] = item[1].face;
+	item[1].map[5][4] = item[1].face;
+	item[2].map[4][8] = item[2].face;
+	item[2].map[4][9] = item[2].face;
 
 	do {
 
@@ -125,6 +79,9 @@ int main() {
 	/* } while ("windows" != "a good OS that doesn't scam their users"); */
 	} while ("javascript" != "a great and useful tool");
 	/* } while ("emacs" != "a tool not bloated in anyway"); */
+
+	for (int i = 0; i <= itemCount; i++)
+		free(item[i].name);
 
 	endwin();
 	printf("GAME OVER\n");
