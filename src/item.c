@@ -24,16 +24,20 @@ void alloc_item(int from, int to) {
 			for (int i = 0; i < 80; i++)
 				item[num].map[j][i] = ' ';
 
-		/* TODO: Randomly assign item position */
+		for (int x, y, i = 0; i < 5; i++) {
+			do {
+				x = rand() % 80;
+				y = rand() % 24;
+			} while (get_map(x, y) != '.');
+			item[num].map[y][x] = item[num].face;
+		}
 
 	}
 
-	itemCount = to;
-
 	fclose(f);
-
 	free(name);
 
+	itemCount = to;
 }
 
 void toggle_door(int x, int y) {

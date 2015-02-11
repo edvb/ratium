@@ -54,13 +54,6 @@ int main() {
 
 	alloc_item(0, 3);
 
-	item[0].map[7][4] = item[0].face;
-	item[1].map[6][4] = item[1].face;
-	item[1].map[5][4] = item[1].face;
-	item[2].map[4][8] = item[2].face;
-	item[2].map[4][9] = item[2].face;
-	item[3].map[4][10] = item[3].face;
-
 	do {
 
 		clear();
