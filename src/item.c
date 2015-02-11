@@ -20,14 +20,14 @@ void alloc_item(int from, int to) {
 		item[num].type = type;
 		item[num].stat = stat;
 
-		for (int j = 0; j < 24; j++)
-			for (int i = 0; i < 80; i++)
+		for (int i = 0; i < MAX_X; i++)
+			for (int j = 0; j < MAX_Y; j++)
 				item[num].map[j][i] = ' ';
 
 		for (int x, y, i = 0; i < 5; i++) {
 			do {
-				x = rand() % 80;
-				y = rand() % 24;
+				x = rand() % MAX_X;
+				y = rand() % MAX_Y;
 			} while (get_map(x, y) != '.');
 			item[num].map[y][x] = item[num].face;
 		}
@@ -68,8 +68,8 @@ void add_item_ch(item_t *item, int x, int y, char newch) {
 }
 
 void draw_item(item_t item) {
-	for (int j = 0; j < 24; j++)
-		for (int i = 0; i < 80; i++)
+	for (int i = 0; i < MAX_X; i++)
+		for (int j = 0; j < MAX_Y; j++)
 			if (item.map[j][i] != ' ')
 				mvaddch(j, i, item.map[j][i] + item.color);
 }

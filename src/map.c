@@ -1,6 +1,6 @@
 #include "ratium.h"
 
-char worldMap[24][81] = {
+char worldMap[MAX_Y][MAX_X+1] = {
 "                                                                                ",
 "                                                                                ",
 "                                                                                ",
@@ -44,8 +44,8 @@ void set_map_char(int x, int y, char newch) {
 }
 
 void draw_map() {
-	for (int j = 0; j < 24; j++)
-		for (int i = 0; i < 80; i++)
+	for (int i = 0; i < MAX_X; i++)
+		for (int j = 0; j < MAX_Y; j++)
 			if (worldMap[j][i] == ' ')
 				mvaddch(j, i, worldMap[j][i]);
 			else if (worldMap[j][i] == '#')
@@ -63,3 +63,4 @@ void draw_map() {
 			else
 				mvaddch(j, i, worldMap[j][i]);
 }
+

@@ -19,6 +19,8 @@
 #define WATER COLOR_PAIR(9)
 #define GRASS COLOR_PAIR(10)
 
+#define MAX_X 80
+#define MAX_Y 24
 #define MAX_NAME 16
 #define MAX_PLAYERS 8
 #define MAX_ENTITIES 256
@@ -48,7 +50,7 @@ typedef struct {
 
 typedef struct {
 	char *name;
-	char map[24][81];
+	char map[MAX_Y][MAX_X];
 	char face;
 	int color;
 
