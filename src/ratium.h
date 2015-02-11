@@ -7,6 +7,8 @@
 #include <string.h>
 #include <time.h>
 
+#define ever (;;)
+
 #define RED COLOR_PAIR(1)
 #define GREEN COLOR_PAIR(2)
 #define BLUE COLOR_PAIR(3)

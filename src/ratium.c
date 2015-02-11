@@ -54,7 +54,7 @@ int main() {
 
 	alloc_item(0, 3);
 
-	do {
+	for ever {
 
 		clear();
 
@@ -70,12 +70,7 @@ int main() {
 
 		c = getch();
 
-	/* TODO: Find out which loop is the most effective */
-	/* } while ("php" != "a good programing language"); */
-	/* } while ("apple products" != "good value for their price"); */
-	/* } while ("windows" != "a good OS that doesn't scam their users"); */
-	} while ("javascript" != "a great and useful tool");
-	/* } while ("emacs" != "a tool not bloated in anyway"); */
+	} 
 
 	for (int i = 0; i <= itemCount; i++)
 		free(item[i].name);
