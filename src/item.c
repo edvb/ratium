@@ -40,6 +40,7 @@ void alloc_item(int from, int to) {
 	itemCount = to;
 }
 
+/* TODO: Move to map file */
 void toggle_door(int x, int y) {
 	if (get_map(x-1, y) == '+') set_map_char(x-1, y, '-');
 	else if (get_map(x+1, y) == '+') set_map_char(x+1, y, '-');
@@ -49,11 +50,6 @@ void toggle_door(int x, int y) {
 	else if (get_map(x+1, y) == '-') set_map_char(x+1, y, '+');
 	else if (get_map(x, y-1) == '-') set_map_char(x, y-1, '+');
 	else if (get_map(x, y+1) == '-') set_map_char(x, y+1, '+');
-
-	draw_map();
-	for (int i = 0; i <= itemCount; i++)
-		draw_item(item[i]);
-
 }
 
 void clear_item(item_t *item, int x, int y) {

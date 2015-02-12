@@ -35,6 +35,8 @@ void init_player(int from, int to) {
 		}
 	}
 
+	playerqty = to;
+
 	fclose(f);
 
 }
@@ -66,10 +68,10 @@ void player_run(char c, entity_t *e) {
 		for (int i = 0; i < MAX_ENTITIES; i++)
 			attack(e, &entity[i]);
 
+		/* TODO: move to draw_ent function*/
 		move(e->bary, 0);
 		printw("HP: %d", e->hp);
 		printw(" (%d, %d)", e->x, e->y);
-		mvaddch(e->y, e->x, e->face + e->color);
 
 	}
 }

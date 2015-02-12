@@ -33,8 +33,9 @@ void init_entity(int from, int to) {
 			entity[i].inv[j].color = 0;
 			entity[i].inv[j].qty = 0;
 		}
-
 	}
+
+	entqty = to;
 
 	fclose(f);
 
@@ -67,6 +68,11 @@ void attack(entity_t *e, entity_t *foe) {
 				}
 }
 
+void draw_ent(entity_t e) {
+	if (e.hp > 0)
+		mvaddch(e.y, e.x, e.face + e.color);
+}
+
 void rand_ai(entity_t *e, int speed) {
 	if (e->hp > 0) {
 
@@ -82,7 +88,6 @@ void rand_ai(entity_t *e, int speed) {
 		attack(e, &player[0]);
 
 		mvprintw(e->bary, 0, "HP: %d", e->hp);
-		mvaddch(e->y, e->x, e->face + e->color);
 
 	}
 }
@@ -109,7 +114,6 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
 		attack(e, &player[0]);
 
 		mvprintw(e->bary, 0, "HP: %d", e->hp);
-		mvaddch(e->y, e->x, e->face + e->color);
 
 	}
 }

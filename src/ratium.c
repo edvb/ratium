@@ -58,19 +58,23 @@ int main() {
 
 		clear();
 
-		/* TODO: Put these lines into thier own function */
-		draw_map();
-		for (int i = 0; i <= itemCount; i++)
-			draw_item(item[i]);
-
 		player_run(c, &player[0]);
 		dumb_ai(&entity[0], player[0].x, player[0].y, 8);
 		dumb_ai(&entity[1], player[0].x, player[0].y, 8);
 		rand_ai(&entity[2], 8);
 
+		draw_map(player[0], 5);
+		for (int i = 0; i <= itemCount; i++)
+			draw_item(item[i]);
+
+		for (int i = 0; i <= playerqty; i++)
+			draw_ent(player[i]);
+		for (int i = 0; i <= entqty; i++)
+			draw_ent(entity[i]);
+
 		c = getch();
 
-	} 
+	}
 
 	for (int i = 0; i <= itemCount; i++)
 		free(item[i].name);

@@ -31,6 +31,8 @@
 #define door item[1]
 
 int itemCount;
+int playerqty;
+int entqty;
 
 typedef enum {
 	ITEM_MISC,
@@ -75,9 +77,10 @@ typedef struct {
 
 /* map.c */
 char get_map(int x, int y);
+/* TODO: change name */
 void set_map(int x, int y);
 void set_map_char(int x, int y, char newch);
-void draw_map();
+void draw_map(entity_t e, int r);
 
 /* item.c */
 void alloc_item(int to, int from);
@@ -92,6 +95,7 @@ void init_entity(int from, int to);
 bool can_step(int x, int y);
 void move_entity(entity_t *e, int x_0, int y_0);
 void attack(entity_t *e, entity_t *foe);
+void draw_ent(entity_t e);
 void rand_ai(entity_t *e, int speed);
 void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
 
@@ -104,7 +108,6 @@ void player_run(char c, entity_t *e);
 void draw_inv(entity_t *e);
 void inv_add_item(entity_t *e, item_t *item, int qty);
 
-/* TODO: Split door item from items array into new blocks array*/
 item_t item[MAX_ITEMS];
 entity_t player[MAX_PLAYERS];
 entity_t entity[MAX_ENTITIES];
