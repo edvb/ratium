@@ -64,9 +64,9 @@ void add_item_ch(item_t *item, int x, int y, char newch) {
 	item->map[y][x] = newch;
 }
 
-void draw_item(item_t item) {
-	for (int i = 0; i < MAX_X; i++)
-		for (int j = 0; j < MAX_Y; j++)
+void draw_item(item_t item, entity_t e, int r) {
+	for (int i = e.x-r; i < e.x+r; i++)
+		for (int j = e.y-r; j < e.y+r; j++)
 			if (item.map[j][i] != ' ')
 				mvaddch(j, i, item.map[j][i] + item.color);
 }

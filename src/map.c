@@ -43,9 +43,9 @@ void set_map_char(int x, int y, char newch) {
 	worldMap[y][x] = newch;
 }
 
-void draw_map() {
-	for (int i = 0; i < MAX_X; i++)
-		for (int j = 0; j < MAX_Y; j++)
+void draw_map(entity_t e, int r) {
+	for (int i = e.x-r; i < e.x+r; i++)
+		for (int j = e.y-r; j < e.y+r; j++)
 			if (worldMap[j][i] == ' ')
 				mvaddch(j, i, worldMap[j][i]);
 			else if (worldMap[j][i] == '#')

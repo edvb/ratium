@@ -88,7 +88,7 @@ void toggle_door(int x, int y);
 void clear_item(item_t *item, int x, int y);
 void add_item(item_t *item, int x, int y);
 void add_item_ch(item_t *item, int x, int y, char newch);
-void draw_item(item_t item);
+void draw_item(item_t item, entity_t e, int r);
 
 /* entity.c */
 void init_entity(int from, int to);

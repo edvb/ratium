@@ -64,13 +64,14 @@ int main() {
 		rand_ai(&entity[2], 8);
 
 		draw_map(player[0], 5);
-		for (int i = 0; i <= itemCount; i++)
-			draw_item(item[i]);
 
-		for (int i = 0; i <= playerqty; i++)
+		for (int i = 0; i <= playerqty; i++) {
+			for (int j = 0; j <= itemCount; j++)
+				draw_item(item[j], player[i], 5);
 			draw_ent(player[i]);
-		for (int i = 0; i <= entqty; i++)
-			draw_ent(entity[i]);
+		}
+		for (int j = 0; j <= entqty; j++)
+			draw_ent(entity[j]);
 
 		c = getch();
 
