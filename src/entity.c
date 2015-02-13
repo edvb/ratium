@@ -71,8 +71,10 @@ void attack(entity_t *e, entity_t *foe) {
 void draw_ent(entity_t e, entity_t oe, int r) {
 	if (e.hp > 0)
 		if (oe.x-r < e.x && oe.x+r > e.x)
-			if (oe.y-r < e.y && oe.y+r > e.y)
+			if (oe.y-r < e.y && oe.y+r > e.y) {
 				mvaddch(e.y, e.x, e.face + e.color);
+				mvprintw(e.bary, 0, "HP: %d", e.hp);
+			}
 }
 
 void rand_ai(entity_t *e, int speed) {
@@ -88,8 +90,6 @@ void rand_ai(entity_t *e, int speed) {
 		}
 
 		attack(e, &player[0]);
-
-		mvprintw(e->bary, 0, "HP: %d", e->hp);
 
 	}
 }
@@ -114,8 +114,6 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
 		}
 
 		attack(e, &player[0]);
-
-		mvprintw(e->bary, 0, "HP: %d", e->hp);
 
 	}
 }

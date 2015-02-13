@@ -48,9 +48,9 @@ int main() {
 	init_entity(0, 2);
 	init_player(0, 0);
 	player[0].bary = 0;
-	entity[0].bary = 25;
-	entity[1].bary = 26;
-	entity[2].bary = 27;
+	entity[0].bary = maxy - 1;
+	entity[1].bary = maxy - 2;
+	entity[2].bary = maxy - 3;
 
 	alloc_item(0, 3);
 
@@ -63,15 +63,15 @@ int main() {
 		dumb_ai(&entity[1], player[0].x, player[0].y, 8);
 		rand_ai(&entity[2], 8);
 
-		draw_map(player[0], 5);
-
 		for (int i = 0; i <= playerqty; i++) {
+			draw_map(player[i], 5);
 			for (int j = 0; j <= itemCount; j++)
 				draw_item(item[j], player[i], 5);
 			for (int j = 0; j <= entqty; j++)
 				draw_ent(entity[j], player[i], 5);
-			draw_ent(player[i], player[i], 5);
 		}
+		for (int i = 0; i <= playerqty; i++)
+			draw_ent(player[i], player[i], 5);
 
 		c = getch();
 
