@@ -68,9 +68,11 @@ void attack(entity_t *e, entity_t *foe) {
 				}
 }
 
-void draw_ent(entity_t e) {
+void draw_ent(entity_t e, entity_t oe, int r) {
 	if (e.hp > 0)
-		mvaddch(e.y, e.x, e.face + e.color);
+		if (oe.x-r < e.x && oe.x+r > e.x)
+			if (oe.y-r < e.y && oe.y+r > e.y)
+				mvaddch(e.y, e.x, e.face + e.color);
 }
 
 void rand_ai(entity_t *e, int speed) {

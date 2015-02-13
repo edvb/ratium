@@ -68,10 +68,10 @@ int main() {
 		for (int i = 0; i <= playerqty; i++) {
 			for (int j = 0; j <= itemCount; j++)
 				draw_item(item[j], player[i], 5);
-			draw_ent(player[i]);
+			for (int j = 0; j <= entqty; j++)
+				draw_ent(entity[j], player[i], 5);
+			draw_ent(player[i], player[i], 5);
 		}
-		for (int j = 0; j <= entqty; j++)
-			draw_ent(entity[j]);
 
 		c = getch();
 
