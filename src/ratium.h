@@ -70,7 +70,7 @@ typedef struct {
 
 	int maxhp, hp;
 	int damage;
-	char holding;
+	item_t holding;
 	int passive;
 
 	inv_t inv[MAX_INV_SLOTS];
@@ -109,8 +109,8 @@ void player_run(char c, entity_t *e);
 void inv(entity_t *e);
 void draw_inv(entity_t *e, int arrow_y);
 void inv_add_item(entity_t *e, item_t *item, int qty);
-void inv_drop_item(entity_t *e, int num);
 void inv_use_item(entity_t *e, int num);
+void inv_drop_item(entity_t *e, int num);
 
 item_t item[MAX_ITEMS];
 entity_t player[MAX_PLAYERS];

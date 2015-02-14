@@ -13,11 +13,11 @@ void inv(entity_t *e) {
 			case 'k':
 				arrow_y--;
 				break;
-			case 'd':
-				inv_drop_item(e, arrow_y-1);
-				break;
 			case 'g':
 				inv_use_item(e, arrow_y-1);
+				break;
+			case 'd':
+				inv_drop_item(e, arrow_y-1);
 				break;
 		}
 
@@ -83,17 +83,6 @@ void inv_add_item(entity_t *e, item_t *item, int qty) {
 
 }
 
-/* TODO: Allow player to drop muiltiple items on same tile */
-void inv_drop_item(entity_t *e, int num) {
-	if (e->inv[num].qty > 0) {
-		for (int i = 0; i < MAX_ITEMS; i++)
-			if (e->inv[num].face == item[i].face)
-				if (e->inv[num].color == item[i].color)
-					add_item(&item[i], e->x, e->y);
-		e->inv[num].qty--;
-	}
-}
-
 void inv_use_item(entity_t *e, int num) {
 	if (e->inv[num].qty > 0)
 		switch (e->inv[num].type) {
@@ -104,9 +93,25 @@ void inv_use_item(entity_t *e, int num) {
 				e->inv[num].qty--;
 				break;
 			case ITEM_SWORD:
-				e->damage += e->inv[num].stat;
-				e->inv[num].qty--;
+				if (e->holding.face == ' ') {
+					e->holding.face  = e->inv[num].face;
+					e->holding.name  = e->inv[num].name;
+					e->holding.color = e->inv[num].color;
+					e->holding.stat  = e->inv[num].stat;
+					e->inv[num].qty--;
+				}
 				break;
 		}
+}
+
+/* TODO: Allow player to drop muiltiple. on same tile */
+void inv_drop_item(entity_t *e, int num) {
+	if (e->inv[num].qty > 0) {
+		for (int i = 0; i < MAX_ITEMS; i++)
+			if (e->inv[num].face == item[i].face)
+				if (e->inv[num].color == item[i].color)
+					add_item(&item[i], e->x, e->y);
+		e->inv[num].qty--;
+	}
 }
 

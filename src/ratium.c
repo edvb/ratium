@@ -80,6 +80,10 @@ int main() {
 
 	for (int i = 0; i <= itemqty; i++)
 		free(item[i].name);
+	for (int i = 0; i <= playerqty; i++)
+		free(player[i].holding.name);
+	for (int i = 0; i <= entqty; i++)
+		free(entity[i].holding.name);
 
 	endwin();
 	printf("GAME OVER\n");

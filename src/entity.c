@@ -24,8 +24,13 @@ void init_entity(int from, int to) {
 		entity[i].maxhp = maxhp;
 		entity[i].hp = maxhp;
 		entity[i].damage = damage;
-		entity[i].holding = ' ';
 		entity[i].passive = passive;
+
+		entity[i].holding.name = malloc(MAX_NAME * sizeof(char));
+		entity[i].holding.face = ' ';
+		entity[i].holding.color = 0;
+		entity[i].holding.type = 0;
+		entity[i].holding.stat = 0;
 
 		for (int j = 0; j < 16; j++) {
 			entity[i].inv[j].name = "";
@@ -72,8 +77,10 @@ void draw_ent(entity_t e, entity_t oe, int r) {
 	if (e.hp > 0)
 		if (oe.x-r < e.x && oe.x+r > e.x)
 			if (oe.y-r < e.y && oe.y+r > e.y) {
-				mvaddch(e.y, e.x, e.face + e.color);
 				mvprintw(e.bary, 0, "HP: %d", e.hp);
+				mvaddch(e.y, e.x, e.face + e.color);
+				if (e.holding.face != ' ')
+					mvaddch(e.y, e.x+1, e.holding.face + e.holding.color);
 			}
 }
 
