@@ -42,7 +42,7 @@ void init_player(int from, int to) {
 }
 
 void get_item(entity_t *e) {
-	for (int i = 0; i <= itemCount; i++)
+	for (int i = 0; i <= itemqty; i++)
 		if (item[i].map[e->y][e->x] == item[i].face) {
 			inv_add_item(e, &item[i], 1);
 			clear_item(&item[i], e->x, e->y);
@@ -62,7 +62,7 @@ void player_run(char c, entity_t *e) {
 			case 'l': move_entity(e,  1,  0); break;
 			case 'g': get_item(e); break;
 			case 'o': toggle_door(e->x, e->y); break;
-			case 'i': draw_inv(e); break;
+			case 'i': inv(e); break;
 		}
 
 		for (int i = 0; i < MAX_ENTITIES; i++)

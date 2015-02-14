@@ -30,7 +30,7 @@
 #define gold item[0]
 #define door item[1]
 
-int itemCount;
+int itemqty;
 int playerqty;
 int entqty;
 
@@ -40,6 +40,7 @@ typedef enum {
 	ITEM_SWORD
 } item_type;
 
+/* TODO: Make inv point to a item */
 typedef struct {
 	char *name;
 	char face;
@@ -105,8 +106,11 @@ void get_item(entity_t *e);
 void player_run(char c, entity_t *e);
 
 /* inv.c */
-void draw_inv(entity_t *e);
+void inv(entity_t *e);
+void draw_inv(entity_t *e, int arrow_y);
 void inv_add_item(entity_t *e, item_t *item, int qty);
+void inv_drop_item(entity_t *e, int num);
+void inv_use_item(entity_t *e, int num);
 
 item_t item[MAX_ITEMS];
 entity_t player[MAX_PLAYERS];

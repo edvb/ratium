@@ -48,6 +48,7 @@ int main() {
 	init_entity(0, 2);
 	init_player(0, 0);
 	player[0].bary = 0;
+	/* TODO: Improve assignment */
 	entity[0].bary = maxy - 1;
 	entity[1].bary = maxy - 2;
 	entity[2].bary = maxy - 3;
@@ -65,7 +66,7 @@ int main() {
 
 		for (int i = 0; i <= playerqty; i++) {
 			draw_map(player[i], 5);
-			for (int j = 0; j <= itemCount; j++)
+			for (int j = 0; j <= itemqty; j++)
 				draw_item(item[j], player[i], 5);
 			for (int j = 0; j <= entqty; j++)
 				draw_ent(entity[j], player[i], 5);
@@ -77,7 +78,7 @@ int main() {
 
 	}
 
-	for (int i = 0; i <= itemCount; i++)
+	for (int i = 0; i <= itemqty; i++)
 		free(item[i].name);
 
 	endwin();

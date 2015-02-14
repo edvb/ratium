@@ -37,7 +37,7 @@ void alloc_item(int from, int to) {
 	fclose(f);
 	free(name);
 
-	itemCount = to;
+	itemqty = to;
 }
 
 /* TODO: Move to map file */
