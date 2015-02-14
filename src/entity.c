@@ -80,7 +80,12 @@ void draw_ent(entity_t e, entity_t oe, int r) {
 				mvprintw(e.bary, 0, "HP: %d", e.hp);
 				mvaddch(e.y, e.x, e.face + e.color);
 				if (e.holding.face != ' ')
-					mvaddch(e.y, e.x+1, e.holding.face + e.holding.color);
+					switch (e.direc) {
+						case LEFT: mvaddch(e.y, e.x-1, e.holding.face + e.holding.color); break;
+						case DOWN: mvaddch(e.y+1, e.x, e.holding.face + e.holding.color); break;
+						case UP: mvaddch(e.y-1, e.x, e.holding.face + e.holding.color); break;
+						case RIGHT: mvaddch(e.y, e.x+1, e.holding.face + e.holding.color); break;
+					}
 			}
 }
 

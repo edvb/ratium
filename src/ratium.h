@@ -40,6 +40,13 @@ typedef enum {
 	ITEM_SWORD
 } item_type;
 
+typedef enum {
+	LEFT,
+	DOWN,
+	UP,
+	RIGHT,
+} DIREC;
+
 /* TODO: Make inv point to a item */
 typedef struct {
 	char *name;
@@ -64,6 +71,8 @@ typedef struct {
 typedef struct {
 	char face;
 	int color;
+
+	DIREC direc;
 	int x, y;
 	int oldx, oldy;
 	int bary;
