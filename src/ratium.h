@@ -78,13 +78,15 @@ typedef struct {
 	int bary;
 
 	int maxhp, hp;
-	int damage;
+	bool isdead;
 	item_t holding;
+	int damage;
 	int passive;
 
 	inv_t inv[MAX_INV_SLOTS];
 } entity_t;
 
+/* TODO: Add comments about functions */
 /* map.c */
 char get_map(int x, int y);
 /* TODO: change name */
@@ -95,6 +97,7 @@ void draw_map_floor(entity_t e, int r);
 
 /* item.c */
 void alloc_item(int to, int from);
+int query_item(char *name);
 void toggle_door(int x, int y);
 void clear_item(item_t *item, int x, int y);
 void add_item(item_t *item, int x, int y);

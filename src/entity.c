@@ -23,6 +23,7 @@ void init_entity(int from, int to) {
 		entity[i].oldy = y_0;
 		entity[i].maxhp = maxhp;
 		entity[i].hp = maxhp;
+		entity[i].isdead = false;
 		entity[i].damage = damage;
 		entity[i].passive = passive;
 
@@ -80,7 +81,7 @@ void move_entity(entity_t *e, int dx, int dy) {
 void attack(entity_t *e, entity_t *foe) {
 	if (e->passive != 0)
 		foe->hp -= (e->holding.type == ITEM_SWORD) ?
-				e->damage + e->holding.stat : e->damage;
+			    e->damage + e->holding.stat : e->damage;
 }
 
 void draw_ent(entity_t e, entity_t oe, int r) {
@@ -99,6 +100,7 @@ void draw_ent(entity_t e, entity_t oe, int r) {
 			}
 }
 
+/* TODO: Fix Speed */
 void rand_ai(entity_t *e, int speed) {
 	if (e->hp > 0) {
 
@@ -111,6 +113,9 @@ void rand_ai(entity_t *e, int speed) {
 			case 3: move_entity(e,  1,  0); break;
 		}
 
+	} else if (!e->isdead) {
+		e->isdead = true;
+		add_item(&item[query_item("rat meat")], e->x, e->y);
 	}
 }
 
@@ -133,6 +138,9 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
 				move_entity(e, 0, -1);
 		}
 
+	} else if (!e->isdead) {
+		e->isdead = true;
+		add_item(&item[query_item("rat meat")], e->x, e->y);
 	}
 }
 

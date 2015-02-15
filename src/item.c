@@ -13,6 +13,16 @@ void alloc_item(int from, int to) {
 	for (int num = from; num <= to; num++) {
 		fscanf(f, "%s %c %i %i %i\n", name, &face, &color, &type, &stat);
 
+		int l = strlen(name);
+		for(int i = 0; i < l; i++) {
+			if(name[i] == '_') {
+				name[i] = ' ';
+				continue;
+			}
+			if(name[i] == ' ')
+				break;
+		}
+
 		item[num].name = malloc(MAX_NAME * sizeof(char));
 		strcpy(item[num].name, name);
 		item[num].face = face;
@@ -38,6 +48,12 @@ void alloc_item(int from, int to) {
 	free(name);
 
 	itemqty = to;
+}
+
+int query_item(char *name) {
+	for (int i = 0; i <= itemqty; i++)
+		if (item[i].name == name)
+			return i;
 }
 
 /* TODO: Move to map file */
