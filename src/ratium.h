@@ -91,6 +91,7 @@ char get_map(int x, int y);
 void set_map(int x, int y);
 void set_map_char(int x, int y, char newch);
 void draw_map(entity_t e, int r);
+void draw_map_floor(entity_t e, int r);
 
 /* item.c */
 void alloc_item(int to, int from);

@@ -63,14 +63,14 @@ void move_entity(entity_t *e, int dx, int dy) {
 }
 
 void attack(entity_t *e, entity_t *foe) {
-		if (foe->hp > 0)
-			if (e->x == foe->x)
-				if (e->y == foe->y) {
-					if (e->passive != 0)
-						foe->hp -= e->damage;
-					e->x = e->oldx;
-					e->y = e->oldy;
-				}
+	if (foe->hp > 0)
+		if (e->x == foe->x)
+			if (e->y == foe->y) {
+				if (e->passive != 0)
+					foe->hp -= e->damage;
+				e->x = e->oldx;
+				e->y = e->oldy;
+			}
 }
 
 void draw_ent(entity_t e, entity_t oe, int r) {

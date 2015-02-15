@@ -65,14 +65,16 @@ int main() {
 		rand_ai(&entity[2], 8);
 
 		for (int i = 0; i <= playerqty; i++) {
-			draw_map(player[i], 5);
+			draw_map_floor(player[i], 5);
 			for (int j = 0; j <= itemqty; j++)
 				draw_item(item[j], player[i], 5);
 			for (int j = 0; j <= entqty; j++)
 				draw_ent(entity[j], player[i], 5);
 		}
-		for (int i = 0; i <= playerqty; i++)
+		for (int i = 0; i <= playerqty; i++) {
 			draw_ent(player[i], player[i], 5);
+			draw_map(player[i], 5);
+		}
 
 		c = getch();
 
