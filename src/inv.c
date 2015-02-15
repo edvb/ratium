@@ -94,9 +94,10 @@ void inv_use_item(entity_t *e, int num) {
 				break;
 			case ITEM_SWORD:
 				if (e->holding.face == ' ') {
-					e->holding.face  = e->inv[num].face;
 					e->holding.name  = e->inv[num].name;
+					e->holding.face  = e->inv[num].face;
 					e->holding.color = e->inv[num].color;
+					e->holding.type  = e->inv[num].type;
 					e->holding.stat  = e->inv[num].stat;
 					e->inv[num].qty--;
 				}

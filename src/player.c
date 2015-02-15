@@ -81,9 +81,6 @@ void player_run(char c, entity_t *e) {
 			case 'i': inv(e); break;
 		}
 
-		for (int i = 0; i < MAX_ENTITIES; i++)
-			attack(e, &entity[i]);
-
 	}
 }
 

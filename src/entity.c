@@ -46,7 +46,22 @@ void init_entity(int from, int to) {
 
 }
 
-bool can_step(int x, int y) {
+bool can_step(entity_t *e, int x, int y) {
+	for (int i = 0; i <= entqty; i++)
+		if (entity[i].hp > 0)
+			/* TODO; Check if holding item */
+			if (entity[i].x == x && entity[i].y == y) {
+				/* TODO; Improve checking if entity should attack or not */
+				if (e->face == '@')
+					attack(e, &entity[i]);
+				return false;
+			}
+	for (int i = 0; i <= playerqty; i++)
+		if (entity[i].hp > 0)
+			if (player[i].x == x && player[i].y == y) {
+				attack(e, &player[i]);
+				return false;
+			}
 	switch (get_map(x, y)) {
 		case '#': return false;
 		case 'w': return false;
@@ -56,21 +71,16 @@ bool can_step(int x, int y) {
 }
 
 void move_entity(entity_t *e, int dx, int dy) {
-	if (can_step(e->x + dx, e->y + dy)) {
+	if (can_step(e, e->x + dx, e->y + dy)) {
 		e->x += dx;
 		e->y += dy;
 	}
 }
 
 void attack(entity_t *e, entity_t *foe) {
-	if (foe->hp > 0)
-		if (e->x == foe->x)
-			if (e->y == foe->y) {
-				if (e->passive != 0)
-					foe->hp -= e->damage;
-				e->x = e->oldx;
-				e->y = e->oldy;
-			}
+	if (e->passive != 0)
+		foe->hp -= (e->holding.type == ITEM_SWORD) ?
+				e->damage + e->holding.stat : e->damage;
 }
 
 void draw_ent(entity_t e, entity_t oe, int r) {
@@ -101,8 +111,6 @@ void rand_ai(entity_t *e, int speed) {
 			case 3: move_entity(e,  1,  0); break;
 		}
 
-		attack(e, &player[0]);
-
 	}
 }
 
@@ -124,8 +132,6 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
 			else if (yNew < e->y)
 				move_entity(e, 0, -1);
 		}
-
-		attack(e, &player[0]);
 
 	}
 }

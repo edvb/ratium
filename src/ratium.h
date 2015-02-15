@@ -103,7 +103,7 @@ void draw_item(item_t item, entity_t e, int r);
 
 /* entity.c */
 void init_entity(int from, int to);
-bool can_step(int x, int y);
+bool can_step(entity_t *e, int x, int y);
 void move_entity(entity_t *e, int x_0, int y_0);
 void attack(entity_t *e, entity_t *foe);
 void draw_ent(entity_t e, entity_t oe, int r);
