@@ -1,52 +1,5 @@
 #include "ratium.h"
 
-void init_entity(int from, int to) {
-
-	int x_0, y_0;
-	char face;
-	int color;
-	int maxhp;
-	int damage;
-	int passive;
-
-	FILE *f = fopen("data/entities.txt", "r");
-
-	for (int i = from; i <= to; i++) {
-		fscanf(f, "%c %i %i %i %i %i %i\n",
-			   &face, &color, &x_0, &y_0, &maxhp, &damage, &passive);
-
-		entity[i].face = face;
-		entity[i].color = COLOR_PAIR(color);
-		entity[i].x = x_0;
-		entity[i].y = y_0;
-		entity[i].oldx = x_0;
-		entity[i].oldy = y_0;
-		entity[i].maxhp = maxhp;
-		entity[i].hp = maxhp;
-		entity[i].isdead = false;
-		entity[i].damage = damage;
-		entity[i].passive = passive;
-
-		entity[i].holding.name = malloc(MAX_NAME * sizeof(char));
-		entity[i].holding.face = ' ';
-		entity[i].holding.color = 0;
-		entity[i].holding.type = 0;
-		entity[i].holding.stat = 0;
-
-		for (int j = 0; j < 16; j++) {
-			entity[i].inv[j].name = "";
-			entity[i].inv[j].face = ' ';
-			entity[i].inv[j].color = 0;
-			entity[i].inv[j].qty = 0;
-		}
-	}
-
-	entqty = to;
-
-	fclose(f);
-
-}
-
 bool can_step(entity_t *e, int x, int y) {
 	for (int i = 0; i <= entqty; i++)
 		if (entity[i].hp > 0)
@@ -115,15 +68,12 @@ void rand_ai(entity_t *e, int speed) {
 
 	} else if (!e->isdead) {
 		e->isdead = true;
-		add_item(&item[query_item("rat meat")], e->x, e->y);
+		add_item(&item[query_item(e->drop)], e->x, e->y);
 	}
 }
 
 void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
 	if (e->hp > 0) {
-
-		e->oldx = e->x;
-		e->oldy = e->y;
 
 		int shouldMove = rand() % speed;
 
@@ -140,7 +90,7 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
 
 	} else if (!e->isdead) {
 		e->isdead = true;
-		add_item(&item[query_item("rat meat")], e->x, e->y);
+		add_item(&item[query_item(e->drop)], e->x, e->y);
 	}
 }
 

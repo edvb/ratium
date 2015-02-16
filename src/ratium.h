@@ -69,12 +69,13 @@ typedef struct {
 } item_t;
 
 typedef struct {
+	char *name;
+	char *drop;
 	char face;
 	int color;
 
 	DIREC direc;
 	int x, y;
-	int oldx, oldy;
 	int bary;
 
 	int maxhp, hp;
@@ -96,7 +97,7 @@ void draw_map(entity_t e, int r);
 void draw_map_floor(entity_t e, int r);
 
 /* item.c */
-void alloc_item(int to, int from);
+void init_item(int to, int from);
 int query_item(char *name);
 void toggle_door(int x, int y);
 void clear_item(item_t *item, int x, int y);

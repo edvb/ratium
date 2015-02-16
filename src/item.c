@@ -1,58 +1,8 @@
 #include "ratium.h"
 
-void alloc_item(int from, int to) {
-
-	char *name = malloc(MAX_NAME * sizeof(char));
-	char face;
-	int color;
-	item_type type;
-	int stat;
-
-	FILE *f = fopen("data/items.txt", "r");
-
-	for (int num = from; num <= to; num++) {
-		fscanf(f, "%s %c %i %i %i\n", name, &face, &color, &type, &stat);
-
-		int l = strlen(name);
-		for(int i = 0; i < l; i++) {
-			if(name[i] == '_') {
-				name[i] = ' ';
-				continue;
-			}
-			if(name[i] == ' ')
-				break;
-		}
-
-		item[num].name = malloc(MAX_NAME * sizeof(char));
-		strcpy(item[num].name, name);
-		item[num].face = face;
-		item[num].color = COLOR_PAIR(color);
-		item[num].type = type;
-		item[num].stat = stat;
-
-		for (int i = 0; i < MAX_X; i++)
-			for (int j = 0; j < MAX_Y; j++)
-				item[num].map[j][i] = ' ';
-
-		for (int x, y, i = 0; i < 5; i++) {
-			do {
-				x = rand() % MAX_X;
-				y = rand() % MAX_Y;
-			} while (get_map(x, y) != '.');
-			item[num].map[y][x] = item[num].face;
-		}
-
-	}
-
-	fclose(f);
-	free(name);
-
-	itemqty = to;
-}
-
 int query_item(char *name) {
 	for (int i = 0; i <= itemqty; i++)
-		if (item[i].name == name)
+		if (strcmp(item[i].name, name) == 0)
 			return i;
 }
 

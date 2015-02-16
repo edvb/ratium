@@ -76,7 +76,7 @@ void inv_add_item(entity_t *e, item_t *item, int qty) {
 			e->inv[i].stat = item->stat;
 			e->inv[i].qty = qty;
 			return;
-		} else if (e->inv[i].face == item->face) {
+		} else if (e->inv[i].name == item->name) {
 			e->inv[i].qty += qty;
 			return;
 		}
