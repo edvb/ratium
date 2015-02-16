@@ -2,20 +2,20 @@
 
 bool can_step(entity_t *e, int x, int y) {
 	for (int i = 0; i <= entqty; i++)
-		if (entity[i].hp > 0)
-			/* TODO; Check if holding item */
-			if (entity[i].x == x && entity[i].y == y) {
-				/* TODO; Improve checking if entity should attack or not */
-				if (e->face == '@')
-					attack(e, &entity[i]);
-				return false;
-			}
+		/* TODO: Check if holding item */
+		if (isalive(entity[i].hp) &&
+		    entity[i].x == x && entity[i].y == y) {
+			/* TODO: Improve checking if entity should attack or not */
+			if (e->face == '@')
+				attack(e, &entity[i]);
+			return false;
+		}
 	for (int i = 0; i <= playerqty; i++)
-		if (entity[i].hp > 0)
-			if (player[i].x == x && player[i].y == y) {
-				attack(e, &player[i]);
-				return false;
-			}
+		if (isalive(entity[i].hp) &&
+		    player[i].x == x && player[i].y == y) {
+			attack(e, &player[i]);
+			return false;
+		}
 	switch (get_map(x, y)) {
 		case '#': return false;
 		case 'w': return false;
@@ -37,25 +37,29 @@ void attack(entity_t *e, entity_t *foe) {
 			    e->damage + e->holding.stat : e->damage;
 }
 
+bool isalive(int hp) {
+	return (hp > 0) ? true : false;
+}
+
 void draw_ent(entity_t e, entity_t oe, int r) {
-	if (e.hp > 0)
-		if (oe.x-r < e.x && oe.x+r > e.x)
-			if (oe.y-r < e.y && oe.y+r > e.y) {
-				mvprintw(e.bary, 0, "HP: %d", e.hp);
-				mvaddch(e.y, e.x, e.face + e.color);
-				if (e.holding.face != ' ')
-					switch (e.direc) {
-						case LEFT: mvaddch(e.y, e.x-1, e.holding.face + e.holding.color); break;
-						case DOWN: mvaddch(e.y+1, e.x, e.holding.face + e.holding.color); break;
-						case UP: mvaddch(e.y-1, e.x, e.holding.face + e.holding.color); break;
-						case RIGHT: mvaddch(e.y, e.x+1, e.holding.face + e.holding.color); break;
-					}
+	if (isalive(e.hp) &&
+	    oe.x-r < e.x && oe.x+r > e.x &&
+	    oe.y-r < e.y && oe.y+r > e.y) {
+		mvprintw(e.bary, 0, "HP: %d", e.hp);
+		mvaddch(e.y, e.x, e.face + e.color);
+		if (e.holding.face != ' ')
+			switch (e.direc) {
+				case LEFT: mvaddch(e.y, e.x-1, e.holding.face + e.holding.color); break;
+				case DOWN: mvaddch(e.y+1, e.x, e.holding.face + e.holding.color); break;
+				case UP: mvaddch(e.y-1, e.x, e.holding.face + e.holding.color); break;
+				case RIGHT: mvaddch(e.y, e.x+1, e.holding.face + e.holding.color); break;
 			}
+	}
 }
 
 /* TODO: Fix Speed */
 void rand_ai(entity_t *e, int speed) {
-	if (e->hp > 0) {
+	if (isalive(e->hp)) {
 
 		int direc = rand() % speed;
 
@@ -73,7 +77,7 @@ void rand_ai(entity_t *e, int speed) {
 }
 
 void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
-	if (e->hp > 0) {
+	if (isalive(e->hp)) {
 
 		int shouldMove = rand() % speed;
 

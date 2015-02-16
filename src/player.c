@@ -14,13 +14,13 @@ void get_item(entity_t *e) {
 		e->holding.type = 0;
 		e->holding.stat = 0;
 		for (int i = 0; i < MAX_INV_SLOTS; i++)
-			if (e->inv[i].name = e->holding.name)
+			if (strcmp(e->inv[i].name, e->holding.name) == 0)
 				e->inv[i].qty++;
 	}
 }
 
 void player_run(char c, entity_t *e) {
-	if (e->hp > 0) {
+	if (isalive(e->hp)) {
 
 		switch (c) {
 			case 'h': move_entity(e, -1,  0); e->direc = LEFT; break;

@@ -53,7 +53,7 @@ int main() {
 	entity[1].bary = maxy - 2;
 	entity[2].bary = maxy - 3;
 
-	init_item(0, 5);
+	init_item(0, 6);
 
 	for ever {
 

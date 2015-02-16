@@ -37,7 +37,8 @@ int entqty;
 typedef enum {
 	ITEM_MISC,
 	ITEM_FOOD,
-	ITEM_SWORD
+	ITEM_SWORD,
+	ITEM_SHIELD
 } item_type;
 
 typedef enum {
@@ -97,7 +98,6 @@ void draw_map(entity_t e, int r);
 void draw_map_floor(entity_t e, int r);
 
 /* item.c */
-void init_item(int to, int from);
 int query_item(char *name);
 void toggle_door(int x, int y);
 void clear_item(item_t *item, int x, int y);
@@ -106,16 +106,15 @@ void add_item_ch(item_t *item, int x, int y, char newch);
 void draw_item(item_t item, entity_t e, int r);
 
 /* entity.c */
-void init_entity(int from, int to);
 bool can_step(entity_t *e, int x, int y);
 void move_entity(entity_t *e, int x_0, int y_0);
 void attack(entity_t *e, entity_t *foe);
+bool isalive(int hp);
 void draw_ent(entity_t e, entity_t oe, int r);
 void rand_ai(entity_t *e, int speed);
 void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
 
 /* player.c */
-void init_player(int from, int to);
 void get_item(entity_t *e);
 void player_run(char c, entity_t *e);
 
@@ -125,6 +124,11 @@ void draw_inv(entity_t *e, int arrow_y);
 void inv_add_item(entity_t *e, item_t *item, int qty);
 void inv_use_item(entity_t *e, int num);
 void inv_drop_item(entity_t *e, int num);
+
+/* data.c */
+void init_item(int to, int from);
+void init_entity(int from, int to);
+void init_player(int from, int to);
 
 item_t item[MAX_ITEMS];
 entity_t player[MAX_PLAYERS];
