@@ -52,8 +52,6 @@ void draw_map(entity_t e, int r) {
 				mvaddch(j, i, '#' + A_BOLD);
 			else if (worldMap[j][i] == '+')
 				mvaddch(j, i, '+' + BROWN);
-			else if (worldMap[j][i] == '-')
-				mvaddch(j, i, '-' + BROWN);
 }
 
 void draw_map_floor(entity_t e, int r) {
@@ -67,5 +65,7 @@ void draw_map_floor(entity_t e, int r) {
 				mvaddch(j, i, '.' + GRASS);
 			else if (worldMap[j][i] == 'w')
 				mvaddch(j, i, '~' + WATER);
+			else if (worldMap[j][i] == '-')
+				mvaddch(j, i, '-' + BROWN);
 }
 
