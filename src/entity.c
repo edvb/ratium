@@ -41,6 +41,22 @@ bool isalive(int hp) {
 	return (hp > 0) ? true : false;
 }
 
+int holding_x(entity_t e, int val) {
+	switch (e.direc) {
+		case LEFT:  return val-1;
+		case RIGHT: return val+1;
+		default:    return val;
+	}
+}
+
+int holding_y(entity_t e, int val) {
+	switch (e.direc) {
+		case DOWN:  return val+1;
+		case UP:    return val-1;
+		default:    return val;
+	}
+}
+
 void draw_ent(entity_t e, entity_t oe, int r) {
 	if (isalive(e.hp) &&
 	    oe.x-r < e.x && oe.x+r > e.x &&
@@ -48,12 +64,8 @@ void draw_ent(entity_t e, entity_t oe, int r) {
 		mvprintw(e.bary, 0, "HP: %d", e.hp);
 		mvaddch(e.y, e.x, e.face + e.color);
 		if (e.holding.face != ' ')
-			switch (e.direc) {
-				case LEFT: mvaddch(e.y, e.x-1, e.holding.face + e.holding.color); break;
-				case DOWN: mvaddch(e.y+1, e.x, e.holding.face + e.holding.color); break;
-				case UP: mvaddch(e.y-1, e.x, e.holding.face + e.holding.color); break;
-				case RIGHT: mvaddch(e.y, e.x+1, e.holding.face + e.holding.color); break;
-			}
+			mvaddch(holding_y(e, e.y), holding_x(e, e.x),
+				e.holding.face + e.holding.color);
 	}
 }
 
