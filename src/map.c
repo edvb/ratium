@@ -28,27 +28,17 @@ char worldMap[MAX_Y][MAX_X+1] = {
 };
 
 char get_map(int x, int y) {
-
-	char ch;
-	ch = worldMap[y][x];
-
-	return ch;
+	return worldMap[y][x];
 }
 
-void set_map(int x, int y) {
-	worldMap[y][x] = ' ';
-}
-
-void set_map_char(int x, int y, char newch) {
+void set_map(int x, int y, char newch) {
 	worldMap[y][x] = newch;
 }
 
 void draw_map(entity_t e, int r) {
 	for (int i = e.x-r; i < e.x+r; i++)
 		for (int j = e.y-r; j < e.y+r; j++)
-			if (worldMap[j][i] == ' ')
-				mvaddch(j, i, worldMap[j][i]);
-			else if (worldMap[j][i] == '#')
+			if (worldMap[j][i] == '#')
 				mvaddch(j, i, '#' + A_BOLD);
 			else if (worldMap[j][i] == '+')
 				mvaddch(j, i, '+' + BROWN);

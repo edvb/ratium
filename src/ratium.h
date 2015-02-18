@@ -89,9 +89,7 @@ typedef struct {
 /* TODO: Add comments about functions */
 /* map.c */
 char get_map(int x, int y);
-/* TODO: change name */
-void set_map(int x, int y);
-void set_map_char(int x, int y, char newch);
+void set_map(int x, int y, char newch);
 void draw_map(entity_t e, int r);
 void draw_map_floor(entity_t e, int r);
 
