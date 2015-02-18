@@ -27,9 +27,6 @@
 #define MAX_ITEMS 256
 #define MAX_INV_SLOTS 16
 
-#define gold item[0]
-#define door item[1]
-
 int itemqty;
 int playerqty;
 int entqty;
@@ -40,6 +37,7 @@ typedef enum {
 	ITEM_SWORD,
 	ITEM_SHIELD
 } item_type;
+/* TODO: Change name */
 
 typedef enum {
 	LEFT,
@@ -110,6 +108,8 @@ bool can_step(entity_t *e, int x, int y);
 void move_entity(entity_t *e, int x_0, int y_0);
 void attack(entity_t *e, entity_t *foe);
 bool isalive(int hp);
+int holding_x(entity_t e, int val);
+int holding_y(entity_t e, int val);
 void draw_ent(entity_t e, entity_t oe, int r);
 void rand_ai(entity_t *e, int speed);
 void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
