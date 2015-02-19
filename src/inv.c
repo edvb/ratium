@@ -105,7 +105,7 @@ void inv_use_item(entity_t *e, int num) {
 		}
 }
 
-/* TODO: Allow player to drop muiltiple. on same tile */
+/* TODO: Allow player to drop multiple items on same tile */
 void inv_drop_item(entity_t *e, int num) {
 	if (e->inv[num].qty > 0) {
 		for (int i = 0; i < MAX_ITEMS; i++)

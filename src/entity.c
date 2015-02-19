@@ -1,5 +1,6 @@
 #include "ratium.h"
 
+/* can_step: determine if entity can move to a new space */
 bool can_step(entity_t *e, int x, int y) {
 	for (int i = 0; i <= entqty; i++)
 		/* TODO: Check if holding item */
@@ -24,6 +25,7 @@ bool can_step(entity_t *e, int x, int y) {
 	}
 }
 
+/* move_entity: move a entity by x_0 and y_0 */
 void move_entity(entity_t *e, int dx, int dy) {
 	if (can_step(e, e->x + dx, e->y + dy)) {
 		e->x += dx;
@@ -31,16 +33,19 @@ void move_entity(entity_t *e, int dx, int dy) {
 	}
 }
 
+/* attack: entity e attack entity foe */
 void attack(entity_t *e, entity_t *foe) {
 	if (e->passive != 0)
 		foe->hp -= (e->holding.type == ITEM_SWORD) ?
 			    e->damage + e->holding.stat : e->damage;
 }
 
+/* isalive: determine if entity is alive */
 bool isalive(int hp) {
 	return (hp > 0) ? true : false;
 }
 
+/* holding: return x position for what entity is holding */
 int holding_x(entity_t e, int val) {
 	switch (e.direc) {
 		case LEFT:  return val-1;
@@ -49,6 +54,7 @@ int holding_x(entity_t e, int val) {
 	}
 }
 
+/* holding: return y position for what entity is holding */
 int holding_y(entity_t e, int val) {
 	switch (e.direc) {
 		case DOWN:  return val+1;
@@ -57,6 +63,7 @@ int holding_y(entity_t e, int val) {
 	}
 }
 
+/* draw_ent: draw entity e if in range of entity oe by r */
 void draw_ent(entity_t e, entity_t oe, int r) {
 	if (isalive(e.hp) &&
 	    oe.x-r < e.x && oe.x+r > e.x &&

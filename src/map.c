@@ -27,14 +27,17 @@ char worldMap[MAX_Y][MAX_X+1] = {
 "                                                                                ",
 };
 
+/* get_map: get character of map at x and y position */
 char get_map(int x, int y) {
 	return worldMap[y][x];
 }
 
+/* set_map: set character of map at x and y position to newch */
 void set_map(int x, int y, char newch) {
 	worldMap[y][x] = newch;
 }
 
+/* draw_map: draw the map foreground (stuff that is on top of entities) */
 void draw_map(entity_t e, int r) {
 	for (int i = e.x-r; i < e.x+r; i++)
 		for (int j = e.y-r; j < e.y+r; j++)
@@ -44,6 +47,7 @@ void draw_map(entity_t e, int r) {
 				mvaddch(j, i, '+' + BROWN);
 }
 
+/* draw_map: draw the map background (stuff that is below entities) */
 void draw_map_floor(entity_t e, int r) {
 	for (int i = e.x-r; i < e.x+r; i++)
 		for (int j = e.y-r; j < e.y+r; j++)

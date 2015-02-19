@@ -1,5 +1,6 @@
 #include "ratium.h"
 
+/* init_item: read from data/items.txt file and store in item array */
 void init_item(int from, int to) {
 
 	char *name = malloc(MAX_NAME * sizeof(char));
@@ -50,6 +51,7 @@ void init_item(int from, int to) {
 	itemqty = to;
 }
 
+/* init_entity: read from data/entities.txt file and store in entity array */
 void init_entity(int from, int to) {
 
 	char *name = malloc(MAX_NAME * sizeof(char));
@@ -128,6 +130,7 @@ void init_entity(int from, int to) {
 
 }
 
+/* init_player: read from data/players.txt file and store in player array */
 void init_player(int from, int to) {
 
 	char *name = malloc(MAX_NAME * sizeof(char));
