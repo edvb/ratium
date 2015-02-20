@@ -86,6 +86,7 @@ typedef struct {
 	inv_t inv[MAX_INV_SLOTS];
 } entity_t;
 
+/* TODO: localize some of these functions */
 /***********************\
 * map.c: handle the map *
 \***********************/
@@ -93,6 +94,8 @@ typedef struct {
 char get_map(int x, int y);
 /* set_map: set character of map at x and y position to newch */
 void set_map(int x, int y, char newch);
+/* toggle_door: open or close door next to entity */
+void toggle_door(int x, int y);
 /* draw_map: draw the map foreground (stuff that is on top of entities) */
 void draw_map(entity_t e, int r);
 /* draw_map: draw the map background (stuff that is below entities) */
@@ -103,8 +106,6 @@ void draw_map_floor(entity_t e, int r);
 \**********************/
 /* query_item: return element number of array matching name supplied */
 int query_item(char *name);
-/* toggle_door: open or close door next to entity */
-void toggle_door(int x, int y);
 /* clear_item: clear item at x and y position */
 void clear_item(item_t *item, int x, int y);
 /* add_item: set item value at x and y position to item face */

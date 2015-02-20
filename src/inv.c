@@ -66,7 +66,6 @@ void draw_inv(entity_t *e, int arrow_y) {
 }
 
 void inv_add_item(entity_t *e, item_t *item, int qty) {
-
 	for (int i = 0; i <= MAX_INV_SLOTS; i++)
 		if (e->inv[i].face == ' ') {
 			e->inv[i].face = item->face;
@@ -80,7 +79,6 @@ void inv_add_item(entity_t *e, item_t *item, int qty) {
 			e->inv[i].qty += qty;
 			return;
 		}
-
 }
 
 void inv_use_item(entity_t *e, int num) {
@@ -93,6 +91,7 @@ void inv_use_item(entity_t *e, int num) {
 				e->inv[num].qty--;
 				break;
 			case ITEM_SWORD:
+			case ITEM_SHIELD:
 				if (e->holding.face == ' ') {
 					e->holding.name  = e->inv[num].name;
 					e->holding.face  = e->inv[num].face;

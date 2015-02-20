@@ -6,7 +6,7 @@ void init_item(int from, int to) {
 	char *name = malloc(MAX_NAME * sizeof(char));
 	char face;
 	int color;
-	item_type type;
+	int type;
 	int stat;
 
 	FILE *f = fopen("data/items.txt", "r");
