@@ -36,8 +36,33 @@ void move_entity(entity_t *e, int dx, int dy) {
 /* attack: entity e attack entity foe */
 void attack(entity_t *e, entity_t *foe) {
 	if (e->passive != 0)
-		foe->hp -= (e->holding.type == ITEM_SWORD) ?
-			    e->damage + e->holding.stat : e->damage;
+		take_damage(foe, deal_damage(e));
+}
+
+void take_damage(entity_t *e, int damage) {
+	switch (e->holding.type) {
+		case ITEM_SHIELD:
+			e->holding.stat -= damage;
+			if (e->holding.stat < 0) {
+				e->holding.face = ' ';
+				e->holding.color = 0;
+				e->holding.type = 0;
+				e->holding.stat = 0;
+			}
+			break;
+		default:
+			e->hp -= damage;
+	}
+}
+
+int deal_damage(entity_t *e) {
+	switch (e->holding.type) {
+		case ITEM_SWORD:
+			return e->damage + e->holding.stat;
+			break;
+		default:
+			return e->damage;
+	}
 }
 
 /* isalive: determine if entity is alive */

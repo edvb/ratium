@@ -7,6 +7,7 @@ void get_item(entity_t *e) {
 			clear_item(&item[i], e->x, e->y);
 			return;
 		}
+	/* TODO: Break into function */
 	/* if nothing is under player put what player was holding into inv */
 	if (e->holding.face != ' ') {
 		e->holding.face = ' ';
