@@ -1,28 +1,44 @@
-CC = gcc-4.7
-CFLAGS = -std=c11 -Wall -Iinclude
-LIBS = -lncurses
+include config.mk
+
 EXE = ratium
-RM = rm -f
-
 SRC = $(wildcard src/*.c)
-OBJECTS = $(SRC:.c=.o)
+OBJ = $(SRC:.c=.o)
 
-ratium: $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LIBS)
+all: options ratium
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+options:
+	@echo $(EXE) build options:
+	@echo "CFLAGS  = $(CFLAGS)"
+	@echo "LDFLAGS = $(LDFLAGS)"
+	@echo "CC      = $(CC)"
 
-run: ratium
+.o:
+	@echo LD $@
+	@$(LD) -o $@ $< $(LDFLAGS)
+
+.c.o:
+	@echo CC $<
+	@$(CC) -c -o $@ $< $(CFLAGS)
+
+ratium: $(OBJ)
+	@echo CC -o $@
+	@$(CC) -o $@ $(OBJ) $(LDFLAGS)
+
+run: all
 	./$(EXE)
 
 clean:
-	$(RM) $(OBJECTS) $(EXE)
+	@echo cleaning
+	@rm -f $(OBJ) $(EXE)
 
-install: ratium
-	cp -v $(EXE) /usr/bin/
+install: all
+	@echo installing executable file to $(DESTDIR)$(PREFIX)/bin
+	@mkdir -p $(DESTDIR)$(PREFIX)/bin
+	@cp -f $(EXE) $(DESTDIR)$(PREFIX)/bin
+	@chmod 755 $(DESTDIR)$(PREFIX)/bin/$(EXE)
 
 uninstall:
-	$(RM) /usr/bin/$(EXE)
+	@echo removing executable file from $(DESTDIR)$(PREFIX)/bin
+	@rm -f $(DESTDIR)$(PREFIX)/bin/$(EXE)
 
-.PHONY: clean install uninstall
+.PHONY: all options run clean install uninstall
