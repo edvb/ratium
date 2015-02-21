@@ -1,30 +1,30 @@
 #include "ratium.h"
 
 char worldMap[MAX_Y][MAX_X+1] = {
-"                                                                                ",
-"                                                                                ",
-"                                                                                ",
-"   ############                                              ##############     ",
-"   #..........#                                              #ggggggwwwwww#     ",
-"   #..........######                                         #ggggggggwwww#     ",
-"   #..........#....#                                         #.ggggggggwww#     ",
-"   #..........+....#######   #################################..ggggggggww#     ",
-"   #####+######....+.....#   #...............................+..gggggggggg#     ",
-"       #.#    #....#####.#   #.###############################.g.ggggggggg#     ",
-"       #.#    ######   #.#   #.#                             #gggggggggggg#     ",
-"       #.#             #.#   #.#                             #gggggggggggg#     ",
-"       #.#             #.#   #.#                             #gggggggggggg#     ",
-"       #.#           ###+#####+####                          ##############     ",
-"    ####+#######     #............#                                             ",
-"    #..........#     #............#                                             ",
-"    #..........#     ###########+##                                             ",
-"    #..........#               #.#                                              ",
-"    #########+##               #.#                                              ",
-"            #.#                #.#                                              ",
-"            #.##################.#                                              ",
-"            #....................#                                              ",
-"            ######################                                              ",
-"                                                                                ",
+"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggwwwwwgggggg",
+"ggg############gggggggggggggggggggggggggggggggggggggggggggggggggggggwwwwwwwggggg",
+"ggg#..........#gggggggggggggggggggggggggggggggggggggggggggggggggggggwwwwwwwwgggg",
+"ggg#..........######ggggggggggggggggggggggggggggggggggggggggggggggggggwwwwwwgggg",
+"ggg#..........#....#ggggggggggggggggggggggggggggggggggggggggg..ggggggggwwwwggggg",
+"ggg#..........+....#######ggg#################################..ggggggggwwgggggg",
+"ggg#####+######....+.....#ggg#...............................+..gggggggggggggggg",
+"ggggggg#.#gggg#....#####.#ggg#.###############################.g.ggggggggggggggg",
+"ggggggg#.#gggg######ggg#.#ggg#.#gggggggggggggggggggggggggggg...ggggggggggggggggg",
+"ggggggg#.#ggggggggggggg#.#ggg#.#ggggggggggggggggggggggggggggg.gggggggggggggggggg",
+"ggggggg#.#ggggggggggggg#.#ggg#.#gggggggggggggggggggggggggggggggggggggggggggggggg",
+"ggggggg#.#ggggggggggg###+#####+####ggggggggggggggggggggggggggggggggggggggggggggg",
+"gggg####+#######ggggg#............#ggggggggggggggggggggggggggggggggggggggggggggg",
+"gggg#..........#ggggg#............#ggggggggggggggggggggggggggggggggggggggggggggg",
+"gggg#..........#ggggg###########+##ggggggggggggggggggggggggggggggggggggggggggggg",
+"gggg#..........#ggggggggggggggg#.#gggggggggggggggggggggggggggggggggggggggggggggg",
+"gggg#########+##ggggggggggggggg#.#gggggggggggggggggggggggggggggggggggggggggggggg",
+"gggggggggggg#.#gggggggggggggggg#.#gggggggggggggggggggggggggggggggggggggggggggggg",
+"gggggggggggg#.##################.#gggggggggggggggggggggggggggggggggggggggggggggg",
+"gggggggggggg#....................#gggggggggggggggggggggggggggggggggggggggggggggg",
+"gggggggggggg######################gggggggggggggggggggggggggggggggggggggggggggggg",
+"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
 };
 
 /* get_map: get character of map at x and y position */
@@ -55,7 +55,7 @@ void draw_map(entity_t e, int r) {
 	for (int i = e.x-r; i < e.x+r; i++)
 		for (int j = e.y-r; j < e.y+r; j++)
 			if (worldMap[j][i] == '#')
-				mvaddch(j, i, '#' + A_BOLD);
+				mvaddch(j, i, 'X' + COLOR_PAIR(12));
 			else if (worldMap[j][i] == '+')
 				mvaddch(j, i, '+' + BROWN);
 }
@@ -67,9 +67,9 @@ void draw_map_floor(entity_t e, int r) {
 			if (worldMap[j][i] == ' ')
 				mvaddch(j, i, worldMap[j][i]);
 			else if (worldMap[j][i] == '.')
-				mvaddch(j, i, '.');
+				mvaddch(j, i, ACS_BULLET + COLOR_PAIR(11));
 			else if (worldMap[j][i] == 'g')
-				mvaddch(j, i, '.' + GRASS);
+				mvaddch(j, i, ACS_BULLET + GRASS);
 			else if (worldMap[j][i] == 'w')
 				mvaddch(j, i, '~' + WATER);
 			else if (worldMap[j][i] == '-')

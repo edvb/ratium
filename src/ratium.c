@@ -27,17 +27,17 @@ int main(int argc, char *argv[]) {
 	start_color();
 
 	/* TODO: Improve how colors are assigned */
-	init_color(0,  100,  100,  100); /* black */
-	init_color(1,  600,    0,    0); /* red */
-	init_color(2,    0,  600,    0); /* green */
-	init_color(3,    0,  400,  800); /* blue */
-	init_color(4,  800,  800,    0); /* yellow */
-	init_color(5,  370,  280,    0); /* brown */
-	init_color(6,  500,  500,  500); /* grey */
-	init_color(8,  650,  550,    0); /* dark yellow */
-	init_color(9,    0,  400,    0); /* dark green */
+	init_color( 0, 100,  100,  100); /* black */
+	init_color( 1, 600,    0,    0); /* red */
+	init_color( 2,   0,  600,    0); /* green */
+	init_color( 3,   0,  400,  800); /* blue */
+	init_color( 4, 800,  800,    0); /* yellow */
+	init_color( 5, 370,  280,    0); /* brown */
+	init_color( 6, 500,  500,  500); /* grey */
+	init_color( 8, 650,  550,    0); /* dark yellow */
+	init_color( 9,   0,  400,    0); /* dark green */
 	init_color(10,   0,  200,  400); /* dark blue */
-	init_color(11, 450,  450,  150); /* haggis */
+	init_color(11, 200,  200,  200); /* dark grey */
 
 	init_pair( 1,  1,  0); /* red */
 	init_pair( 2,  2,  0); /* green */
@@ -46,9 +46,10 @@ int main(int argc, char *argv[]) {
 	init_pair( 5,  5,  0); /* brown */
 	init_pair( 6,  6,  0); /* grey */
 	init_pair( 8,  8,  0); /* dark yellow */
-	init_pair( 9,  3, 10); /* water */
+	init_pair( 9,  3,  0); /* water */
 	init_pair(10,  2,  0); /* grass */
-	init_pair(11, 11,  0); /* haggis */
+	init_pair(11, 11,  0); /* dark grey */
+	init_pair(12,  6, 11); /* dark grey bg */
 
 	char c;
 
