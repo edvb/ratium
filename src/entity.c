@@ -21,12 +21,10 @@ bool can_step(entity_t *e, int x, int y) {
 			return false;
 		}
 
-	switch (get_map(x, y)) {
-		case '#': return false;
-		case 'w': return false;
-		case '+': return false;
-		default: return true;
-	}
+	if (!is_floor(x, y))
+		return false;
+
+	return true;
 }
 
 /* move_entity: move a entity by x_0 and y_0 */

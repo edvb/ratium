@@ -17,11 +17,11 @@ char worldMap[MAX_Y][MAX_X+1] = {
 "ggggggg#.#ggggggggggg###+#####+####ggggggggggggggggggggggggggggggggggggggggggggg",
 "gggg####+#######ggggg#............#ggggggggggggggggggggggggggggggggggggggggggggg",
 "gggg#..........#ggggg#............#ggggggggggggggggggggggggggggggggggggggggggggg",
-"gggg#..........#ggggg###########+##ggggggggggggggggggggggggggggggggggggggggggggg",
-"gggg#..........#ggggggggggggggg#.#gggggggggggggggggggggggggggggggggggggggggggggg",
-"gggg#########+##ggggggggggggggg#.#gggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggg#.#gggggggggggggggg#.#gggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggg#.##################.#gggggggggggggggggggggggggggggggggggggggggggggg",
+"gggg#..........#ggggg###########+##gggggggggggXXXXXXXX+XXXgggggggggggggggggggggg",
+"gggg#..........#ggggggggggggggg#.#ggggggggggggX..........Xgggggggggggggggggggggg",
+"gggg#########+##ggggggggggggggg#.#ggggggggggggX..........Xgggggggggggggggggggggg",
+"gggggggggggg#.#gggggggggggggggg#.#ggggggggggggX..........Xgggggggggggggggggggggg",
+"gggggggggggg#.##################.#ggggggggggggXXXXXXXXXXXXgggggggggggggggggggggg",
 "gggggggggggg#....................#gggggggggggggggggggggggggggggggggggggggggggggg",
 "gggggggggggg######################gggggggggggggggggggggggggggggggggggggggggggggg",
 "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
@@ -30,6 +30,16 @@ char worldMap[MAX_Y][MAX_X+1] = {
 /* get_map: get character of map at x and y position */
 char get_map(int x, int y) {
 	return worldMap[y][x];
+}
+
+bool is_floor(int x, int y) {
+	switch (get_map(x, y)) {
+		case '#': return false;
+		case 'X': return false;
+		case 'w': return false;
+		case '+': return false;
+		default: return true;
+	}
 }
 
 /* set_map: set character of map at x and y position to newch */
@@ -56,6 +66,8 @@ void draw_map(entity_t e, int r) {
 		for (int j = e.y-r; j < e.y+r; j++)
 			if (worldMap[j][i] == '#')
 				mvaddch(j, i, '#' + COLOR_PAIR(12));
+			else if (worldMap[j][i] == 'X')
+				mvaddch(j, i, 'X' + COLOR_PAIR(13));
 			else if (worldMap[j][i] == '+')
 				mvaddch(j, i, '+' + BROWN);
 }

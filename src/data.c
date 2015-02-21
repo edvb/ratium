@@ -114,7 +114,8 @@ void init_entity(int from, int to) {
 			entity[num].inv[i].qty = 0;
 		}
 
-		/* TODO: Break into function */
+		/* TODO: Break into function and add smart intergration of
+		 * is_floor function */
 		do {
 			x_0 = rand() % MAX_X;
 			y_0 = rand() % MAX_Y;
@@ -176,7 +177,7 @@ void init_player(int from, int to) {
 		do {
 			x_0 = rand() % MAX_X;
 			y_0 = rand() % MAX_Y;
-		} while (get_map(x_0, y_0) != '.');
+		} while (!is_floor(x_0, y_0));
 		player[num].x = x_0;
 		player[num].y = y_0;
 
