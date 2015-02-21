@@ -35,7 +35,7 @@ void move_entity(entity_t *e, int dx, int dy) {
 
 /* attack: entity e attack entity foe */
 void attack(entity_t *e, entity_t *foe) {
-	if (e->passive != 0)
+	if (e->type != ENT_PEACEFUL)
 		take_damage(foe, deal_damage(e));
 }
 

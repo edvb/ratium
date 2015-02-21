@@ -56,18 +56,18 @@ void init_entity(int from, int to) {
 
 	char *name = malloc(MAX_NAME * sizeof(char));
 	char *drop = malloc(MAX_NAME * sizeof(char));
+	int type;
 	int x_0, y_0;
 	char face;
 	int color;
 	int maxhp;
 	int damage;
-	int passive;
 
 	FILE *f = fopen("data/entities.txt", "r");
 
 	for (int num = from; num <= to; num++) {
 		fscanf(f, "%s %c %i %i %i %i %s\n",
-			   name, &face, &color, &maxhp, &damage, &passive, drop);
+			   name, &face, &color, &maxhp, &damage, &type, drop);
 
 		for(int i = 0, l = strlen(name); i < l; i++) {
 			if(name[i] == '_') {
@@ -97,7 +97,7 @@ void init_entity(int from, int to) {
 		entity[num].hp = maxhp;
 		entity[num].isdead = false;
 		entity[num].damage = damage;
-		entity[num].passive = passive;
+		entity[num].type = type;
 
 		entity[num].holding.name = malloc(MAX_NAME * sizeof(char));
 		entity[num].holding.face = ' ';
@@ -112,6 +112,7 @@ void init_entity(int from, int to) {
 			entity[num].inv[i].qty = 0;
 		}
 
+		/* TODO: Break into function */
 		do {
 			x_0 = rand() % MAX_X;
 			y_0 = rand() % MAX_Y;
@@ -139,13 +140,12 @@ void init_player(int from, int to) {
 	int color;
 	int maxhp;
 	int damage;
-	int passive;
 
 	FILE *f = fopen("data/players.txt", "r");
 
 	for (int num = from; num <= to; num++) {
-		fscanf(f, "%s %c %i %i %i %i %i %i\n",
-			   name, &face, &color, &x_0, &y_0, &maxhp, &damage, &passive);
+		fscanf(f, "%s %c %i %i %i\n",
+			   name, &face, &color, &maxhp, &damage);
 
 		int l = strlen(name);
 		for(int i = 0; i < l; i++) {
@@ -161,18 +161,22 @@ void init_player(int from, int to) {
 		strcpy(player[num].name, name);
 		player[num].face = face;
 		player[num].color = COLOR_PAIR(color);
-		player[num].x = x_0;
-		player[num].y = y_0;
 		player[num].maxhp = maxhp;
 		player[num].hp = maxhp;
 		player[num].damage = damage;
-		player[num].passive = passive;
 
 		player[num].holding.name = malloc(MAX_NAME * sizeof(char));
 		player[num].holding.face = ' ';
 		player[num].holding.color = 0;
 		player[num].holding.type = 0;
 		player[num].holding.stat = 0;
+
+		do {
+			x_0 = rand() % MAX_X;
+			y_0 = rand() % MAX_Y;
+		} while (get_map(x_0, y_0) != '.');
+		player[num].x = x_0;
+		player[num].y = y_0;
 
 		for (int i = 0; i < 16; i++) {
 			player[num].inv[i].name = "";

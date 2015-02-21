@@ -32,44 +32,50 @@ int playerqty;
 int entqty;
 
 typedef enum {
-	ITEM_MISC,
-	ITEM_FOOD,
-	ITEM_SWORD,
-	ITEM_SHIELD
-} ITEM_TYPE;
-/* TODO: Change name */
-
-typedef enum {
 	LEFT,
 	DOWN,
 	UP,
 	RIGHT,
 } DIREC;
 
+typedef enum {
+	ITEM_MISC,
+	ITEM_FOOD,
+	ITEM_SWORD,
+	ITEM_SHIELD
+} ITEM_TYPE;
+
+typedef enum {
+	ENT_PLAYER,
+	ENT_EVIL,
+	ENT_PEACEFUL
+} ENT_TYPE;
+
 /* TODO: Make inv point to a item */
 typedef struct {
 	char *name;
+	ITEM_TYPE type;
 	char face;
 	int color;
 	int qty;
 
-	ITEM_TYPE type;
 	int stat;
 } inv_t;
 
 typedef struct {
 	char *name;
+	ITEM_TYPE type;
 	char map[MAX_Y][MAX_X];
 	char face;
 	int color;
 
-	ITEM_TYPE type;
 	int stat;
 } item_t;
 
 typedef struct {
 	char *name;
 	char *drop;
+	ENT_TYPE type;
 	char face;
 	int color;
 
@@ -81,7 +87,6 @@ typedef struct {
 	bool isdead;
 	item_t holding;
 	int damage;
-	int passive;
 
 	inv_t inv[MAX_INV_SLOTS];
 } entity_t;
