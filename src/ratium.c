@@ -43,6 +43,12 @@ int main() {
 
 	getmaxyx(stdscr, maxy, maxx);
 
+	if (maxx < 80 || maxy < 24) {
+		endwin();
+		printf("ratium: Error terminal too small\n");
+		return 1;
+	}
+
 	srand(time(NULL));
 
 	init_entity(0, 2);
