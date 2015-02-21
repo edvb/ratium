@@ -55,7 +55,7 @@ void draw_map(entity_t e, int r) {
 	for (int i = e.x-r; i < e.x+r; i++)
 		for (int j = e.y-r; j < e.y+r; j++)
 			if (worldMap[j][i] == '#')
-				mvaddch(j, i, 'X' + COLOR_PAIR(12));
+				mvaddch(j, i, '#' + COLOR_PAIR(12));
 			else if (worldMap[j][i] == '+')
 				mvaddch(j, i, '+' + BROWN);
 }

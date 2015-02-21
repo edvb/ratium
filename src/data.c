@@ -8,12 +8,13 @@ void init_item(int from, int to) {
 	int color;
 	int type;
 	int stat;
+	int rarity;
 
 	FILE *f = fopen("data/items.txt", "r");
 
 	for (int num = from; num <= to; num++) {
-		fscanf(f, "%s %c(%i): type=%i stat=%i\n",
-			   name, &face, &color, &type, &stat);
+		fscanf(f, "%s %c(%i): type=%i stat=%i rarity=%i\n",
+			   name, &face, &color, &type, &stat, &rarity);
 
 		int l = strlen(name);
 		for(int i = 0; i < l; i++) {
@@ -36,7 +37,7 @@ void init_item(int from, int to) {
 			for (int j = 0; j < MAX_Y; j++)
 				item[num].map[j][i] = ' ';
 
-		for (int x, y, i = 0; i < 5; i++) {
+		for (int x, y, i = 0; i < rarity; i++) {
 			do {
 				x = rand() % MAX_X;
 				y = rand() % MAX_Y;

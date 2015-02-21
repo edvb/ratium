@@ -105,7 +105,7 @@ void draw_map_floor(entity_t e, int r);
 /**********************\
 * item.c: handle items *
 \**********************/
-int query_item(char *name);
+int  query_item(char *name);
 void clear_item(item_t *item, int x, int y);
 void add_item(item_t *item, int x, int y);
 void add_item_ch(item_t *item, int x, int y, char newch);
@@ -117,11 +117,11 @@ void draw_item(item_t item, entity_t e, int r);
 bool can_step(entity_t *e, int x, int y);
 void move_entity(entity_t *e, int x_0, int y_0);
 void attack(entity_t *e, entity_t *foe);
-int deal_damage(entity_t *e);
+int  deal_damage(entity_t *e);
 void take_damage(entity_t *e, int damge);
 bool isalive(int hp);
-int holding_x(entity_t e, int val);
-int holding_y(entity_t e, int val);
+int  holding_x(entity_t e, int val);
+int  holding_y(entity_t e, int val);
 void draw_ent(entity_t e, entity_t oe, int r);
 void rand_ai(entity_t *e, int speed);
 void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
