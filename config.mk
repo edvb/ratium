@@ -11,7 +11,7 @@ INCS = -Iinclude
 LIBS = -lncurses
 
 # flags
-CFLAGS = -std=c11 -Wall ${INCS}
+CFLAGS = -std=c11 -Wall ${INCS} -DVERSION=\"$(VERSION)\"
 LDFLAGS = ${LIBS}
 
 # compiler and linker

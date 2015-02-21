@@ -8,9 +8,9 @@ all: options ratium
 
 options:
 	@echo $(EXE) build options:
+	@echo "CC      = $(CC)"
 	@echo "CFLAGS  = $(CFLAGS)"
 	@echo "LDFLAGS = $(LDFLAGS)"
-	@echo "CC      = $(CC)"
 
 .o:
 	@echo LD $@

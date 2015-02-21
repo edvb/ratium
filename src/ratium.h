@@ -35,7 +35,7 @@ typedef enum {
 	LEFT,
 	DOWN,
 	UP,
-	RIGHT,
+	RIGHT
 } DIREC;
 
 typedef enum {
@@ -47,7 +47,7 @@ typedef enum {
 
 typedef enum {
 	ENT_PLAYER,
-	ENT_EVIL,
+	ENT_HOSTILE,
 	ENT_PEACEFUL
 } ENT_TYPE;
 

@@ -1,6 +1,20 @@
 #include "ratium.h"
 
-int main() {
+int main(int argc, char *argv[]) {
+	int k;
+
+	while (--argc > 0 && (*++argv)[0] == '-')
+		while ((k = *++argv[0]))
+			switch (k) {
+				case 'h':
+					printf("ratium v%s\n", VERSION);
+					return 0;
+				default:
+					printf("ratium: error: option not supported\n");
+					printf("for help run \"ratium -h\"\n");
+					return 1;
+			}
+
 	initscr();
 	/* nodelay(stdscr,true); */
 	noecho();
