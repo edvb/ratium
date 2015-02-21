@@ -1,0 +1,61 @@
+.TH RATIUM 1 ratium\-VERSION
+.SH NAME
+ratium \- A Dumb Little NCurses ASCII Game
+.SH SYNOPSIS
+.B ratium
+.SH DESCRIPTION
+ratium is a dumb little game where you are a '@' and have survive in an ASCII 
+world by defending yourself from various enemies, such as the super rat.
+Collect items such as tins of spam, swords, and haggises to survive.
+.SH COMMANDS
+To quit game press ctrl-c, or press ctrl-z to suspend game and exit to shell 
+where you can enter 'fg' to bring it back up.
+.IP
+.SS MOVEMENT
+.IP
+.BR h
+Move player left.
+.IP
+.BR j
+Move player down.
+.IP
+.BR k
+Move player up.
+.IP
+.BR l
+Move player right.
+.IP
+.SS PLAYER ACTIONS
+.IP
+.BR g
+Get item under player.
+.IP
+.BR o
+Open/close door.
+.IP
+.BR i
+Open inventory menu.
+.IP
+.SS INVENTORY
+.IP
+.BR i
+Exit from inventory menu.
+.IP
+.BR g
+Use item, depending on item type you can eat it or equip it in hand.
+.IP
+.BR d
+Drop item onto map.
+.SH ENTITIES
+.SS HOSTILE
+.TP
+.BR Rat\ (r)
+Deals 1 damage and has 6 heath. Drops rat meat when it dies
+.TP
+.BR Super\ Rat\ (R)
+Deals 2 damage and has 8 heath. Drops rat meat when it dies
+.IP
+.SS PEACEFUL
+.TP
+.BR Gnu\ (r)
+Has 6 heath. Drops gnu meat when it dies

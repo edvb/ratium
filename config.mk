@@ -1,8 +1,7 @@
 # ratium version number
 VERSION = 0.1.0
 
-# Change varibles below for your system
-
+### Change the varibles below for your system
 # paths
 PREFIX = /usr/local
 MANPREFIX = ${PREFIX}/share/man
