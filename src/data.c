@@ -12,7 +12,8 @@ void init_item(int from, int to) {
 	FILE *f = fopen("data/items.txt", "r");
 
 	for (int num = from; num <= to; num++) {
-		fscanf(f, "%s %c %i %i %i\n", name, &face, &color, &type, &stat);
+		fscanf(f, "%s %c(%i): type=%i stat=%i\n",
+			   name, &face, &color, &type, &stat);
 
 		int l = strlen(name);
 		for(int i = 0; i < l; i++) {
@@ -66,7 +67,7 @@ void init_entity(int from, int to) {
 	FILE *f = fopen("data/entities.txt", "r");
 
 	for (int num = from; num <= to; num++) {
-		fscanf(f, "%s %c %i %i %i %i %s\n",
+		fscanf(f, "%s %c(%i): hp=%i damge=%i type=%i %s\n",
 			   name, &face, &color, &maxhp, &damage, &type, drop);
 
 		for(int i = 0, l = strlen(name); i < l; i++) {
@@ -144,7 +145,7 @@ void init_player(int from, int to) {
 	FILE *f = fopen("data/players.txt", "r");
 
 	for (int num = from; num <= to; num++) {
-		fscanf(f, "%s %c %i %i %i\n",
+		fscanf(f, "%s %c(%i): hp=%i damge=%i\n",
 			   name, &face, &color, &maxhp, &damage);
 
 		int l = strlen(name);
