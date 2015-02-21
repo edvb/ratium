@@ -72,6 +72,7 @@ typedef struct {
 	int stat;
 } item_t;
 
+/* TODO: add sight range */
 typedef struct {
 	char *name;
 	char *drop;

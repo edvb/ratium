@@ -2,6 +2,9 @@
 
 /* can_step: determine if entity can move to a new space */
 bool can_step(entity_t *e, int x, int y) {
+	if (x < 0 || x > MAX_X || y < 0 || y > MAX_Y)
+		return false;
+
 	for (int i = 0; i <= entqty; i++)
 		/* TODO: Check if holding item */
 		if (isalive(entity[i].hp) &&
@@ -17,6 +20,7 @@ bool can_step(entity_t *e, int x, int y) {
 			attack(e, &player[i]);
 			return false;
 		}
+
 	switch (get_map(x, y)) {
 		case '#': return false;
 		case 'w': return false;
