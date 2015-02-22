@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 
 	if (maxx < 80 || maxy < 24) {
 		endwin();
-		printf("ratium: Error terminal too small\n");
+		printf("ratium: error: terminal too small\n");
 		return 1;
 	}
 
@@ -87,16 +87,17 @@ int main(int argc, char *argv[]) {
 		dumb_ai(&entity[1], player[0].x, player[0].y, 8);
 		rand_ai(&entity[2], 8);
 
+		/* TODO: Add player sight */
 		for (int i = 0; i <= playerqty; i++) {
-			draw_map_floor(player[i], 5);
+			draw_map_floor(player[i], 10);
 			for (int j = 0; j <= itemqty; j++)
-				draw_item(item[j], player[i], 5);
+				draw_item(item[j], player[i], 10);
 			for (int j = 0; j <= entqty; j++)
-				draw_ent(entity[j], player[i], 5);
+				draw_ent(entity[j], player[i], 10);
 		}
 		for (int i = 0; i <= playerqty; i++) {
-			draw_ent(player[i], player[i], 5);
-			draw_map(player[i], 5);
+			draw_ent(player[i], player[i], 10);
+			draw_map(player[i], 10);
 		}
 
 		c = getch();

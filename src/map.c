@@ -32,6 +32,11 @@ char get_map(int x, int y) {
 	return worldMap[y][x];
 }
 
+/* set_map: set character of map at x and y position to newch */
+void set_map(int x, int y, char newch) {
+	worldMap[y][x] = newch;
+}
+
 bool is_floor(int x, int y) {
 	switch (get_map(x, y)) {
 		case '#': return false;
@@ -42,9 +47,14 @@ bool is_floor(int x, int y) {
 	}
 }
 
-/* set_map: set character of map at x and y position to newch */
-void set_map(int x, int y, char newch) {
-	worldMap[y][x] = newch;
+int floor_count(void) {
+	int count;
+	for (int i = 0; i < MAX_X; i++)
+		for (int j = 0; j < MAX_Y; j++)
+			/* TODO: Incorporate smart is_floor intergration */
+			if (get_map(i, j) == '.')
+				count++;
+	return count;
 }
 
 /* TODO: Incorporate entity direction */
@@ -60,6 +70,7 @@ void toggle_door(int x, int y) {
 	else if (get_map(x, y+1) == '-') set_map(x, y+1, '+');
 }
 
+/* TODO: Use get_map function */
 /* draw_map: draw the map foreground (stuff that is on top of entities) */
 void draw_map(entity_t e, int r) {
 	for (int i = e.x-r; i < e.x+r; i++)

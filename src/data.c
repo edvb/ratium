@@ -37,13 +37,14 @@ void init_item(int from, int to) {
 			for (int j = 0; j < MAX_Y; j++)
 				item[num].map[j][i] = ' ';
 
-		for (int x, y, i = 0; i < rarity; i++) {
-			do {
-				x = rand() % MAX_X;
-				y = rand() % MAX_Y;
-			} while (get_map(x, y) != '.');
-			item[num].map[y][x] = item[num].face;
-		}
+		if (rarity != 0)
+			for (int x, y, i = 0; i < floor_count()/rarity; i++) {
+				do {
+					x = rand() % MAX_X;
+					y = rand() % MAX_Y;
+				} while (get_map(x, y) != '.');
+				item[num].map[y][x] = item[num].face;
+			}
 
 	}
 

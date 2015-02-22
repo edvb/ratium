@@ -103,6 +103,7 @@ void draw_ent(entity_t e, entity_t oe, int r) {
 	}
 }
 
+/* TODO: Move to ai.c file */
 /* TODO: Fix Speed */
 void rand_ai(entity_t *e, int speed) {
 	if (isalive(e->hp)) {
@@ -122,6 +123,7 @@ void rand_ai(entity_t *e, int speed) {
 	}
 }
 
+/* TODO: Make entity have sight and move randomly when player not in sight */
 void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
 	if (isalive(e->hp)) {
 
