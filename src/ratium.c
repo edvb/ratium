@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 
 	srand(time(NULL));
 
-	init_entity(0, 2);
+	init_entity();
 	init_player(0, 0);
 	player[0].bary = 0;
 	/* TODO: Improve assignment */
@@ -83,9 +83,12 @@ int main(int argc, char *argv[]) {
 		clear();
 
 		player_run(c, &player[0]);
-		dumb_ai(&entity[0], player[0].x, player[0].y, 8);
-		dumb_ai(&entity[1], player[0].x, player[0].y, 8);
-		rand_ai(&entity[2], 8);
+		for (int i = 0; i < entqty; i++)
+			/* TODO: Make this not suck */
+			if (strcmp(entity[i].name, "gnu"))
+				dumb_ai(&entity[i], player[0].x, player[0].y, 8);
+			else
+				rand_ai(&entity[i], 8);
 
 		/* TODO: Add player sight */
 		for (int i = 0; i <= playerqty; i++) {

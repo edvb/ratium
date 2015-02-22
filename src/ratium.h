@@ -27,10 +27,6 @@
 #define MAX_ITEMS 256
 #define MAX_INV_SLOTS 16
 
-int itemqty;
-int playerqty;
-int entqty;
-
 typedef enum {
 	LEFT,
 	DOWN,
@@ -147,8 +143,12 @@ void inv_drop_item(entity_t *e, int num);
 * data.c: handle reading from data/ directory *
 \*********************************************/
 void init_item(int to, int from);
-void init_entity(int from, int to);
+void init_entity(void);
 void init_player(int from, int to);
+
+int itemqty;
+int playerqty;
+int entqty;
 
 item_t item[MAX_ITEMS];
 entity_t player[MAX_PLAYERS];

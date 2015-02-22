@@ -1,7 +1,7 @@
 gold $(4): type=0 stat=0 rarity=40
 spam =(8): type=1 stat=3 rarity=60
-sword /(6): type=2 stat=3 rarity=80
-shield 0(6): type=3 stat=6 rarity=70
+sword /(6): type=2 stat=2 rarity=80
+shield 0(6): type=3 stat=4 rarity=70
 haggis o(11): type=1 stat=1 rarity=100
 rat_meat %(5): type=1 stat=0 rarity=0
 gnu_meat %(6): type=1 stat=6 rarity=0
