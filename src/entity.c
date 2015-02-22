@@ -95,7 +95,8 @@ void draw_ent(entity_t e, entity_t oe, int r) {
 	if (isalive(e.hp) &&
 	    oe.x-r < e.x && oe.x+r > e.x &&
 	    oe.y-r < e.y && oe.y+r > e.y) {
-		mvprintw(e.bary, 0, "HP: %d", e.hp);
+		if (e.face == '@')
+			mvprintw(e.bary, 0, "HP: %d", e.hp);
 		mvaddch(e.y, e.x, e.face + e.color);
 		if (e.holding.face != ' ')
 			mvaddch(holding_y(e, e.y), holding_x(e, e.x),

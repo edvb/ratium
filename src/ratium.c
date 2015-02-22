@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 	init_pair(12,  6, 11); /* dark grey bg */
 	init_pair(13,  5, 12); /* dark brown bg */
 
-	char c;
+	int c;
 
 	int maxx;
 	int maxy;

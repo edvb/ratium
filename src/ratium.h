@@ -128,7 +128,7 @@ void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
 * player.c: handle the player *
 \*****************************/
 void get_item(entity_t *e);
-void player_run(char c, entity_t *e);
+void player_run(int c, entity_t *e);
 
 /**************************************\
 * inv.c: handle the player's inventory *

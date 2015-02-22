@@ -3,15 +3,17 @@
 void inv(entity_t *e) {
 
 	int arrow_y = 1;
-	char k;
+	int k;
 
 	do {
 		switch (k) {
-			case 'j':
-				arrow_y++;
-				break;
 			case 'k':
+			case KEY_UP:
 				arrow_y--;
+				break;
+			case 'j':
+			case KEY_DOWN:
+				arrow_y++;
 				break;
 			case 'g':
 				inv_use_item(e, arrow_y-1);
