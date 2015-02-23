@@ -47,12 +47,12 @@ bool is_floor(int x, int y) {
 	}
 }
 
-int floor_count(void) {
+int floor_count(char ch) {
 	int count;
 	for (int i = 0; i < MAX_X; i++)
 		for (int j = 0; j < MAX_Y; j++)
 			/* TODO: Incorporate smart is_floor intergration */
-			if (get_map(i, j) == '.')
+			if (get_map(i, j) == ch)
 				count++;
 	return count;
 }

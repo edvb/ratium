@@ -71,10 +71,6 @@ int main(int argc, char *argv[]) {
 	init_entity();
 	init_player(0, 0);
 	player[0].bary = 0;
-	/* TODO: Improve assignment */
-	entity[0].bary = maxy - 1;
-	entity[1].bary = maxy - 2;
-	entity[2].bary = maxy - 3;
 
 	init_item(0, 6);
 

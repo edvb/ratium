@@ -1,5 +1,13 @@
 #include "ratium.h"
 
+/* TODO: Improve and implement in other functions */
+void calc_rarity(int *rarity) {
+	*rarity = (floor_count('.') % 10) * (*rarity * 1);
+	*rarity += rand() % 10;
+	if (*rarity + entqty > MAX_ENTITIES)
+		*rarity = 0;
+}
+
 /* init_item: read from data/items.txt file and store in item array */
 void init_item(int from, int to) {
 
@@ -38,7 +46,8 @@ void init_item(int from, int to) {
 				item[num].map[j][i] = ' ';
 
 		if (rarity != 0)
-			for (int x, y, i = 0; i < floor_count()/rarity; i++) {
+			for (int x, y, i = 0; i < floor_count('.')/rarity; i++) {
+			/* for (int x, y, i = 0; i < calc_rarity(rarity); i++) { */
 				do {
 					x = rand() % MAX_X;
 					y = rand() % MAX_Y;
@@ -93,8 +102,9 @@ void init_entity(void) {
 				break;
 		}
 
-		if (rarity != 0)
-			for (int num = entqty; num < floor_count()/rarity; num++) {
+		if (rarity != 0) {
+			calc_rarity(&rarity);
+			for (int num = entqty; num < rarity; num++, entqty++) {
 				entity[num].name = malloc(MAX_NAME * sizeof(char));
 				strcpy(entity[num].name, name);
 				entity[num].drop = malloc(MAX_NAME * sizeof(char));
@@ -129,8 +139,8 @@ void init_entity(void) {
 				entity[num].x = x_0;
 				entity[num].y = y_0;
 
-				entqty++;
 			}
+		}
 	} while (!feof(f));
 
 	fclose(f);
