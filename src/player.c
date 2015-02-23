@@ -1,6 +1,6 @@
 #include "ratium.h"
 
-void get_item(entity_t *e) {
+void get_item(Ent *e) {
 	for (int i = 0; i <= itemqty; i++)
 		if (item[i].map[e->y][e->x] == item[i].face) {
 			inv_add_item(e, &item[i], 1);
@@ -20,7 +20,7 @@ void get_item(entity_t *e) {
 	}
 }
 
-void player_run(int c, entity_t *e) {
+void player_run(int c, Ent *e) {
 	if (isalive(e->hp)) {
 
 		switch (c) {

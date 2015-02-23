@@ -9,22 +9,22 @@ int query_item(char *name) {
 }
 
 /* clear_item: clear item at x and y position */
-void clear_item(item_t *item, int x, int y) {
+void clear_item(Item *item, int x, int y) {
 	item->map[y][x] = ' ';
 }
 
 /* add_item: set item value at x and y position to item face */
-void add_item(item_t *item, int x, int y) {
+void add_item(Item *item, int x, int y) {
 	item->map[y][x] = item->face;
 }
 
 /* add_item_ch: set item value at x and y position to newch variable */
-void add_item_ch(item_t *item, int x, int y, char newch) {
+void add_item_ch(Item *item, int x, int y, char newch) {
 	item->map[y][x] = newch;
 }
 
 /* draw_item: draw item if in range of entity e by radius of r */
-void draw_item(item_t item, entity_t e, int r) {
+void draw_item(Item item, Ent e, int r) {
 	for (int i = e.x-r; i < e.x+r; i++)
 		for (int j = e.y-r; j < e.y+r; j++)
 			if (item.map[j][i] != ' ')

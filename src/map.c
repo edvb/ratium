@@ -2,29 +2,29 @@
 
 char worldMap[MAX_Y][MAX_X+1] = {
 "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggwwwwwgggggg",
-"ggg#####++#####gggggggggggggggggggggggggggggggggggggggggggggggggggggwwwwwwwggggg",
-"ggg#..........#gggggggggggggggggggggggggggggggggggggggggggggggggggggwwwwwwwwgggg",
-"ggg#..........######ggggggggggggggggggggggggggggggggggggggggggggggggggwwwwwwgggg",
-"ggg#..........#....#gggggggggggggggggg..gggggggggggggggggggggggggggggggwwwwggggg",
-"ggg#..........+....#######ggg##########..gggggggggggggggggggggggggggggggwwgggggg",
-"ggg#####+######....+.....#ggg#........+..ggggggggggggggggggggggggggggggggggggggg",
-"ggggggg#.#gggg#....#####.#ggg#.########.g.gggggggggggggggggggggggggggggggggggggg",
-"ggggggg#.#gggg######ggg#.#ggg#.#ggggg...gggggggggggggggggggggggggggggggggggggggg",
-"ggggggg#.#ggggggggggggg#.#ggg#.#gggggg.ggggggggggggggggggggggggggggggggggggggggg",
-"ggggggg#.#ggggggggggggg#.#ggg#.#gggggggggggggggggggggggggggggggggggggggggggggggg",
+"gggggggggggggggggggggggggg###################ggggggggggggggggggggggggggggggggggg",
+"gggggggggggggggggggggggggg#.................######gggggggggggggggggggwwwwwgggggg",
+"ggg#####++#####ggggggggggg#.................+....#ggggggggggggggggggwwwwwwwggggg",
+"ggg#..........#ggggggggggg##############+####....#ggggggggggggggggggwwwwwwwwgggg",
+"ggg#..........######ggggggggggggggggggg#.#gg######ggggggggggggggggggggwwwwwwgggg",
+"ggg#..........#....#ggggggggggggggggggg#.#gggggggggggggg..gggggggggggggwwwwggggg",
+"ggg#..........+....#######ggg###########.################..gggggggggggggwwgggggg",
+"ggg#####+######..........#ggg#..........................+..ggggggggggggggggggggg",
+"ggggggg#.#gggg#....#####.#ggg#.#################+########.g.gggggggggggggggggggg",
+"ggggggg#.#gggg######ggg#.#ggg#.#gggggggggggggg#...#gggg...gggggggggggggggggggggg",
+"ggggggg+.+ggggggggggggg#.#ggg#.#gggggggggggggg#...#ggggg.ggggggggggggggggggggggg",
+"ggggggg#.#ggggggggggggg#.#ggg#.#gggggggggggggg#####ggggggggggggggggggggggggggggg",
 "ggggggg#.#ggggggggggg###+#####+####ggggggggggggggggggggggggggggggggggggggggggggg",
-"gggg####+#######ggggg#............#ggggggggggggggggggggggggggggggggggggggggggggg",
-"gggg#..........#ggggg#............#ggggggggggggggggggggggggggggggggggggggggggggg",
-"gggg#..........#ggggg###########+##gggggggggggXXXXXXXX+XXXgggggggggggggggggggggg",
-"gggg+..........#ggggggggggggggg#.#ggggggggggggX..........Xgggggggggggggggggggggg",
-"gggg#########+##ggggggggggggggg+.#ggggggggggggX..........Xgggggggggggggggggggggg",
-"gggggggggggg#.#gggggggggggggggg#.#ggggggggggggX..........Xgggggggggggggggggggggg",
-"gggggggggggg#.##################.#ggggggggggggXXXXXXXXXXXXgggggggggggggggggggggg",
-"gggggggggggg#....................#gggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggg######################gggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+"gggg####.#######ggggg#............#gggggggggggggggggggggggggggggggggggggggggggg#",
+"gggg#..........#ggggg#............#gggggggggggggggggggggggggggggggggggggggg#####",
+"gggg#..........#ggggg###########+##gggggggggggXXXXXXXX+XXXgggggggggggggg########",
+"gggg+..........#ggggggggggggggg#.#ggggggggggggX..........Xggggggggggg###########",
+"gggg#########+##ggggggggggggggg+.#ggggggggggggX..........Xggggggggg#############",
+"gggggggggggg#.#gggggggggggggggg#.#ggggggggggggX..........Xgggggggg##############",
+"gggggggggggg#.##################.#ggggggggggggXXXXXXXXXXXXggggggg###############",
+"gggggggggggg#....................#ggggggggggggggggggggggggggggggg###############",
+"gggggggggggg######################gggggggggggggggggggggggggggggg################",
+"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg################",
 };
 
 /* get_map: get character of map at x and y position */
@@ -72,7 +72,7 @@ void toggle_door(int x, int y) {
 
 /* TODO: Use get_map function */
 /* draw_map: draw the map foreground (stuff that is on top of entities) */
-void draw_map(entity_t e, int r) {
+void draw_map(Ent e, int r) {
 	for (int i = e.x-r; i < e.x+r; i++)
 		for (int j = e.y-r; j < e.y+r; j++)
 			if (worldMap[j][i] == '#')
@@ -84,7 +84,7 @@ void draw_map(entity_t e, int r) {
 }
 
 /* draw_map: draw the map background (stuff that is below entities) */
-void draw_map_floor(entity_t e, int r) {
+void draw_map_floor(Ent e, int r) {
 	for (int i = e.x-r; i < e.x+r; i++)
 		for (int j = e.y-r; j < e.y+r; j++)
 			if (worldMap[j][i] == ' ')

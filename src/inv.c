@@ -1,6 +1,6 @@
 #include "ratium.h"
 
-void inv(entity_t *e) {
+void inv(Ent *e) {
 
 	int arrow_y = 1;
 	int k;
@@ -38,7 +38,7 @@ void inv(entity_t *e) {
 
 }
 
-void draw_inv(entity_t *e, int arrow_y) {
+void draw_inv(Ent *e, int arrow_y) {
 
 		clear();
 
@@ -67,7 +67,7 @@ void draw_inv(entity_t *e, int arrow_y) {
 
 }
 
-void inv_add_item(entity_t *e, item_t *item, int qty) {
+void inv_add_item(Ent *e, Item *item, int qty) {
 	for (int i = 0; i <= MAX_INV_SLOTS; i++)
 		if (e->inv[i].face == ' ') {
 			e->inv[i].face = item->face;
@@ -83,7 +83,7 @@ void inv_add_item(entity_t *e, item_t *item, int qty) {
 		}
 }
 
-void inv_use_item(entity_t *e, int num) {
+void inv_use_item(Ent *e, int num) {
 	if (e->inv[num].qty > 0)
 		switch (e->inv[num].type) {
 			case ITEM_MISC:
@@ -107,7 +107,7 @@ void inv_use_item(entity_t *e, int num) {
 }
 
 /* TODO: Allow player to drop multiple items on same tile */
-void inv_drop_item(entity_t *e, int num) {
+void inv_drop_item(Ent *e, int num) {
 	if (e->inv[num].qty > 0) {
 		for (int i = 0; i < MAX_ITEMS; i++)
 			if (e->inv[num].face == item[i].face)
