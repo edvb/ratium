@@ -56,7 +56,7 @@ typedef struct {
 	int qty;
 
 	int stat;
-} inv_t;
+} Inv;
 
 typedef struct {
 	char *name;
@@ -66,7 +66,7 @@ typedef struct {
 	int color;
 
 	int stat;
-} item_t;
+} Item;
 
 /* TODO: add sight range */
 typedef struct {
@@ -82,11 +82,11 @@ typedef struct {
 
 	int maxhp, hp;
 	bool isdead;
-	item_t holding;
+	Item holding;
 	int damage;
 
-	inv_t inv[MAX_INV_SLOTS];
-} entity_t;
+	Inv inv[MAX_INV_SLOTS];
+} Ent;
 
 /* TODO: localize some of these functions */
 /***********************\
@@ -95,49 +95,49 @@ typedef struct {
 char get_map(int x, int y);
 void set_map(int x, int y, char newch);
 bool is_floor(int x, int y);
-int floor_count(void);
+int floor_count(char ch);
 void toggle_door(int x, int y);
-void draw_map(entity_t e, int r);
-void draw_map_floor(entity_t e, int r);
+void draw_map(Ent e, int r);
+void draw_map_floor(Ent e, int r);
 
 /**********************\
 * item.c: handle items *
 \**********************/
 int  query_item(char *name);
-void clear_item(item_t *item, int x, int y);
-void add_item(item_t *item, int x, int y);
-void add_item_ch(item_t *item, int x, int y, char newch);
-void draw_item(item_t item, entity_t e, int r);
+void clear_item(Item *item, int x, int y);
+void add_item(Item *item, int x, int y);
+void add_item_ch(Item *item, int x, int y, char newch);
+void draw_item(Item item, Ent e, int r);
 
 /*****************************************\
 * entity.c: handle anything with entities *
 \*****************************************/
-bool can_step(entity_t *e, int x, int y);
-void move_entity(entity_t *e, int x_0, int y_0);
-void attack(entity_t *e, entity_t *foe);
-int  deal_damage(entity_t *e);
-void take_damage(entity_t *e, int damge);
+bool can_step(Ent *e, int x, int y);
+void move_entity(Ent *e, int x_0, int y_0);
+void attack(Ent *e, Ent *foe);
+int  deal_damage(Ent *e);
+void take_damage(Ent *e, int damge);
 bool isalive(int hp);
-int  holding_x(entity_t e, int val);
-int  holding_y(entity_t e, int val);
-void draw_ent(entity_t e, entity_t oe, int r);
-void rand_ai(entity_t *e, int speed);
-void dumb_ai(entity_t *e, int xNew, int yNew, int speed);
+int  holding_x(Ent e, int val);
+int  holding_y(Ent e, int val);
+void draw_ent(Ent e, Ent oe, int r);
+void rand_ai(Ent *e, int speed);
+void dumb_ai(Ent *e, int xNew, int yNew, int speed);
 
 /*****************************\
 * player.c: handle the player *
 \*****************************/
-void get_item(entity_t *e);
-void player_run(char c, entity_t *e);
+void get_item(Ent *e);
+void player_run(int c, Ent *e);
 
 /**************************************\
 * inv.c: handle the player's inventory *
 \**************************************/
-void inv(entity_t *e);
-void draw_inv(entity_t *e, int arrow_y);
-void inv_add_item(entity_t *e, item_t *item, int qty);
-void inv_use_item(entity_t *e, int num);
-void inv_drop_item(entity_t *e, int num);
+void inv(Ent *e);
+void draw_inv(Ent *e, int arrow_y);
+void inv_add_item(Ent *e, Item *item, int qty);
+void inv_use_item(Ent *e, int num);
+void inv_drop_item(Ent *e, int num);
 
 /*********************************************\
 * data.c: handle reading from data/ directory *
@@ -150,8 +150,8 @@ int itemqty;
 int playerqty;
 int entqty;
 
-item_t item[MAX_ITEMS];
-entity_t player[MAX_PLAYERS];
-entity_t entity[MAX_ENTITIES];
+Item item[MAX_ITEMS];
+Ent player[MAX_PLAYERS];
+Ent entity[MAX_ENTITIES];
 
 #endif

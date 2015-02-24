@@ -1,7 +1,7 @@
 #include "ratium.h"
 
 /* can_step: determine if entity can move to a new space */
-bool can_step(entity_t *e, int x, int y) {
+bool can_step(Ent *e, int x, int y) {
 	if (x < 0 || x > MAX_X || y < 0 || y > MAX_Y)
 		return false;
 
@@ -28,7 +28,7 @@ bool can_step(entity_t *e, int x, int y) {
 }
 
 /* move_entity: move a entity by x_0 and y_0 */
-void move_entity(entity_t *e, int dx, int dy) {
+void move_entity(Ent *e, int dx, int dy) {
 	if (can_step(e, e->x + dx, e->y + dy)) {
 		e->x += dx;
 		e->y += dy;
@@ -36,12 +36,12 @@ void move_entity(entity_t *e, int dx, int dy) {
 }
 
 /* attack: entity e attack entity foe */
-void attack(entity_t *e, entity_t *foe) {
+void attack(Ent *e, Ent *foe) {
 	if (e->type != ENT_PEACEFUL)
 		take_damage(foe, deal_damage(e));
 }
 
-void take_damage(entity_t *e, int damage) {
+void take_damage(Ent *e, int damage) {
 	switch (e->holding.type) {
 		case ITEM_SHIELD:
 			e->holding.stat -= damage;
@@ -57,7 +57,7 @@ void take_damage(entity_t *e, int damage) {
 	}
 }
 
-int deal_damage(entity_t *e) {
+int deal_damage(Ent *e) {
 	switch (e->holding.type) {
 		case ITEM_SWORD:
 			return e->damage + e->holding.stat;
@@ -73,7 +73,7 @@ bool isalive(int hp) {
 }
 
 /* holding: return x position for what entity is holding */
-int holding_x(entity_t e, int val) {
+int holding_x(Ent e, int val) {
 	switch (e.direc) {
 		case LEFT:  return val-1;
 		case RIGHT: return val+1;
@@ -82,7 +82,7 @@ int holding_x(entity_t e, int val) {
 }
 
 /* holding: return y position for what entity is holding */
-int holding_y(entity_t e, int val) {
+int holding_y(Ent e, int val) {
 	switch (e.direc) {
 		case DOWN:  return val+1;
 		case UP:    return val-1;
@@ -91,11 +91,12 @@ int holding_y(entity_t e, int val) {
 }
 
 /* draw_ent: draw entity e if in range of entity oe by r */
-void draw_ent(entity_t e, entity_t oe, int r) {
+void draw_ent(Ent e, Ent oe, int r) {
 	if (isalive(e.hp) &&
 	    oe.x-r < e.x && oe.x+r > e.x &&
 	    oe.y-r < e.y && oe.y+r > e.y) {
-		mvprintw(e.bary, 0, "HP: %d", e.hp);
+		if (e.face == '@')
+			mvprintw(e.bary, 0, "HP: %d", e.hp);
 		mvaddch(e.y, e.x, e.face + e.color);
 		if (e.holding.face != ' ')
 			mvaddch(holding_y(e, e.y), holding_x(e, e.x),
@@ -105,7 +106,7 @@ void draw_ent(entity_t e, entity_t oe, int r) {
 
 /* TODO: Move to ai.c file */
 /* TODO: Fix Speed */
-void rand_ai(entity_t *e, int speed) {
+void rand_ai(Ent *e, int speed) {
 	if (isalive(e->hp)) {
 
 		int direc = rand() % speed;
@@ -124,7 +125,7 @@ void rand_ai(entity_t *e, int speed) {
 }
 
 /* TODO: Make entity have sight and move randomly when player not in sight */
-void dumb_ai(entity_t *e, int xNew, int yNew, int speed) {
+void dumb_ai(Ent *e, int xNew, int yNew, int speed) {
 	if (isalive(e->hp)) {
 
 		int shouldMove = rand() % speed;

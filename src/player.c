@@ -1,6 +1,6 @@
 #include "ratium.h"
 
-void get_item(entity_t *e) {
+void get_item(Ent *e) {
 	for (int i = 0; i <= itemqty; i++)
 		if (item[i].map[e->y][e->x] == item[i].face) {
 			inv_add_item(e, &item[i], 1);
@@ -20,14 +20,31 @@ void get_item(entity_t *e) {
 	}
 }
 
-void player_run(char c, entity_t *e) {
+void player_run(int c, Ent *e) {
 	if (isalive(e->hp)) {
 
 		switch (c) {
-			case 'h': move_entity(e, -1,  0); e->direc = LEFT; break;
-			case 'j': move_entity(e,  0,  1); e->direc = DOWN; break;
-			case 'k': move_entity(e,  0, -1); e->direc = UP; break;
-			case 'l': move_entity(e,  1,  0); e->direc = RIGHT; break;
+			case 'h':
+			case KEY_LEFT:
+				move_entity(e, -1,  0);
+				e->direc = LEFT;
+				break;
+			case 'j':
+			case KEY_DOWN:
+				move_entity(e,  0,  1);
+				e->direc = DOWN;
+				break;
+			case 'k':
+			case KEY_UP:
+				move_entity(e,  0, -1);
+				e->direc = UP;
+				break;
+			case 'l':
+			case KEY_RIGHT:
+				move_entity(e,  1,  0);
+				e->direc = RIGHT;
+				break;
+			case '.': break;
 			case 'g': get_item(e); break;
 			case 'o': toggle_door(e->x, e->y); break;
 			case 'i': inv(e); break;
