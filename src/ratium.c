@@ -1,19 +1,46 @@
+#include <getopt.h>
 #include "ratium.h"
 
-int main(int argc, char *argv[]) {
-	int k;
+static const struct option longopts[] = {
+	{"help", no_argument, NULL, 'h'},
+	{"version", no_argument, NULL, 'v'},
+	{NULL, 0, NULL, 0}
+};
 
-	while (--argc > 0 && (*++argv)[0] == '-')
-		while ((k = *++argv[0]))
-			switch (k) {
-				case 'h':
-					printf("ratium v%s\n", VERSION);
-					return 0;
-				default:
-					printf("ratium: error: option not supported\n");
-					printf("for help run \"ratium -h\"\n");
-					return 1;
-			}
+static void print_help(void) {
+	printf("\
+Usage: ratium [OPTION]\n\
+A dumb little ncurses game where you player as a '@' and have to kill rats\n\
+\n\
+  -h    display this help and exit\n\
+  -v    display version information and exit\n\
+\n\
+For more info see man page\n\
+\n\
+ratium home page: <https://github.com/edvb54/ratium-c>\n\
+");
+}
+
+static void print_version(void) {
+	printf("ratium v%s\n", VERSION);
+}
+
+int main(int argc, char *argv[]) {
+	int optc;
+
+	while ((optc = getopt_long(argc, argv, "hv", longopts, NULL)) != -1)
+		switch (optc) {
+			case 'h':
+				print_help();
+				return 0;
+			case 'v':
+				print_version();
+				return 0;
+			default:
+				printf("ratium: error: option not supported\n");
+				printf("for help run \"ratium -h\"\n");
+				return 1;
+		}
 
 	initscr();
 	/* nodelay(stdscr,true); */
