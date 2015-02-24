@@ -5,6 +5,7 @@
 \#*\#
 
 # Compiled Files
+ratium
 *.exe
 *.out
 *.app
@@ -14,8 +15,6 @@
 *.obj
 *.so
 *.so.*
-ratium
 
 # Misc
-Session*.vim
-misc/*
+*Session*.vim

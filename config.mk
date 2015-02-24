@@ -1,5 +1,5 @@
 # ratium version number
-VERSION = 0.1.0
+VERSION = 0.0.0
 
 ### Change the varibles below for your system
 # paths

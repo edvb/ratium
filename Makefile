@@ -31,6 +31,15 @@ clean:
 	@echo cleaning
 	@rm -f $(OBJ) $(EXE)
 
+dist: clean
+	@echo creating dist tarball
+	@mkdir -p $(EXE)-$(VERSION)
+	@cp -R Makefile config.mk src/ data/ misc/ \
+		$(EXE).1 $(EXE)-$(VERSION)
+	@tar -cf $(EXE)-$(VERSION).tar $(EXE)-$(VERSION)
+	@gzip $(EXE)-$(VERSION).tar
+	@rm -rf $(EXE)-$(VERSION)
+
 install: all
 	@echo installing executable file to $(DESTDIR)$(PREFIX)/bin
 	@mkdir -p $(DESTDIR)$(PREFIX)/bin
