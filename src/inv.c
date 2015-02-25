@@ -1,6 +1,7 @@
 #include <ncurses.h>
 
 #include "ratium.h"
+#include "../config.h"
 
 void inv(Ent *e) {
 
@@ -9,12 +10,10 @@ void inv(Ent *e) {
 
 	do {
 		switch (k) {
-			case 'k':
-			case KEY_UP:
+			case RAT_UP:
 				arrow_y--;
 				break;
-			case 'j':
-			case KEY_DOWN:
+			case RAT_DOWN:
 				arrow_y++;
 				break;
 			case 'g':

@@ -12,6 +12,8 @@ options:
 	@echo "CFLAGS  = $(CFLAGS)"
 	@echo "LDFLAGS = $(LDFLAGS)"
 
+$(OBJ): config.h config.mk
+
 .o:
 	@echo LD $@
 	@$(LD) -o $@ $< $(LDFLAGS)
@@ -19,6 +21,10 @@ options:
 .c.o:
 	@echo CC $<
 	@$(CC) -c -o $@ $< $(CFLAGS)
+
+config.h:
+	@echo creating $@ from config.def.h
+	@cp config.def.h $@
 
 ratium: $(OBJ)
 	@echo CC -o $@

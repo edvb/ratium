@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "ratium.h"
+#include "../config.h"
 
 void get_item(Ent *e) {
 	for (int i = 0; i <= itemqty; i++)
@@ -27,23 +28,19 @@ void player_run(int c, Ent *e) {
 	if (isalive(e->hp)) {
 
 		switch (c) {
-			case 'h':
-			case KEY_LEFT:
+			case RAT_LEFT:
 				move_entity(e, -1,  0);
 				e->direc = LEFT;
 				break;
-			case 'j':
-			case KEY_DOWN:
+			case RAT_DOWN:
 				move_entity(e,  0,  1);
 				e->direc = DOWN;
 				break;
-			case 'k':
-			case KEY_UP:
+			case RAT_UP:
 				move_entity(e,  0, -1);
 				e->direc = UP;
 				break;
-			case 'l':
-			case KEY_RIGHT:
+			case RAT_RIGHT:
 				move_entity(e,  1,  0);
 				e->direc = RIGHT;
 				break;
