@@ -121,17 +121,13 @@ void dumb_ai(Ent *e, int xNew, int yNew, int speed);
 /*****************************\
 * player.c: handle the player *
 \*****************************/
-void get_item(Ent *e);
-void player_run(int c, Ent *e);
-
-/**************************************\
-* inv.c: handle the player's inventory *
-\**************************************/
 void inv(Ent *e);
 void draw_inv(Ent *e, int arrow_y);
 void inv_add_item(Ent *e, Item *item, int qty);
 void inv_use_item(Ent *e, int num);
 void inv_drop_item(Ent *e, int num);
+void get_item(Ent *e);
+void player_run(int c, Ent *e);
 
 /*********************************************\
 * data.c: handle reading from data/ directory *
