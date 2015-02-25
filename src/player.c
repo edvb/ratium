@@ -1,3 +1,6 @@
+#include <ncurses.h>
+#include <string.h>
+
 #include "ratium.h"
 
 void get_item(Ent *e) {

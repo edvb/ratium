@@ -1,12 +1,6 @@
 #ifndef RATIUM_H
 #define RATIUM_H
 
-#include <ncurses.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
 #define ever (;;)
 
 #define RED COLOR_PAIR(1)

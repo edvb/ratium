@@ -1,4 +1,9 @@
 #include <getopt.h>
+#include <ncurses.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
 #include "ratium.h"
 
 static const struct option longopts[] = {

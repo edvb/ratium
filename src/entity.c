@@ -1,3 +1,6 @@
+#include <ncurses.h>
+#include <stdlib.h>
+
 #include "ratium.h"
 
 /* can_step: determine if entity can move to a new space */

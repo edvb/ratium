@@ -1,7 +1,11 @@
+#include <ncurses.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "ratium.h"
 
 /* TODO: Improve and implement in other functions */
-void calc_rarity(int *rarity) {
+static void calc_rarity(int *rarity) {
 	*rarity = (floor_count('.') % 10) * (*rarity * 1);
 	*rarity += rand() % 10;
 	if (*rarity + entqty > MAX_ENTITIES)

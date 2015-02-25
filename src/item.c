@@ -1,3 +1,6 @@
+#include <ncurses.h>
+#include <string.h>
+
 #include "ratium.h"
 
 /* query_item: return element number of array matching name supplied */

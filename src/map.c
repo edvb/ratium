@@ -1,3 +1,5 @@
+#include <ncurses.h>
+
 #include "ratium.h"
 
 char worldMap[MAX_Y][MAX_X+1] = {

@@ -1,3 +1,5 @@
+#include <ncurses.h>
+
 #include "ratium.h"
 
 void inv(Ent *e) {

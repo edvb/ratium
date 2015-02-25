@@ -1,3 +1,3 @@
-rat r(5): hp=8 damge=2 type=1 rarity=2 rat_meat
-super_rat R(5): hp=10 damge=3 type=1 rarity=3 rat_meat
-gnu G(6): hp=12 damge=1 type=2 rarity=4 gnu_meat
+rat r(5): hp=8 damge=1 type=1 rarity=2 rat_meat
+super_rat R(5): hp=10 damge=2 type=1 rarity=2 rat_meat
+gnu G(6): hp=12 damge=1 type=2 rarity=2 gnu_meat
