@@ -17,10 +17,10 @@ void inv(Ent *e) {
 			case RAT_DOWN:
 				arrow_y++;
 				break;
-			case 'g':
+			case RAT_GET:
 				inv_use_item(e, arrow_y-1);
 				break;
-			case 'd':
+			case RAT_DROP:
 				inv_drop_item(e, arrow_y-1);
 				break;
 		}
@@ -34,7 +34,7 @@ void inv(Ent *e) {
 
 		draw_inv(e, arrow_y);
 
-	} while ((k = getch()) != 'i');
+	} while ((k = getch()) != RAT_INV);
 
 	clear();
 
@@ -159,10 +159,10 @@ void player_run(int c, Ent *e) {
 				move_entity(e,  1,  0);
 				e->direc = RIGHT;
 				break;
-			case '.': break;
-			case 'g': get_item(e); break;
-			case 'o': toggle_door(e->x, e->y); break;
-			case 'i': inv(e); break;
+			case RAT_STAND: break;
+			case RAT_GET:  get_item(e); break;
+			case RAT_OPEN: toggle_door(e->x, e->y); break;
+			case RAT_INV:  inv(e); break;
 		}
 
 	}
