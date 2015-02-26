@@ -5,7 +5,6 @@
 \#*\#
 
 # Compiled Files
-ratium
 *.exe
 *.out
 *.app
@@ -18,3 +17,6 @@ ratium
 
 # Misc
 *Session*.vim
+
+ratium
+config.h
