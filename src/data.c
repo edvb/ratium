@@ -62,6 +62,7 @@ void init_item(int from, int to) {
 	}
 
 	fclose(f);
+
 	free(name);
 
 	itemqty = to;
@@ -209,9 +210,10 @@ void init_player(int from, int to) {
 		}
 	}
 
-	playerqty = to;
-
 	fclose(f);
 
+	free(name);
+
+	playerqty = to;
 }
 

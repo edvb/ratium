@@ -137,10 +137,14 @@ int main(int argc, char *argv[]) {
 
 	for (int i = 0; i <= itemqty; i++)
 		free(item[i].name);
-	for (int i = 0; i <= playerqty; i++)
+	for (int i = 0; i <= playerqty; i++) {
 		free(player[i].holding.name);
-	for (int i = 0; i <= entqty; i++)
+		free(player[i].name);
+	}
+	for (int i = 0; i <= entqty; i++) {
 		free(entity[i].holding.name);
+		free(entity[i].name);
+	}
 
 	endwin();
 	printf("GAME OVER\n");
