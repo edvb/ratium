@@ -47,7 +47,7 @@ void init_item(int from, int to) {
 
 		for (int i = 0; i < MAX_X; i++)
 			for (int j = 0; j < MAX_Y; j++)
-				item[num].map[j][i] = ' ';
+				item[num].map[j][i] = 0;
 
 		if (rarity != 0)
 			for (int x, y, i = 0; i < floor_count('.')/rarity; i++) {
@@ -56,7 +56,7 @@ void init_item(int from, int to) {
 					x = rand() % MAX_X;
 					y = rand() % MAX_Y;
 				} while (get_map(x, y) != '.');
-				item[num].map[y][x] = item[num].face;
+				item[num].map[y][x]++;
 			}
 
 	}

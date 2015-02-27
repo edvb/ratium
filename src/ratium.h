@@ -55,7 +55,7 @@ typedef struct {
 typedef struct {
 	char *name;
 	ITEM_TYPE type;
-	char map[MAX_Y][MAX_X];
+	int map[MAX_Y][MAX_X];
 	char face;
 	int color;
 
@@ -100,7 +100,6 @@ void draw_map_floor(Ent e, int r);
 int  query_item(char *name);
 void clear_item(Item *item, int x, int y);
 void add_item(Item *item, int x, int y);
-void add_item_ch(Item *item, int x, int y, char newch);
 void draw_item(Item item, Ent e, int r);
 
 /*****************************************\

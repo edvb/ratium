@@ -121,7 +121,8 @@ void inv_drop_item(Ent *e, int num) {
 
 void get_item(Ent *e) {
 	for (int i = 0; i <= itemqty; i++)
-		if (item[i].map[e->y][e->x] == item[i].face) {
+		/* if (item[i].map[e->y][e->x] == item[i].face) { */
+		if (item[i].map[e->y][e->x] > 0) {
 			inv_add_item(e, &item[i], 1);
 			clear_item(&item[i], e->x, e->y);
 			return;
