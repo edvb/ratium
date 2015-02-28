@@ -1,8 +1,23 @@
 #include <ncurses.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "ratium.h"
 #include "../config.h"
+
+/* char *player_msg; */
+
+void add_msg(char *message) {
+	strcpy(player_msg.data, message);
+	player_msg.dis = false;
+}
+
+void draw_msg(void) {
+	if (player_msg.dis == false) {
+		mvprintw(1, 0, player_msg.data);
+		player_msg.dis = true;
+	}
+}
 
 void inv(Ent *e) {
 

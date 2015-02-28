@@ -105,6 +105,9 @@ int main(int argc, char *argv[]) {
 	init_player(0, 0);
 	player[0].bary = 0;
 
+	player_msg.data = malloc(MAX_NAME * sizeof(char));
+	player_msg.dis = true;
+
 	init_item(0, 6);
 
 	for ever {
@@ -133,6 +136,8 @@ int main(int argc, char *argv[]) {
 			draw_ent(player[i], player[i], 10);
 			draw_map(player[i], 10);
 		}
+
+		draw_msg();
 
 		c = getch();
 
