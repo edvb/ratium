@@ -63,7 +63,8 @@ typedef struct {
 } Item;
 
 /* TODO: add sight range */
-typedef struct {
+typedef struct _Ent Ent;
+struct _Ent {
 	char *name;
 	char *drop;
 	ENT_TYPE type;
@@ -80,7 +81,12 @@ typedef struct {
 	int damage;
 
 	Inv inv[MAX_INV_SLOTS];
-} Ent;
+};
+
+typedef struct {
+	struct _Ent e;
+	char *message;
+} Npc;
 
 /* TODO: localize some of these functions */
 /***********************\
@@ -133,14 +139,17 @@ void player_run(int c, Ent *e);
 \*********************************************/
 void init_item(int to, int from);
 void init_entity(void);
+void init_npc(void);
 void init_player(int from, int to);
 
 int itemqty;
 int playerqty;
 int entqty;
+int npcqty;
 
 Item item[MAX_ITEMS];
 Ent player[MAX_PLAYERS];
 Ent entity[MAX_ENTITIES];
+Npc npc[MAX_ENTITIES];
 
 #endif

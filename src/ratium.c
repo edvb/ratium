@@ -101,6 +101,7 @@ int main(int argc, char *argv[]) {
 	srand(time(NULL));
 
 	init_entity();
+	init_npc();
 	init_player(0, 0);
 	player[0].bary = 0;
 
@@ -125,6 +126,8 @@ int main(int argc, char *argv[]) {
 				draw_item(item[j], player[i], 10);
 			for (int j = 0; j <= entqty; j++)
 				draw_ent(entity[j], player[i], 10);
+			for (int j = 0; j <= npcqty; j++)
+				draw_ent(npc[j].e, player[i], 10);
 		}
 		for (int i = 0; i <= playerqty; i++) {
 			draw_ent(player[i], player[i], 10);
@@ -144,6 +147,11 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i <= entqty; i++) {
 		free(entity[i].holding.name);
 		free(entity[i].name);
+	}
+	for (int i = 0; i <= npcqty; i++) {
+		free(npc[i].e.holding.name);
+		free(npc[i].e.name);
+		free(npc[i].message);
 	}
 
 	endwin();

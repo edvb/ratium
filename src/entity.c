@@ -17,6 +17,16 @@ bool can_step(Ent *e, int x, int y) {
 				attack(e, &entity[i]);
 			return false;
 		}
+	for (int i = 0; i <= npcqty; i++)
+		if (isalive(npc[i].e.hp) &&
+		    npc[i].e.x == x && npc[i].e.y == y) {
+			if (e->face == '@')
+				/* TODO: Add message handleing functions */
+				mvprintw(1, 0, npc[i].message);
+			else
+				attack(e, &npc[i].e);
+			return false;
+		}
 	for (int i = 0; i <= playerqty; i++)
 		if (isalive(entity[i].hp) &&
 		    player[i].x == x && player[i].y == y) {
