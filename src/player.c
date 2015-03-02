@@ -14,7 +14,12 @@ void add_msg(char *message) {
 
 void draw_msg(void) {
 	if (player_msg.dis == false) {
-		mvprintw(1, 0, player_msg.data);
+		int x, y;
+		x = (maxx / 2) - (strlen(player_msg.data) / 2);
+		y = maxy/2;
+		attron(COLOR_PAIR(12));
+		mvprintw(y, x, player_msg.data);
+		attroff(COLOR_PAIR(12));
 		player_msg.dis = true;
 	}
 }

@@ -87,9 +87,6 @@ int main(int argc, char *argv[]) {
 
 	int c;
 
-	int maxx;
-	int maxy;
-
 	getmaxyx(stdscr, maxy, maxx);
 
 	if (maxx < 80 || maxy < 24) {

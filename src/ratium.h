@@ -149,6 +149,9 @@ void init_entity(void);
 void init_npc(void);
 void init_player(int from, int to);
 
+int maxx;
+int maxy;
+
 int itemqty;
 int playerqty;
 int entqty;
