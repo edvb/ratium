@@ -13,14 +13,14 @@ bool can_step(Ent *e, int x, int y) {
 		if (isalive(entity[i].hp) &&
 		    entity[i].x == x && entity[i].y == y) {
 			/* TODO: Improve checking if entity should attack or not */
-			if (e->face == '@')
+			if (e->type == ENT_PLAYER)
 				attack(e, &entity[i]);
 			return false;
 		}
 	for (int i = 0; i <= npcqty; i++)
 		if (isalive(npc[i].e.hp) &&
 		    npc[i].e.x == x && npc[i].e.y == y) {
-			if (e->face == '@')
+			if (e->type == ENT_PLAYER)
 				add_msg(npc[i].message);
 			else
 				attack(e, &npc[i].e);
