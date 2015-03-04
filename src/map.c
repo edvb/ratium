@@ -1,8 +1,9 @@
 #include <ncurses.h>
+#include <stdlib.h>
 
 #include "ratium.h"
 
-char worldMap[MAX_Y][MAX_X+1] = {
+static char worldMap[MAX_Y][MAX_X+1] = {
 "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
 "gggggggggggggggggggggggggg###################ggggggggggggggggggggggggggggggggggg",
 "gggggggggggggggggggggggggg#.................######gggggggggggggggggggwwwwwgggggg",
@@ -28,6 +29,21 @@ char worldMap[MAX_Y][MAX_X+1] = {
 "gggggggggggg######################gggggggggggggggggggggggggggggg################",
 "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg################",
 };
+
+static int maprand[MAX_Y][MAX_X+1];
+
+/* init_map: asign values to maprand to determine if character displayed there
+ * should be a different char */
+void init_map(void) {
+	int num;
+	for (int i = 0; i < MAX_X; i++)
+		for (int j = 0; j < MAX_Y; j++) {
+			if ((num = rand() % 50) == 0)
+				maprand[j][i] = 1;
+			else
+				maprand[j][i] = 0;
+		}
+}
 
 /* get_map: get character of map at x and y position */
 char get_map(int x, int y) {
@@ -91,11 +107,19 @@ void draw_map_floor(Ent e, int r) {
 		for (int j = e.y-r; j < e.y+r; j++)
 			if (worldMap[j][i] == ' ')
 				mvaddch(j, i, worldMap[j][i]);
-			else if (worldMap[j][i] == '.')
-				mvaddch(j, i, ACS_BULLET + COLOR_PAIR(11));
-			else if (worldMap[j][i] == 'g')
-				mvaddch(j, i, ACS_BULLET + GRASS);
-			else if (worldMap[j][i] == 'w')
+			else if (worldMap[j][i] == '.') {
+				attron(COLOR_PAIR(11));
+				mvaddch(j, i,
+					(maprand[j][i] == 0)
+					? ACS_BULLET : ':');
+				attroff(COLOR_PAIR(11));
+			} else if (worldMap[j][i] == 'g') {
+				attron(GRASS);
+				mvaddch(j, i,
+					(maprand[j][i] == 0)
+					? ACS_BULLET : '*');
+				attroff(GRASS);
+			} else if (worldMap[j][i] == 'w')
 				mvaddch(j, i, '~' + WATER);
 			else if (worldMap[j][i] == '-')
 				mvaddch(j, i, '-' + BROWN);

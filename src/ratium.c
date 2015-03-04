@@ -97,6 +97,7 @@ int main(int argc, char *argv[]) {
 
 	srand(time(NULL));
 
+	init_map();
 	init_entity();
 	init_npc();
 	init_player(0, 0);

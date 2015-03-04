@@ -97,6 +97,7 @@ typedef struct {
 /***********************\
 * map.c: handle the map *
 \***********************/
+void init_map(void);
 char get_map(int x, int y);
 void set_map(int x, int y, char newch);
 bool is_floor(int x, int y);
