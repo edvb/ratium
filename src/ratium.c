@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
 			draw_map(player[i], 10);
 		}
 
-		draw_msg();
+		draw_msg(&player_msg);
 
 		c = getch();
 

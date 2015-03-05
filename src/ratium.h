@@ -132,8 +132,8 @@ void dumb_ai(Ent *e, int xNew, int yNew, int speed);
 /*****************************\
 * player.c: handle the player *
 \*****************************/
-void add_msg(char *message);
-void draw_msg(void);
+void add_msg(Msg *msg, char *message);
+void draw_msg(Msg *msg);
 void inv(Ent *e);
 void draw_inv(Ent *e, int arrow_y);
 void inv_add_item(Ent *e, Item *item, int qty);
@@ -162,6 +162,6 @@ Item item[MAX_ITEMS];
 Ent player[MAX_PLAYERS];
 Ent entity[MAX_ENTITIES];
 Npc npc[MAX_ENTITIES];
-Msg player_msg;
+Msg player_msg; /* TODO: Make part of player */
 
 #endif

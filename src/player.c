@@ -7,20 +7,20 @@
 
 /* char *player_msg; */
 
-void add_msg(char *message) {
-	strcpy(player_msg.data, message);
-	player_msg.dis = false;
+void add_msg(Msg *msg, char *message) {
+	strcpy(msg->data, message);
+	msg->dis = false;
 }
 
-void draw_msg(void) {
-	if (player_msg.dis == false) {
+void draw_msg(Msg *msg) {
+	if (msg->dis == false) {
 		int x, y;
-		x = (maxx / 2) - (strlen(player_msg.data) / 2);
+		x = (maxx / 2) - (strlen(msg->data) / 2);
 		y = maxy/2;
 		attron(COLOR_PAIR(12));
-		mvprintw(y, x, player_msg.data);
+		mvprintw(y, x, msg->data);
 		attroff(COLOR_PAIR(12));
-		player_msg.dis = true;
+		msg->dis = true;
 	}
 }
 

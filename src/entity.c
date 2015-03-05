@@ -21,7 +21,7 @@ bool can_step(Ent *e, int x, int y) {
 		if (isalive(npc[i].e.hp) &&
 		    npc[i].e.x == x && npc[i].e.y == y) {
 			if (e->type == ENT_PLAYER)
-				add_msg(npc[i].message);
+				add_msg(&player_msg, npc[i].message);
 			else
 				attack(e, &npc[i].e);
 			return false;
