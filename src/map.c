@@ -91,8 +91,8 @@ void toggle_door(int x, int y) {
 /* TODO: Use get_map function */
 /* draw_map: draw the map foreground (stuff that is on top of entities) */
 void draw_map(Ent e, int r) {
-	for (int i = e.x-r; i < e.x+r; i++)
-		for (int j = e.y-r; j < e.y+r; j++)
+	for (int i = e.x-r; i < e.x+r && i < MAX_X; i++)
+		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
 			if (worldMap[j][i] == '#')
 				mvaddch(j, i, '#' + COLOR_PAIR(12));
 			else if (worldMap[j][i] == 'X')
@@ -103,8 +103,8 @@ void draw_map(Ent e, int r) {
 
 /* draw_map: draw the map background (stuff that is below entities) */
 void draw_map_floor(Ent e, int r) {
-	for (int i = e.x-r; i < e.x+r; i++)
-		for (int j = e.y-r; j < e.y+r; j++)
+	for (int i = e.x-r; i < e.x+r && i < MAX_X; i++)
+		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
 			if (worldMap[j][i] == ' ')
 				mvaddch(j, i, worldMap[j][i]);
 			else if (worldMap[j][i] == '.') {

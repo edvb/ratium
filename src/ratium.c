@@ -108,17 +108,22 @@ int main(int argc, char *argv[]) {
 
 	init_item(0, 6);
 
-	for ever {
+	do {
 
 		clear();
 
 		player_run(c, &player[0]);
 		for (int i = 0; i < entqty; i++)
-			/* TODO: Make this not suck */
-			if (strcmp(entity[i].name, "gnu"))
+			switch (entity[i].type) {
+			case ENT_PLAYER:
+				break;
+			case ENT_HOSTILE:
 				dumb_ai(&entity[i], player[0].x, player[0].y, 8);
-			else
+				break;
+			case ENT_PEACEFUL:
 				rand_ai(&entity[i], 8);
+				break;
+			}
 
 		/* TODO: Add player sight */
 		for (int i = 0; i <= playerqty; i++) {
@@ -139,7 +144,16 @@ int main(int argc, char *argv[]) {
 
 		c = getch();
 
-	}
+	} while (c != 27);
+
+	endwin();
+	printf("GAME OVER\n");
+
+	for (int i = 0; i <= playerqty; i++)
+		for (int j = 0; i < MAX_INV_SLOTS; i++)
+			if (player[i].inv[j].face == '$')
+				printf("%s's Score: %d\n",
+				       player[i].name, player[i].inv[j].qty);
 
 	for (int i = 0; i <= itemqty; i++)
 		free(item[i].name);
@@ -156,9 +170,6 @@ int main(int argc, char *argv[]) {
 		free(npc[i].e.name);
 		free(npc[i].message);
 	}
-
-	endwin();
-	printf("GAME OVER\n");
 
 	return 0;
 }

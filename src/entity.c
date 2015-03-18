@@ -5,7 +5,7 @@
 
 /* can_step: determine if entity can move to a new space */
 bool can_step(Ent *e, int x, int y) {
-	if (x < 0 || x > MAX_X || y < 0 || y > MAX_Y)
+	if (x < 0 || x >= MAX_X || y < 0 || y >= MAX_Y)
 		return false;
 
 	for (int i = 0; i <= entqty; i++)

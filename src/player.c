@@ -141,7 +141,6 @@ void inv_drop_item(Ent *e, int num) {
 
 void get_item(Ent *e) {
 	for (int i = 0; i <= itemqty; i++)
-		/* if (item[i].map[e->y][e->x] == item[i].face) { */
 		if (item[i].map[e->y][e->x] > 0) {
 			inv_add_item(e, &item[i], 1);
 			clear_item(&item[i], e->x, e->y);
@@ -185,6 +184,9 @@ void player_run(int c, Ent *e) {
 			case RAT_OPEN: toggle_door(e->x, e->y); break;
 			case RAT_INV:  inv(e); break;
 		}
+
+		if (e->hp > e->maxhp)
+			e->hp = e->maxhp;
 
 	}
 }
