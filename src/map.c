@@ -76,16 +76,15 @@ int floor_count(char ch) {
 }
 
 /* TODO: Incorporate entity direction */
-/* TODO: make some seperate if's */
 /* toggle_door: open or close door next to entity */
 void toggle_door(int x, int y) {
-	if (get_map(x-1, y) == '+') set_map(x-1, y, '-');
-	else if (get_map(x+1, y) == '+') set_map(x+1, y, '-');
-	else if (get_map(x, y-1) == '+') set_map(x, y-1, '-');
-	else if (get_map(x, y+1) == '+') set_map(x, y+1, '-');
+	if      (get_map(x-1, y) == '+') set_map(x-1, y, '-');
 	else if (get_map(x-1, y) == '-') set_map(x-1, y, '+');
+	if      (get_map(x+1, y) == '+') set_map(x+1, y, '-');
 	else if (get_map(x+1, y) == '-') set_map(x+1, y, '+');
+	if      (get_map(x, y-1) == '+') set_map(x, y-1, '-');
 	else if (get_map(x, y-1) == '-') set_map(x, y-1, '+');
+	if      (get_map(x, y+1) == '+') set_map(x, y+1, '-');
 	else if (get_map(x, y+1) == '-') set_map(x, y+1, '+');
 }
 
