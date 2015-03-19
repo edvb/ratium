@@ -99,12 +99,8 @@ int main(int argc, char *argv[]) {
 
 	init_map();
 	init_entity();
-	init_npc();
 	init_player(0, 0);
 	player[0].bary = 0;
-
-	player_msg.data = malloc(MAX_NAME * sizeof(char));
-	player_msg.dis = true;
 
 	init_item(0, 6);
 
@@ -132,15 +128,14 @@ int main(int argc, char *argv[]) {
 				draw_item(item[j], player[i], 10);
 			for (int j = 0; j <= entqty; j++)
 				draw_ent(entity[j], player[i], 10);
-			for (int j = 0; j <= npcqty; j++)
-				draw_ent(npc[j].e, player[i], 10);
 		}
 		for (int i = 0; i <= playerqty; i++) {
 			draw_ent(player[i], player[i], 10);
 			draw_map(player[i], 10);
 		}
 
-		draw_msg(&player_msg);
+		/* TODO: put in draw_ent */
+		draw_msg(&player[0].msg);
 
 		c = getch();
 
@@ -164,11 +159,6 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i <= entqty; i++) {
 		free(entity[i].holding.name);
 		free(entity[i].name);
-	}
-	for (int i = 0; i <= npcqty; i++) {
-		free(npc[i].e.holding.name);
-		free(npc[i].e.name);
-		free(npc[i].message);
 	}
 
 	return 0;

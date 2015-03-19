@@ -6,8 +6,7 @@
 
 /* TODO: Improve and implement in other functions */
 static void calc_rarity(int *rarity) {
-	*rarity = (floor_count('.') % 10) * (*rarity * 1);
-	*rarity += rand() % 10;
+	*rarity += rand() % 3;
 	if (*rarity + entqty > MAX_ENTITIES)
 		*rarity = 0;
 }
@@ -109,7 +108,7 @@ void init_entity(void) {
 
 		if (rarity != 0) {
 			calc_rarity(&rarity);
-			for (int num = entqty; num < rarity; num++, entqty++) {
+			for (int num = 0; num < rarity; num++, entqty++) {
 				entity[num].name = malloc(MAX_NAME * sizeof(char));
 				strcpy(entity[num].name, name);
 				entity[num].drop = malloc(MAX_NAME * sizeof(char));
@@ -127,6 +126,13 @@ void init_entity(void) {
 				entity[num].holding.color = 0;
 				entity[num].holding.type = 0;
 				entity[num].holding.stat = 0;
+
+				entity[num].msg.data = malloc(MAX_NAME * sizeof(char));
+				entity[num].msg.disp = false;
+				if (strcmp(name, "spock") == 0) {
+					strcpy(entity[num].msg.data, "live long and propser");
+					entity[num].msg.disp = true;
+				}
 
 				for (int i = 0; i < 16; i++) {
 					entity[num].inv[i].name = "";
@@ -152,106 +158,6 @@ void init_entity(void) {
 
 	free(name);
 	free(drop);
-
-}
-
-/* init_npc: read from data/npcs.txt file and store in npc array */
-void init_npc(void) {
-
-	char *name = malloc(MAX_NAME * sizeof(char));
-	char *drop = malloc(MAX_NAME * sizeof(char));
-	char *message = malloc(MAX_NAME * sizeof(char));
-	int type;
-	int x_0, y_0;
-	char face;
-	int color;
-	int maxhp;
-	int damage;
-	int rarity;
-
-	npcqty = 0;
-
-	FILE *f = fopen("data/npcs.txt", "r");
-
-	do {
-		fscanf(f, "%s %c(%i): hp=%i damge=%i type=%i rarity=%i %s %s\n",
-			   name, &face, &color, &maxhp, &damage, &type, &rarity, drop, message);
-
-		for(int i = 0, l = strlen(name); i < l; i++) {
-			if(name[i] == '_') {
-				name[i] = ' ';
-				continue;
-			}
-			if(name[i] == ' ')
-				break;
-		}
-
-		for(int i = 0, l = strlen(drop); i < l; i++) {
-			if(drop[i] == '_') {
-				drop[i] = ' ';
-				continue;
-			}
-			if(drop[i] == ' ')
-				break;
-		}
-
-		for(int i = 0, l = strlen(message); i < l; i++) {
-			if(message[i] == '_') {
-				message[i] = ' ';
-				continue;
-			}
-			if(message[i] == ' ')
-				break;
-		}
-
-		if (rarity != 0) {
-			calc_rarity(&rarity);
-			for (int num = npcqty; num < 1; num++, npcqty++) {
-				npc[num].e.name = malloc(MAX_NAME * sizeof(char));
-				strcpy(npc[num].e.name, name);
-				npc[num].e.drop = malloc(MAX_NAME * sizeof(char));
-				strcpy(npc[num].e.drop, drop);
-				npc[num].message = malloc(MAX_NAME * sizeof(char));
-				strcpy(npc[num].message, message);
-				npc[num].e.face = face;
-				npc[num].e.color = COLOR_PAIR(color);
-				npc[num].e.maxhp = maxhp;
-				npc[num].e.hp = maxhp;
-				npc[num].e.isdead = false;
-				npc[num].e.damage = damage;
-				npc[num].e.type = type;
-
-				npc[num].e.holding.name = malloc(MAX_NAME * sizeof(char));
-				npc[num].e.holding.face = ' ';
-				npc[num].e.holding.color = 0;
-				npc[num].e.holding.type = 0;
-				npc[num].e.holding.stat = 0;
-
-				for (int i = 0; i < 16; i++) {
-					npc[num].e.inv[i].name = "";
-					npc[num].e.inv[i].face = ' ';
-					npc[num].e.inv[i].color = 0;
-					npc[num].e.inv[i].qty = 0;
-				}
-
-				/* TODO: Break into function and add smart
-				 * intergration of is_floor function */
-				do {
-					x_0 = rand() % MAX_X;
-					y_0 = rand() % MAX_Y;
-				} while (!is_floor(x_0, y_0));
-				npc[num].e.x = x_0;
-				npc[num].e.y = y_0;
-
-			}
-		}
-	} while (!feof(f));
-
-	fclose(f);
-
-	free(name);
-	free(drop);
-	free(message);
 
 }
 
@@ -301,6 +207,9 @@ void init_player(int from, int to) {
 		} while (!is_floor(x_0, y_0));
 		player[num].x = x_0;
 		player[num].y = y_0;
+
+		player[num].msg.data = malloc(MAX_NAME * sizeof(char));
+		player[num].msg.disp = false;
 
 		for (int i = 0; i < 16; i++) {
 			player[num].inv[i].name = "";

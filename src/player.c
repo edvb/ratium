@@ -5,22 +5,20 @@
 #include "ratium.h"
 #include "../config.h"
 
-/* char *player_msg; */
-
 void add_msg(Msg *msg, char *message) {
 	strcpy(msg->data, message);
-	msg->dis = false;
+	msg->disp = true;
 }
 
 void draw_msg(Msg *msg) {
-	if (msg->dis == false) {
+	if (msg->disp == true) {
 		int x, y;
 		x = (maxx / 2) - (strlen(msg->data) / 2);
 		y = maxy/2;
 		attron(COLOR_PAIR(12));
 		mvprintw(y, x, msg->data);
 		attroff(COLOR_PAIR(12));
-		msg->dis = true;
+		msg->disp = false;
 	}
 }
 

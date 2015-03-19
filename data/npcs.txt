@@ -1,1 +1,0 @@
-spock @(3): hp=10 damge=0 type=1 rarity=1 rat_meat live_long_and_prosper
