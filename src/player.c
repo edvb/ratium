@@ -23,7 +23,6 @@ void draw_msg(Msg *msg) {
 }
 
 void inv(Ent *e) {
-
 	int arrow_y = 1;
 	int k;
 
@@ -161,22 +160,27 @@ void player_run(int c, Ent *e) {
 	if (isalive(e->hp)) {
 
 		switch (c) {
+			case '4':
 			case RAT_LEFT:
 				move_entity(e, -1,  0);
 				e->direc = LEFT;
 				break;
+			case '2':
 			case RAT_DOWN:
 				move_entity(e,  0,  1);
 				e->direc = DOWN;
 				break;
+			case '8':
 			case RAT_UP:
 				move_entity(e,  0, -1);
 				e->direc = UP;
 				break;
+			case '6':
 			case RAT_RIGHT:
 				move_entity(e,  1,  0);
 				e->direc = RIGHT;
 				break;
+			case '5': break;
 			case RAT_STAND: break;
 			case RAT_GET:  get_item(e); break;
 			case RAT_OPEN: toggle_door(e->x, e->y); break;

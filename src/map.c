@@ -55,6 +55,7 @@ void set_map(int x, int y, char newch) {
 	worldMap[y][x] = newch;
 }
 
+/* is_floor: returns true if tile at x and y is a floor tile */
 bool is_floor(int x, int y) {
 	switch (get_map(x, y)) {
 		case '#': return false;
