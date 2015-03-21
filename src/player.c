@@ -180,6 +180,26 @@ void player_run(int c, Ent *e) {
 				move_entity(e,  1,  0);
 				e->direc = RIGHT;
 				break;
+			case '1':
+			case RAT_LEFTDOWN:
+				move_entity(e,  -1,  1);
+				e->direc = LEFT;
+				break;
+			case '7':
+			case RAT_LEFTUP:
+				move_entity(e,  -1,  -1);
+				e->direc = LEFT;
+				break;
+			case '3':
+			case RAT_RIGHTDOWN:
+				move_entity(e,  1,  1);
+				e->direc = RIGHT;
+				break;
+			case '9':
+			case RAT_RIGHTUP:
+				move_entity(e,  1,  -1);
+				e->direc = RIGHT;
+				break;
 			case '5': break;
 			case RAT_STAND: break;
 			case RAT_GET:  get_item(e); break;
