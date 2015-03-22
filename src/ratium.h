@@ -25,7 +25,11 @@ typedef enum {
 	LEFT,
 	DOWN,
 	UP,
-	RIGHT
+	RIGHT,
+	LEFTDOWN,
+	LEFTUP,
+	RIGHTDOWN,
+	RIGHTUP
 } DIREC;
 
 typedef enum {

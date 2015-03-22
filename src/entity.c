@@ -81,18 +81,30 @@ bool isalive(int hp) {
 /* holding: return x position for what entity is holding */
 int holding_x(Ent e, int val) {
 	switch (e.direc) {
-		case LEFT:  return val-1;
-		case RIGHT: return val+1;
-		default:    return val;
+		case LEFT:
+		case LEFTDOWN:
+		case LEFTUP:
+			return val-1;
+		case RIGHT:
+		case RIGHTDOWN:
+		case RIGHTUP:
+			return val+1;
+		default: return val;
 	}
 }
 
 /* holding: return y position for what entity is holding */
 int holding_y(Ent e, int val) {
 	switch (e.direc) {
-		case DOWN:  return val+1;
-		case UP:    return val-1;
-		default:    return val;
+		case DOWN:
+		case LEFTDOWN:
+		case RIGHTDOWN:
+			return val+1;
+		case UP:
+		case LEFTUP:
+		case RIGHTUP:
+			return val-1;
+		default: return val;
 	}
 }
 
