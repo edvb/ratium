@@ -9,9 +9,9 @@ bool can_step(Ent *e, int x, int y) {
 		return false;
 
 	for (int i = 0; i <= entqty; i++)
-		/* TODO: Check if holding item */
 		if (isalive(entity[i].hp) &&
 		    entity[i].x == x && entity[i].y == y) {
+			/* TODO: Allow some entities to attack each other */
 			if (e->type == ENT_PLAYER) {
 				if (entity[i].msg.disp == true)
 					add_msg(&player[0].msg, entity[i].msg.data);
@@ -113,7 +113,7 @@ void draw_ent(Ent e, Ent oe, int r) {
 	if (isalive(e.hp) &&
 	    oe.x-r < e.x && oe.x+r > e.x &&
 	    oe.y-r < e.y && oe.y+r > e.y) {
-		if (e.face == '@')
+		if (e.type == ENT_PLAYER)
 			mvprintw(e.bary, 0, "HP: %d", e.hp);
 		mvaddch(e.y, e.x, e.face + e.color);
 		if (e.holding.face != ' ')

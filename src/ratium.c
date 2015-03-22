@@ -122,20 +122,18 @@ int main(int argc, char *argv[]) {
 			}
 
 		/* TODO: Add player sight */
-		for (int i = 0; i <= playerqty; i++) {
+		for (int i = 0; i <= playerqty; i++)
 			draw_map_floor(player[i], 10);
+		for (int i = 0; i <= playerqty; i++) {
 			for (int j = 0; j <= itemqty; j++)
 				draw_item(item[j], player[i], 10);
+			draw_ent(player[i], player[i], 10);
 			for (int j = 0; j <= entqty; j++)
 				draw_ent(entity[j], player[i], 10);
-		}
-		for (int i = 0; i <= playerqty; i++) {
-			draw_ent(player[i], player[i], 10);
 			draw_map(player[i], 10);
 		}
-
-		/* TODO: put in draw_ent */
-		draw_msg(&player[0].msg);
+		for (int i = 0; i <= playerqty; i++)
+			draw_msg(&player[i].msg);
 
 		c = getch();
 
