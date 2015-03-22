@@ -174,7 +174,7 @@ void init_player(int from, int to) {
 	FILE *f = fopen("data/players.txt", "r");
 
 	for (int num = from; num <= to; num++) {
-		fscanf(f, "%s %c(%i): hp=%i damge=%i\n",
+		fscanf(f, "%s %c(%d): hp=%d damage=%d\n",
 			   name, &face, &color, &maxhp, &damage);
 
 		int l = strlen(name);
