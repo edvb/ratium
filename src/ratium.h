@@ -141,7 +141,7 @@ void inv_add_item(Ent *e, Item *item, int qty);
 void inv_use_item(Ent *e, int num);
 void inv_drop_item(Ent *e, int num);
 void get_item(Ent *e);
-void player_run(int c, Ent *e);
+bool player_run(int c, Ent *e);
 
 /*********************************************\
 * data.c: handle reading from data/ directory *

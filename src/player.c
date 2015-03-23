@@ -156,59 +156,71 @@ void get_item(Ent *e) {
 	}
 }
 
-void player_run(int c, Ent *e) {
+bool player_run(int c, Ent *e) {
 	if (isalive(e->hp)) {
+		bool returnval; /* true if key pressed is valid key */
 
 		switch (c) {
 			case '4':
 			case RAT_LEFT:
 				move_entity(e, -1, 0);
 				e->direc = LEFT;
+				returnval = true;
 				break;
 			case '2':
 			case RAT_DOWN:
 				move_entity(e, 0, 1);
 				e->direc = DOWN;
+				returnval = true;
 				break;
 			case '8':
 			case RAT_UP:
 				move_entity(e, 0, -1);
 				e->direc = UP;
+				returnval = true;
 				break;
 			case '6':
 			case RAT_RIGHT:
 				move_entity(e, 1, 0);
 				e->direc = RIGHT;
+				returnval = true;
 				break;
 			case '1':
 			case RAT_LEFTDOWN:
 				move_entity(e, -1, 1);
 				e->direc = LEFTDOWN;
+				returnval = true;
 				break;
 			case '7':
 			case RAT_LEFTUP:
 				move_entity(e, -1, -1);
 				e->direc = LEFTUP;
+				returnval = true;
 				break;
 			case '3':
 			case RAT_RIGHTDOWN:
 				move_entity(e, 1, 1);
 				e->direc = RIGHTDOWN;
+				returnval = true;
 				break;
 			case '9':
 			case RAT_RIGHTUP:
 				move_entity(e, 1, -1);
 				e->direc = RIGHTUP;
+				returnval = true;
 				break;
-			case '5': break;
-			case RAT_STAND: break;
-			case RAT_GET:  get_item(e); break;
-			case RAT_OPEN: toggle_door(e->x, e->y); break;
-			case RAT_INV:  inv(e); break;
+			case '5':
+			case RAT_STAND: returnval = true; break;
+			case RAT_GET:   get_item(e); returnval = true; break;
+			case RAT_OPEN:  toggle_door(e->x, e->y); returnval = true; break;
+			case RAT_INV:   inv(e); returnval = true; break;
+			default: returnval = false; break;
 		}
 
 		if (e->hp > e->maxhp)
 			e->hp = e->maxhp;
+
+		return returnval;
 
 	}
 }

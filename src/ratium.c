@@ -108,18 +108,19 @@ int main(int argc, char *argv[]) {
 
 		clear();
 
-		player_run(c, &player[0]);
-		for (int i = 0; i < entqty; i++)
-			switch (entity[i].type) {
-			case ENT_PLAYER:
-				break;
-			case ENT_HOSTILE:
-				dumb_ai(&entity[i], player[0].x, player[0].y, 8);
-				break;
-			case ENT_PEACEFUL:
-				rand_ai(&entity[i], 8);
-				break;
-			}
+		if (player_run(c, &player[0])) {
+			for (int i = 0; i < entqty; i++)
+				switch (entity[i].type) {
+				case ENT_PLAYER:
+					break;
+				case ENT_HOSTILE:
+					dumb_ai(&entity[i], player[0].x, player[0].y, 8);
+					break;
+				case ENT_PEACEFUL:
+					rand_ai(&entity[i], 8);
+					break;
+				}
+		}
 
 		/* TODO: Add player sight */
 		for (int i = 0; i <= playerqty; i++)
