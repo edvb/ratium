@@ -222,6 +222,7 @@ bool player_run(int c, Ent *e) {
 
 		return returnval;
 
-	}
+	} else
+		return false;
 }
 

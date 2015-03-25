@@ -106,23 +106,25 @@ int main(int argc, char *argv[]) {
 
 	do {
 
+		for (int i = 0; i <= playerqty; i++)
+			while (!player_run(c, &player[i]))
+				c = getch();
+
 		clear();
 
-		if (player_run(c, &player[0])) {
-			for (int i = 0; i < entqty; i++)
-				switch (entity[i].type) {
-				case ENT_PLAYER:
-					break;
-				case ENT_HOSTILE:
-					dumb_ai(&entity[i], player[0].x, player[0].y, 8);
-					break;
-				case ENT_PEACEFUL:
-					rand_ai(&entity[i], 8);
-					break;
-				}
-		}
+		for (int i = 0; i < entqty; i++)
+			switch (entity[i].type) {
+			case ENT_PLAYER: break;
+			case ENT_HOSTILE:
+				/* dumb_ai(&entity[i], player[0].x, player[0].y, 8); */
+				break;
+			case ENT_PEACEFUL:
+				rand_ai(&entity[i], 8);
+				break;
+			}
 
 		/* TODO: Add player sight */
+		/* TODO: Make for loops go in reverse */
 		for (int i = 0; i <= playerqty; i++)
 			draw_map_floor(player[i], 10);
 		for (int i = 0; i <= playerqty; i++) {
@@ -138,7 +140,8 @@ int main(int argc, char *argv[]) {
 
 		c = getch();
 
-	} while (c != 27);
+	/* TODO: Fix this */
+	} while (c != 27 || c != 'q');
 
 	endwin();
 	printf("GAME OVER\n");
