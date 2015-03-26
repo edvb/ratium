@@ -72,7 +72,6 @@ struct _Msg {
 	bool disp;
 };
 
-/* TODO: add sight range */
 typedef struct _Ent Ent;
 struct _Ent {
 	char *name;
@@ -87,11 +86,13 @@ struct _Ent {
 
 	int maxhp, hp;
 	bool isdead;
-	Item holding;
 	int damage;
+	int sight;
+	int speed;
 
 	struct _Msg msg;
 	Inv inv[MAX_INV_SLOTS];
+	Item holding;
 };
 
 /* TODO: localize some of these functions */

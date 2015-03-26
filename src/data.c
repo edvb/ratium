@@ -121,6 +121,9 @@ void init_entity(void) {
 				entity[num].damage = damage;
 				entity[num].type = type;
 
+				entity[num].sight = 10;
+				entity[num].speed = 4;
+
 				entity[num].holding.name = malloc(MAX_NAME * sizeof(char));
 				entity[num].holding.face = ' ';
 				entity[num].holding.color = 0;
@@ -194,6 +197,9 @@ void init_player(int from, int to) {
 		player[num].maxhp = maxhp;
 		player[num].hp = maxhp;
 		player[num].damage = damage;
+
+		player[num].sight = 10;
+		player[num].speed = 0;
 
 		player[num].holding.name = malloc(MAX_NAME * sizeof(char));
 		player[num].holding.face = ' ';

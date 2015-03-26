@@ -116,32 +116,30 @@ int main(int argc, char *argv[]) {
 			switch (entity[i].type) {
 			case ENT_PLAYER: break;
 			case ENT_HOSTILE:
-				/* dumb_ai(&entity[i], player[0].x, player[0].y, 8); */
+				dumb_ai(&entity[i], player[0].x, player[0].y, entity[i].speed);
 				break;
 			case ENT_PEACEFUL:
-				rand_ai(&entity[i], 8);
+				rand_ai(&entity[i], entity[i].speed);
 				break;
 			}
 
-		/* TODO: Add player sight */
 		/* TODO: Make for loops go in reverse */
 		for (int i = 0; i <= playerqty; i++)
-			draw_map_floor(player[i], 10);
+			draw_map_floor(player[i], player[i].sight);
 		for (int i = 0; i <= playerqty; i++) {
 			for (int j = 0; j <= itemqty; j++)
-				draw_item(item[j], player[i], 10);
-			draw_ent(player[i], player[i], 10);
+				draw_item(item[j], player[i], player[i].sight);
+			draw_ent(player[i], player[i], player[i].sight);
 			for (int j = 0; j <= entqty; j++)
-				draw_ent(entity[j], player[i], 10);
-			draw_map(player[i], 10);
+				draw_ent(entity[j], player[i], player[i].sight);
+			draw_map(player[i], player[i].sight);
 		}
 		for (int i = 0; i <= playerqty; i++)
 			draw_msg(&player[i].msg);
 
 		c = getch();
 
-	/* TODO: Fix this */
-	} while (c != 27 || c != 'q');
+	} while (c != 27 && c != 'q');
 
 	endwin();
 	printf("GAME OVER\n");
