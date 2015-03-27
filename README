@@ -2,14 +2,15 @@ NAME
        ratium - A Dumb Little NCurses ASCII Game
 
 SYNOPSIS
-       ratium
+       ratium [-hv]
 
 DESCRIPTION
-       ratium is a dumb little game where you are a '@' and have survive in an ASCII world by defending yourself from various enemies, such as the super rat.  Collect items
-       such as tins of spam, swords, and haggises to survive.
+       ratium  is a dumb little game where you are a '@' and have survive in an ASCII world by defending yourself from various enemies, such as the
+       super rat.  Collect items such as spam, swords, and haggises to survive.
 
 COMMANDS
-       To quit game press ctrl-c, or press ctrl-z to suspend game and exit to shell where you can enter 'fg' to bring it back up.
+       To quit game press 'q' or ESC, you can also press ctrl-z to suspend the game, exiting to your shell where you can enter	'fg'  to  bring  it
+       back up again.
 
    MOVEMENT
 	      h Move player left.
@@ -35,14 +36,12 @@ COMMANDS
 	      d Drop item onto map.
 
 ENTITIES
-   HOSTILE
        Rat (r)
-	      Deals 1 damage and has 6 heath. Drops rat meat when it dies
+	      A hostile creature which deals 1 damage and has 2 heath. Drops rat meat when it dies.
 
        Super Rat (R)
-	      Deals 2 damage and has 8 heath. Drops rat meat when it dies
+	      A hostile creature which deals 2 damage and has 4 heath. Drops rat meat when it dies.
 
-   PEACEFUL
-       Gnu (r)
-	      Has 6 heath. Drops gnu meat when it dies
+       Gnu (G)
+	      A peaceful animal with 6 heath. Drops gnu meat when it dies
 
