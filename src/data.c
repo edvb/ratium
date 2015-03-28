@@ -5,14 +5,25 @@
 #include "ratium.h"
 
 /* TODO: Improve and implement in other functions */
+/* TODO: Add min and max parameters */
+/* calc_rarity: change rarity to make it random */
 static void calc_rarity(int *rarity) {
 	*rarity += rand() % 3;
 	if (*rarity + entqty > MAX_ENTITIES)
 		*rarity = 0;
 }
 
+/* us_to_space: convert underscores in string name to spaces */
+static void us_to_space(char *data) {
+	for(int i = 0, l = strlen(data); i < l; i++)
+		if(data[i] == '_') {
+			data[i] = ' ';
+			continue;
+		}
+}
+
 /* init_item: read from data/items.txt file and store in item array */
-void init_item(int from, int to) {
+void init_item(void) {
 
 	char *name = malloc(MAX_NAME * sizeof(char));
 	char face;
@@ -20,51 +31,47 @@ void init_item(int from, int to) {
 	int type;
 	int stat;
 	int rarity;
+	itemqty = 0;
 
 	FILE *f = fopen("data/items.txt", "r");
 
-	for (int num = from; num <= to; num++) {
+	do {
 		fscanf(f, "%s %c(%i): type=%i stat=%i rarity=%i\n",
 			   name, &face, &color, &type, &stat, &rarity);
 
-		int l = strlen(name);
-		for(int i = 0; i < l; i++) {
-			if(name[i] == '_') {
-				name[i] = ' ';
-				continue;
-			}
-			if(name[i] == ' ')
-				break;
-		}
+		us_to_space(name);
 
-		item[num].name = malloc(MAX_NAME * sizeof(char));
-		strcpy(item[num].name, name);
-		item[num].face = face;
-		item[num].color = COLOR_PAIR(color);
-		item[num].type = type;
-		item[num].stat = stat;
+		item[itemqty].name = malloc(MAX_NAME * sizeof(char));
+		strcpy(item[itemqty].name, name);
+		item[itemqty].face = face;
+		item[itemqty].color = COLOR_PAIR(color);
+		item[itemqty].type = type;
+		item[itemqty].stat = stat;
 
 		for (int i = 0; i < MAX_X; i++)
 			for (int j = 0; j < MAX_Y; j++)
-				item[num].map[j][i] = 0;
+				item[itemqty].map[j][i] = 0;
 
 		if (rarity != 0)
-			for (int x, y, i = 0; i < floor_count('.')/rarity; i++) {
-			/* for (int x, y, i = 0; i < calc_rarity(rarity); i++) { */
+			calc_rarity(&rarity);
+			for (int x, y, i = 0; i < rarity; i++) {
 				do {
 					x = rand() % MAX_X;
 					y = rand() % MAX_Y;
 				} while (get_map(x, y) != '.');
-				item[num].map[y][x]++;
+				item[itemqty].map[y][x]++;
 			}
 
-	}
+		itemqty++;
+
+	} while (!feof(f));
 
 	fclose(f);
 
 	free(name);
 
-	itemqty = to;
+	itemqty++;
+
 }
 
 /* init_entity: read from data/entities.txt file and store in entity array */
@@ -88,23 +95,8 @@ void init_entity(void) {
 		fscanf(f, "%s %c(%i): hp=%i damge=%i type=%i rarity=%i %s\n",
 			   name, &face, &color, &maxhp, &damage, &type, &rarity, drop);
 
-		for(int i = 0, l = strlen(name); i < l; i++) {
-			if(name[i] == '_') {
-				name[i] = ' ';
-				continue;
-			}
-			if(name[i] == ' ')
-				break;
-		}
-
-		for(int i = 0, l = strlen(drop); i < l; i++) {
-			if(drop[i] == '_') {
-				drop[i] = ' ';
-				continue;
-			}
-			if(drop[i] == ' ')
-				break;
-		}
+		us_to_space(name);
+		us_to_space(drop);
 
 		if (rarity != 0) {
 			calc_rarity(&rarity);
@@ -132,8 +124,9 @@ void init_entity(void) {
 
 				entity[num].msg.data = malloc(MAX_NAME * sizeof(char));
 				entity[num].msg.disp = false;
+				/* TODO: Make this not suck */
 				if (strcmp(name, "spock") == 0) {
-					strcpy(entity[num].msg.data, "live long and propser");
+					strcpy(entity[num].msg.data, "live long and proposer");
 					entity[num].msg.disp = true;
 				}
 
@@ -145,7 +138,7 @@ void init_entity(void) {
 				}
 
 				/* TODO: Break into function and add smart
-				 * intergration of is_floor function */
+				 * integration of is_floor function */
 				do {
 					x_0 = rand() % MAX_X;
 					y_0 = rand() % MAX_Y;
@@ -165,7 +158,7 @@ void init_entity(void) {
 }
 
 /* init_player: read from data/players.txt file and store in player array */
-void init_player(int from, int to) {
+void init_player(void) {
 
 	char *name = malloc(MAX_NAME * sizeof(char));
 	int x_0, y_0;
@@ -173,62 +166,59 @@ void init_player(int from, int to) {
 	int color;
 	int maxhp;
 	int damage;
+	playerqty = 0;
 
 	FILE *f = fopen("data/players.txt", "r");
 
-	for (int num = from; num <= to; num++) {
-		fscanf(f, "%s %c(%d): hp=%d damage=%d\n",
+	do {
+		fscanf(f, "%s %c(%d): hp=%d damage=%d",
 			   name, &face, &color, &maxhp, &damage);
 
-		int l = strlen(name);
-		for(int i = 0; i < l; i++) {
-			if(name[i] == '_') {
-				name[i] = ' ';
-				continue;
-			}
-			if(name[i] == ' ')
-				break;
-		}
+		us_to_space(name);
 
-		player[num].name = malloc(MAX_NAME * sizeof(char));
-		strcpy(player[num].name, name);
-		player[num].face = face;
-		player[num].color = COLOR_PAIR(color);
-		player[num].maxhp = maxhp;
-		player[num].hp = maxhp;
-		player[num].damage = damage;
+		player[playerqty].name = malloc(MAX_NAME * sizeof(char));
+		strcpy(player[playerqty].name, name);
+		player[playerqty].face = face;
+		player[playerqty].color = COLOR_PAIR(color);
+		player[playerqty].maxhp = maxhp;
+		player[playerqty].hp = maxhp;
+		player[playerqty].damage = damage;
 
-		player[num].sight = 10;
-		player[num].speed = 0;
+		player[playerqty].sight = 10;
+		player[playerqty].speed = 0;
 
-		player[num].holding.name = malloc(MAX_NAME * sizeof(char));
-		player[num].holding.face = ' ';
-		player[num].holding.color = 0;
-		player[num].holding.type = 0;
-		player[num].holding.stat = 0;
+		player[playerqty].holding.name = malloc(MAX_NAME * sizeof(char));
+		player[playerqty].holding.face = ' ';
+		player[playerqty].holding.color = 0;
+		player[playerqty].holding.type = 0;
+		player[playerqty].holding.stat = 0;
 
 		do {
 			x_0 = rand() % MAX_X;
 			y_0 = rand() % MAX_Y;
 		} while (!is_floor(x_0, y_0));
-		player[num].x = x_0;
-		player[num].y = y_0;
+		player[playerqty].x = x_0;
+		player[playerqty].y = y_0;
 
-		player[num].msg.data = malloc(MAX_NAME * sizeof(char));
-		player[num].msg.disp = false;
+		player[playerqty].msg.data = malloc(MAX_NAME * sizeof(char));
+		player[playerqty].msg.disp = false;
 
 		for (int i = 0; i < 16; i++) {
-			player[num].inv[i].name = "";
-			player[num].inv[i].face = ' ';
-			player[num].inv[i].color = 0;
-			player[num].inv[i].qty = 0;
+			player[playerqty].inv[i].name = "";
+			player[playerqty].inv[i].face = ' ';
+			player[playerqty].inv[i].color = 0;
+			player[playerqty].inv[i].qty = 0;
 		}
-	}
+
+		playerqty++;
+
+	} while (!feof(f));
 
 	fclose(f);
 
 	free(name);
 
-	playerqty = to;
+	/* FIXME */
+	playerqty -= 2;
 }
 

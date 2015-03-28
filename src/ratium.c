@@ -99,10 +99,10 @@ int main(int argc, char *argv[]) {
 
 	init_map();
 	init_entity();
-	init_player(0, 0);
+	init_player();
 	player[0].bary = 0;
 
-	init_item(0, 6);
+	init_item();
 
 	do {
 
