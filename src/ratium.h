@@ -96,29 +96,23 @@ struct _Ent {
 };
 
 /* TODO: localize some of these functions */
-/***********************\
-* map.c: handle the map *
-\***********************/
+/* map.c: handle the map */
 void init_map(void);
 char get_map(int x, int y);
 void set_map(int x, int y, char newch);
 bool is_floor(int x, int y);
-int floor_count(char ch);
+int  floor_count(char ch);
 void toggle_door(int x, int y);
 void draw_map(Ent e, int r);
 void draw_map_floor(Ent e, int r);
 
-/**********************\
-* item.c: handle items *
-\**********************/
+/* item.c: handle items */
 int  query_item(char *name);
 void clear_item(Item *item, int x, int y);
 void add_item(Item *item, int x, int y);
 void draw_item(Item item, Ent e, int r);
 
-/*****************************************\
-* entity.c: handle anything with entities *
-\*****************************************/
+/* entity.c: handle anything with entities */
 bool can_step(Ent *e, int x, int y);
 void move_entity(Ent *e, int x_0, int y_0);
 void attack(Ent *e, Ent *foe);
@@ -131,9 +125,7 @@ void draw_ent(Ent e, Ent oe, int r);
 void rand_ai(Ent *e, int speed);
 void dumb_ai(Ent *e, int xNew, int yNew, int speed);
 
-/*****************************\
-* player.c: handle the player *
-\*****************************/
+/* player.c: handle the player */
 void add_msg(Msg *msg, char *message);
 void draw_msg(Msg *msg);
 void inv(Ent *e);
@@ -144,9 +136,7 @@ void inv_drop_item(Ent *e, int num);
 void get_item(Ent *e);
 bool player_run(int c, Ent *e);
 
-/*********************************************\
-* data.c: handle reading from data/ directory *
-\*********************************************/
+/* data.c: handle reading from data/ directory */
 void init_item(void);
 void init_entity(void);
 void init_player(void);
