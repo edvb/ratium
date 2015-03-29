@@ -89,8 +89,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	/* TODO: Improve this */
-	int c = '.';
+	int c = 0;
 
 	getmaxyx(stdscr, maxy, maxx);
 
@@ -112,7 +111,7 @@ int main(int argc, char *argv[]) {
 	do {
 
 		for (int i = 0; i <= playerqty; i++)
-			while (!player_run(c, &player[i]))
+			while (!player_run(c, &player[i]) && c != 0)
 				c = getch();
 
 		clear();
@@ -128,18 +127,17 @@ int main(int argc, char *argv[]) {
 				break;
 			}
 
-		/* TODO: Make for loops go in reverse */
-		for (int i = 0; i <= playerqty; i++)
+		for (int i = playerqty; i >= 0; i--)
 			draw_map_floor(player[i], player[i].sight);
-		for (int i = 0; i <= playerqty; i++) {
-			for (int j = 0; j <= itemqty; j++)
+		for (int i = playerqty; i >= 0; i--) {
+			for (int j = itemqty; j >= 0; j--)
 				draw_item(item[j], player[i], player[i].sight);
 			draw_ent(player[i], player[i], player[i].sight);
-			for (int j = 0; j <= entqty; j++)
+			for (int j = entqty; j >= 0; j--)
 				draw_ent(entity[j], player[i], player[i].sight);
 			draw_map(player[i], player[i].sight);
 		}
-		for (int i = 0; i <= playerqty; i++)
+		for (int i = playerqty; i >= 0; i--)
 			draw_msg(&player[i].msg);
 
 		c = getch();
