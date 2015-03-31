@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "ratium.h"
+#include "ent.h"
 #include "../config.h"
 
 void add_msg(Msg *msg, char *message) {
@@ -22,7 +23,85 @@ void draw_msg(Msg *msg) {
 	}
 }
 
-void inv(Ent *e) {
+static void draw_inv(Ent *e, int arrow_y) {
+
+		clear();
+
+		attron(A_REVERSE);
+		mvprintw(0, 0, " -- Inventory -- \n");
+		attroff(A_REVERSE);
+
+		for (int i = 0; i < MAX_INV_SLOTS; i++)
+			if (e->inv[i].face != ' ') {
+				attron(GREY);
+				printw("   %c)", i + 97);
+				attroff(GREY);
+
+				attron(e->inv[i].color);
+				printw(" %c", e->inv[i].face);
+				attroff(e->inv[i].color);
+
+				printw(" %s", e->inv[i].name);
+
+				attron(GREY);
+				printw(" (%d)\n", e->inv[i].qty);
+				attroff(GREY);
+			}
+
+		mvprintw(arrow_y, 1, ">");
+
+}
+
+static void inv_add_item(Ent *e, Item *item, int qty) {
+	for (int i = 0; i <= MAX_INV_SLOTS; i++)
+		if (e->inv[i].face == ' ') {
+			e->inv[i].face = item->face;
+			e->inv[i].name = item->name;
+			e->inv[i].color = item->color;
+			e->inv[i].type = item->type;
+			e->inv[i].stat = item->stat;
+			e->inv[i].qty = qty;
+			return;
+		} else if (e->inv[i].name == item->name) {
+			e->inv[i].qty += qty;
+			return;
+		}
+}
+
+static void inv_use_item(Ent *e, int num) {
+	if (e->inv[num].qty > 0)
+		switch (e->inv[num].type) {
+			case ITEM_MISC:
+				break;
+			case ITEM_FOOD:
+				e->hp += e->inv[num].stat;
+				e->inv[num].qty--;
+				break;
+			case ITEM_SWORD:
+			case ITEM_SHIELD:
+				if (e->holding.face == ' ') {
+					e->holding.name  = e->inv[num].name;
+					e->holding.face  = e->inv[num].face;
+					e->holding.color = e->inv[num].color;
+					e->holding.type  = e->inv[num].type;
+					e->holding.stat  = e->inv[num].stat;
+					e->inv[num].qty--;
+				}
+				break;
+		}
+}
+
+static void inv_drop_item(Ent *e, int num) {
+	if (e->inv[num].qty > 0) {
+		for (int i = 0; i < MAX_ITEMS; i++)
+			if (e->inv[num].face == item[i].face)
+				if (e->inv[num].color == item[i].color)
+					add_item(&item[i], e->x, e->y);
+		e->inv[num].qty--;
+	}
+}
+
+static void inv(Ent *e) {
 	int arrow_y = 1;
 	int k;
 
@@ -57,86 +136,7 @@ void inv(Ent *e) {
 
 }
 
-void draw_inv(Ent *e, int arrow_y) {
-
-		clear();
-
-		attron(A_REVERSE);
-		mvprintw(0, 0, " -- Inventory -- \n");
-		attroff(A_REVERSE);
-
-		for (int i = 0; i < MAX_INV_SLOTS; i++)
-			if (e->inv[i].face != ' ') {
-				attron(GREY);
-				printw("   %c)", i + 97);
-				attroff(GREY);
-
-				attron(e->inv[i].color);
-				printw(" %c", e->inv[i].face);
-				attroff(e->inv[i].color);
-
-				printw(" %s", e->inv[i].name);
-
-				attron(GREY);
-				printw(" (%d)\n", e->inv[i].qty);
-				attroff(GREY);
-			}
-
-		mvprintw(arrow_y, 1, ">");
-
-}
-
-void inv_add_item(Ent *e, Item *item, int qty) {
-	for (int i = 0; i <= MAX_INV_SLOTS; i++)
-		if (e->inv[i].face == ' ') {
-			e->inv[i].face = item->face;
-			e->inv[i].name = item->name;
-			e->inv[i].color = item->color;
-			e->inv[i].type = item->type;
-			e->inv[i].stat = item->stat;
-			e->inv[i].qty = qty;
-			return;
-		} else if (e->inv[i].name == item->name) {
-			e->inv[i].qty += qty;
-			return;
-		}
-}
-
-void inv_use_item(Ent *e, int num) {
-	if (e->inv[num].qty > 0)
-		switch (e->inv[num].type) {
-			case ITEM_MISC:
-				break;
-			case ITEM_FOOD:
-				e->hp += e->inv[num].stat;
-				e->inv[num].qty--;
-				break;
-			case ITEM_SWORD:
-			case ITEM_SHIELD:
-				if (e->holding.face == ' ') {
-					e->holding.name  = e->inv[num].name;
-					e->holding.face  = e->inv[num].face;
-					e->holding.color = e->inv[num].color;
-					e->holding.type  = e->inv[num].type;
-					e->holding.stat  = e->inv[num].stat;
-					e->inv[num].qty--;
-				}
-				break;
-		}
-}
-
-/* TODO: Allow player to drop multiple items on same tile */
-void inv_drop_item(Ent *e, int num) {
-	if (e->inv[num].qty > 0) {
-		for (int i = 0; i < MAX_ITEMS; i++)
-			if (e->inv[num].face == item[i].face)
-				if (e->inv[num].color == item[i].color)
-					add_item(&item[i], e->x, e->y);
-		e->inv[num].qty--;
-	}
-}
-
-void get_item(Ent *e) {
+static void get_item(Ent *e) {
 	for (int i = 0; i <= itemqty; i++)
 		if (item[i].map[e->y][e->x] > 0) {
 			inv_add_item(e, &item[i], 1);

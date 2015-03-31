@@ -112,14 +112,6 @@ void add_item(Item *item, int x, int y);
 void draw_item(Item item, Ent e, int r);
 
 /* entity.c: handle anything with entities */
-bool can_step(Ent *e, int x, int y);
-void move_entity(Ent *e, int x_0, int y_0);
-void attack(Ent *e, Ent *foe);
-int  deal_damage(Ent *e);
-void take_damage(Ent *e, int damge);
-bool isalive(int hp);
-int  holding_x(Ent e, int val);
-int  holding_y(Ent e, int val);
 void draw_ent(Ent e, Ent oe, int r);
 void rand_ai(Ent *e, int speed);
 void dumb_ai(Ent *e, int xNew, int yNew, int speed);
@@ -127,12 +119,6 @@ void dumb_ai(Ent *e, int xNew, int yNew, int speed);
 /* player.c: handle the player */
 void add_msg(Msg *msg, char *message);
 void draw_msg(Msg *msg);
-void inv(Ent *e);
-void draw_inv(Ent *e, int arrow_y);
-void inv_add_item(Ent *e, Item *item, int qty);
-void inv_use_item(Ent *e, int num);
-void inv_drop_item(Ent *e, int num);
-void get_item(Ent *e);
 bool player_run(int c, Ent *e);
 
 /* data.c: handle reading from data/ directory */
@@ -151,4 +137,4 @@ Item item[MAX_ITEMS];
 Ent player[MAX_PLAYERS];
 Ent entity[MAX_ENTITIES]; /* TODO: rename all ent */
 
-#endif
+#endif /* RATIUM_H */

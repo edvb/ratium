@@ -113,7 +113,7 @@ void init_entity(void) {
 			entity[num].type = type;
 
 			entity[num].sight = 10;
-			entity[num].speed = 4;
+			entity[num].speed = 3;
 
 			entity[num].holding.name = malloc(MAX_NAME * sizeof(char));
 			entity[num].holding.face = ' ';
