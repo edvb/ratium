@@ -2,7 +2,7 @@ NAME
        ratium - A Dumb Little NCurses ASCII Game
 
 SYNOPSIS
-       ratium [-hv]
+       ratium [-hv] [--help] [--version]
 
 DESCRIPTION
        ratium  is a dumb little game where you are a '@' and have survive in an ASCII world by defending yourself from various enemies, such as the
