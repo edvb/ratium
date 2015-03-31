@@ -8,7 +8,8 @@
 /* TODO: Add min and max parameters */
 /* calc_rarity: change rarity to make it random */
 static void calc_rarity(int *rarity) {
-	*rarity += rand() % 3;
+	if (*rarity != 0)
+		*rarity += rand() % 3;
 	if (*rarity + entqty > MAX_ENTITIES)
 		*rarity = 0;
 }
@@ -52,15 +53,14 @@ void init_item(void) {
 			for (int j = 0; j < MAX_Y; j++)
 				item[itemqty].map[j][i] = 0;
 
-		if (rarity != 0)
-			calc_rarity(&rarity);
-			for (int x, y, i = 0; i < rarity; i++) {
-				do {
-					x = rand() % MAX_X;
-					y = rand() % MAX_Y;
-				} while (get_map(x, y) != '.');
-				item[itemqty].map[y][x]++;
-			}
+		calc_rarity(&rarity);
+		for (int x, y, i = 0; i < rarity; i++) {
+			do {
+				x = rand() % MAX_X;
+				y = rand() % MAX_Y;
+			} while (get_map(x, y) != '.');
+			item[itemqty].map[y][x]++;
+		}
 
 		itemqty++;
 
@@ -98,55 +98,53 @@ void init_entity(void) {
 		us_to_space(name);
 		us_to_space(drop);
 
-		if (rarity != 0) {
-			calc_rarity(&rarity);
-			for (int num = 0; num < rarity; num++, entqty++) {
-				entity[num].name = malloc(MAX_NAME * sizeof(char));
-				strcpy(entity[num].name, name);
-				entity[num].drop = malloc(MAX_NAME * sizeof(char));
-				strcpy(entity[num].drop, drop);
-				entity[num].face = face;
-				entity[num].color = COLOR_PAIR(color);
-				entity[num].maxhp = maxhp;
-				entity[num].hp = maxhp;
-				entity[num].isdead = false;
-				entity[num].damage = damage;
-				entity[num].type = type;
+		calc_rarity(&rarity);
+		for (int num = 0; num < rarity; num++, entqty++) {
+			entity[num].name = malloc(MAX_NAME * sizeof(char));
+			strcpy(entity[num].name, name);
+			entity[num].drop = malloc(MAX_NAME * sizeof(char));
+			strcpy(entity[num].drop, drop);
+			entity[num].face = face;
+			entity[num].color = COLOR_PAIR(color);
+			entity[num].maxhp = maxhp;
+			entity[num].hp = maxhp;
+			entity[num].isdead = false;
+			entity[num].damage = damage;
+			entity[num].type = type;
 
-				entity[num].sight = 10;
-				entity[num].speed = 4;
+			entity[num].sight = 10;
+			entity[num].speed = 4;
 
-				entity[num].holding.name = malloc(MAX_NAME * sizeof(char));
-				entity[num].holding.face = ' ';
-				entity[num].holding.color = 0;
-				entity[num].holding.type = 0;
-				entity[num].holding.stat = 0;
+			entity[num].holding.name = malloc(MAX_NAME * sizeof(char));
+			entity[num].holding.face = ' ';
+			entity[num].holding.color = 0;
+			entity[num].holding.type = 0;
+			entity[num].holding.stat = 0;
 
-				entity[num].msg.data = malloc(MAX_NAME * sizeof(char));
-				entity[num].msg.disp = false;
-				/* TODO: Make this not suck */
-				if (strcmp(name, "spock") == 0) {
-					strcpy(entity[num].msg.data, "live long and proposer");
-					entity[num].msg.disp = true;
-				}
-
-				for (int i = 0; i < 16; i++) {
-					entity[num].inv[i].name = "";
-					entity[num].inv[i].face = ' ';
-					entity[num].inv[i].color = 0;
-					entity[num].inv[i].qty = 0;
-				}
-
-				/* TODO: Break into function and add smart
-				 * integration of is_floor function */
-				do {
-					x_0 = rand() % MAX_X;
-					y_0 = rand() % MAX_Y;
-				} while (get_map(x_0, y_0) != '.');
-				entity[num].x = x_0;
-				entity[num].y = y_0;
-
+			entity[num].msg.data = malloc(MAX_NAME * sizeof(char));
+			entity[num].msg.disp = false;
+			/* TODO: Make this not suck */
+			if (strcmp(name, "spock") == 0) {
+				strcpy(entity[num].msg.data, "live long and proposer");
+				entity[num].msg.disp = true;
 			}
+
+			for (int i = 0; i < 16; i++) {
+				entity[num].inv[i].name = "";
+				entity[num].inv[i].face = ' ';
+				entity[num].inv[i].color = 0;
+				entity[num].inv[i].qty = 0;
+			}
+
+			/* TODO: Break into function and add smart
+				* integration of is_floor function */
+			do {
+				x_0 = rand() % MAX_X;
+				y_0 = rand() % MAX_Y;
+			} while (get_map(x_0, y_0) != '.');
+			entity[num].x = x_0;
+			entity[num].y = y_0;
+
 		}
 	} while (!feof(f));
 

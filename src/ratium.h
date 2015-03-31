@@ -95,7 +95,6 @@ struct _Ent {
 	Item holding;
 };
 
-/* TODO: localize some of these functions */
 /* map.c: handle the map */
 void init_map(void);
 char get_map(int x, int y);
