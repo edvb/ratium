@@ -27,18 +27,23 @@ void rand_ai(Ent *e, int speed) {
 void dumb_ai(Ent *e, int xNew, int yNew, int speed) {
 	if (isalive(e->hp)) {
 
-		int shouldMove = rand() % speed;
+		if (abs(e->x - xNew) <= e->sight &&
+		    abs(e->y - yNew) <= e->sight) {
 
-		if (shouldMove != 0) {
-			if (xNew > e->x)
-				move_entity(e, 1, 0);
-			else if (xNew < e->x)
-				move_entity(e, -1, 0);
-			if (yNew > e->y)
-				move_entity(e, 0, 1);
-			else if (yNew < e->y)
-				move_entity(e, 0, -1);
-		}
+			int shouldMove = rand() % speed;
+
+			if (shouldMove != 0) {
+				if (xNew > e->x)
+					move_entity(e, 1, 0);
+				else if (xNew < e->x)
+					move_entity(e, -1, 0);
+				if (yNew > e->y)
+					move_entity(e, 0, 1);
+				else if (yNew < e->y)
+					move_entity(e, 0, -1);
+			}
+		} else
+			rand_ai(e, speed);
 
 	} else if (!e->isdead) {
 		e->isdead = true;
