@@ -164,13 +164,14 @@ void init_player(void) {
 	int color;
 	int maxhp;
 	int damage;
+	int sight;
 	playerqty = 0;
 
 	FILE *f = fopen("data/players.txt", "r");
 
 	do {
-		fscanf(f, "%s %c(%d): hp=%d damage=%d",
-			   name, &face, &color, &maxhp, &damage);
+		fscanf(f, "%s %c(%d): hp=%d damage=%d sight=%d",
+			   name, &face, &color, &maxhp, &damage, &sight);
 
 		us_to_space(name);
 
@@ -181,8 +182,8 @@ void init_player(void) {
 		player[playerqty].maxhp = maxhp;
 		player[playerqty].hp = maxhp;
 		player[playerqty].damage = damage;
+		player[playerqty].sight = sight;
 
-		player[playerqty].sight = 10;
 		player[playerqty].speed = 0;
 
 		player[playerqty].holding.name = malloc(MAX_NAME * sizeof(char));
