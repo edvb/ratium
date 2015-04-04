@@ -44,7 +44,7 @@ static void draw_inv(Ent *e, int arrow_y) {
 				printw(" %s", e->inv[i].name);
 
 				attron(GREY);
-				printw(" (%d)\n", e->inv[i].qty);
+				printw(" (%d)\n", e->inv[i].map[0][0]);
 				attroff(GREY);
 			}
 
@@ -60,22 +60,22 @@ static void inv_add_item(Ent *e, Item *item, int qty) {
 			e->inv[i].color = item->color;
 			e->inv[i].type = item->type;
 			e->inv[i].stat = item->stat;
-			e->inv[i].qty = qty;
+			e->inv[i].map[0][0] = qty;
 			return;
 		} else if (e->inv[i].name == item->name) {
-			e->inv[i].qty += qty;
+			e->inv[i].map[0][0] += qty;
 			return;
 		}
 }
 
 static void inv_use_item(Ent *e, int num) {
-	if (e->inv[num].qty > 0)
+	if (e->inv[num].map[0][0] > 0)
 		switch (e->inv[num].type) {
 			case ITEM_MISC:
 				break;
 			case ITEM_FOOD:
 				e->hp += e->inv[num].stat;
-				e->inv[num].qty--;
+				e->inv[num].map[0][0]--;
 				break;
 			case ITEM_SWORD:
 			case ITEM_SHIELD:
@@ -85,19 +85,19 @@ static void inv_use_item(Ent *e, int num) {
 					e->holding.color = e->inv[num].color;
 					e->holding.type  = e->inv[num].type;
 					e->holding.stat  = e->inv[num].stat;
-					e->inv[num].qty--;
+					e->inv[num].map[0][0]--;
 				}
 				break;
 		}
 }
 
 static void inv_drop_item(Ent *e, int num) {
-	if (e->inv[num].qty > 0) {
+	if (e->inv[num].map[0][0] > 0) {
 		for (int i = 0; i < MAX_ITEMS; i++)
 			if (e->inv[num].face == item[i].face)
 				if (e->inv[num].color == item[i].color)
 					add_item(&item[i], e->x, e->y);
-		e->inv[num].qty--;
+		e->inv[num].map[0][0]--;
 	}
 }
 
@@ -152,7 +152,7 @@ static void get_item(Ent *e) {
 		e->holding.stat = 0;
 		for (int i = 0; i < MAX_INV_SLOTS; i++)
 			if (strcmp(e->inv[i].name, e->holding.name) == 0)
-				e->inv[i].qty++;
+				e->inv[i].map[0][0]++;
 	}
 }
 

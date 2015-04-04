@@ -45,17 +45,6 @@ typedef enum {
 	ENT_PEACEFUL
 } ENT_TYPE;
 
-/* TODO: Make inv point to a item */
-typedef struct {
-	char *name;
-	ITEM_TYPE type;
-	char face;
-	int color;
-	int qty;
-
-	int stat;
-} Inv;
-
 typedef struct {
 	char *name;
 	ITEM_TYPE type;
@@ -91,7 +80,7 @@ struct _Ent {
 	int speed;
 
 	struct _Msg msg;
-	Inv inv[MAX_INV_SLOTS];
+	Item inv[MAX_INV_SLOTS];
 	Item holding;
 };
 

@@ -134,7 +134,7 @@ void init_entity(void) {
 				entity[num].inv[i].name = "";
 				entity[num].inv[i].face = ' ';
 				entity[num].inv[i].color = 0;
-				entity[num].inv[i].qty = 0;
+				entity[num].inv[i].map[0][0] = 0;
 			}
 
 			/* TODO: Break into function and add smart
@@ -207,7 +207,7 @@ void init_player(void) {
 			player[playerqty].inv[i].name = "";
 			player[playerqty].inv[i].face = ' ';
 			player[playerqty].inv[i].color = 0;
-			player[playerqty].inv[i].qty = 0;
+			player[playerqty].inv[i].map[0][0] = 0;
 		}
 
 		playerqty++;

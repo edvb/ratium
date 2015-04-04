@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
 		for (int j = 0; i < MAX_INV_SLOTS; i++)
 			if (player[i].inv[j].face == '$')
 				printf("%s's Score: %d\n",
-				        player[i].name, player[i].inv[j].qty);
+				        player[i].name, player[i].inv[j].map[0][0]);
 
 	for (int i = 0; i <= itemqty; i++)
 		free(item[i].name);
