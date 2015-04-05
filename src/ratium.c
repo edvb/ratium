@@ -148,7 +148,7 @@ int main(int argc, char *argv[]) {
 	printf("GAME OVER\n");
 
 	for (int i = 0; i <= playerqty; i++)
-		for (int j = 0; i < MAX_INV_SLOTS; i++)
+		for (int j = 0; i < MAX_INV; i++)
 			if (player[i].inv[j].face == '$')
 				printf("%s's Score: %d\n",
 				        player[i].name, player[i].inv[j].map[0][0]);
@@ -162,9 +162,10 @@ int main(int argc, char *argv[]) {
 	}
 	for (int i = 0; i <= entqty; i++) {
 		free(entity[i].name);
-		free(entity[i].drop);
 		free(entity[i].holding.name);
 		free(entity[i].msg.data);
+		for (int j = 0; j < MAX_INV; j++)
+			free(entity[i].inv[j].name);
 	}
 
 	return 0;

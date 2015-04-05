@@ -31,7 +31,7 @@ static void draw_inv(Ent *e, int arrow_y) {
 		mvprintw(0, 0, " -- Inventory -- \n");
 		attroff(A_REVERSE);
 
-		for (int i = 0; i < MAX_INV_SLOTS; i++)
+		for (int i = 0; i < MAX_INV; i++)
 			if (e->inv[i].face != ' ') {
 				attron(GREY);
 				printw("   %c)", i + 97);
@@ -53,7 +53,7 @@ static void draw_inv(Ent *e, int arrow_y) {
 }
 
 static void inv_add_item(Ent *e, Item *item, int qty) {
-	for (int i = 0; i <= MAX_INV_SLOTS; i++)
+	for (int i = 0; i <= MAX_INV; i++)
 		if (e->inv[i].face == ' ') {
 			e->inv[i].face = item->face;
 			e->inv[i].name = item->name;
@@ -150,7 +150,7 @@ static void get_item(Ent *e) {
 		e->holding.color = 0;
 		e->holding.type = 0;
 		e->holding.stat = 0;
-		for (int i = 0; i < MAX_INV_SLOTS; i++)
+		for (int i = 0; i < MAX_INV; i++)
 			if (strcmp(e->inv[i].name, e->holding.name) == 0)
 				e->inv[i].map[0][0]++;
 	}

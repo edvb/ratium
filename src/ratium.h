@@ -19,7 +19,7 @@
 #define MAX_PLAYERS 8
 #define MAX_ENTITIES 256
 #define MAX_ITEMS 256
-#define MAX_INV_SLOTS 16
+#define MAX_INV 16
 
 typedef enum {
 	LEFT,
@@ -64,7 +64,6 @@ struct _Msg {
 typedef struct _Ent Ent;
 struct _Ent {
 	char *name;
-	char *drop;
 	ENT_TYPE type;
 	char face;
 	int color;
@@ -80,7 +79,7 @@ struct _Ent {
 	int speed;
 
 	struct _Msg msg;
-	Item inv[MAX_INV_SLOTS];
+	Item inv[MAX_INV];
 	Item holding;
 };
 

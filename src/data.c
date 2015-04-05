@@ -103,8 +103,6 @@ void init_entity(void) {
 		for (int num = 0; num < rarity; num++, entqty++) {
 			entity[num].name = malloc(MAX_NAME * sizeof(char));
 			strcpy(entity[num].name, name);
-			entity[num].drop = malloc(MAX_NAME * sizeof(char));
-			strcpy(entity[num].drop, drop);
 			entity[num].face = face;
 			entity[num].color = COLOR_PAIR(color);
 			entity[num].maxhp = maxhp;
@@ -130,15 +128,18 @@ void init_entity(void) {
 				entity[num].msg.disp = true;
 			}
 
-			for (int i = 0; i < 16; i++) {
-				entity[num].inv[i].name = "";
+			for (int i = 0; i < MAX_INV; i++) {
+				entity[num].inv[i].name = malloc(MAX_NAME * sizeof(char));
 				entity[num].inv[i].face = ' ';
 				entity[num].inv[i].color = 0;
 				entity[num].inv[i].map[0][0] = 0;
 			}
 
+			strcpy(entity[num].inv[0].name, drop);
+			entity[num].inv[0].map[0][0] = 1;
+
 			/* TODO: Break into function and add smart
-				* integration of is_floor function */
+			* integration of is_floor function */
 			do {
 				x_0 = rand() % MAX_X;
 				y_0 = rand() % MAX_Y;

@@ -19,7 +19,12 @@ void rand_ai(Ent *e, int speed) {
 
 	} else if (!e->isdead) {
 		e->isdead = true;
-		add_item(&item[query_item(e->drop)], e->x, e->y);
+		for (int i = 0; i < MAX_INV; i++)
+			while (e->inv[i].map[0][0] > 0) {
+				add_item(&item[query_item(e->inv[i].name)],
+					 e->x, e->y);
+				e->inv[i].map[0][0]--;
+			}
 	}
 }
 
@@ -47,7 +52,12 @@ void dumb_ai(Ent *e, int xNew, int yNew, int speed) {
 
 	} else if (!e->isdead) {
 		e->isdead = true;
-		add_item(&item[query_item(e->drop)], e->x, e->y);
+		for (int i = 0; i < MAX_INV; i++)
+			while (e->inv[i].map[0][0] > 0) {
+				add_item(&item[query_item(e->inv[i].name)],
+					 e->x, e->y);
+				e->inv[i].map[0][0]--;
+			}
 	}
 }
 
