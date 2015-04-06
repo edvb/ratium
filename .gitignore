@@ -5,6 +5,7 @@
 \#*\#
 
 # Compiled Files
+ratium
 *.exe
 *.out
 *.app
@@ -17,6 +18,7 @@
 
 # Misc
 *Session*.vim
+*tags
 
-ratium
+# Project Specific Files
 config.h
