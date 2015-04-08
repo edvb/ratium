@@ -137,6 +137,7 @@ int main(int argc, char *argv[]) {
 				draw_ent(entity[j], player[i], player[i].sight);
 			draw_map(player[i], player[i].sight);
 		}
+
 		for (int i = playerqty; i >= 0; i--)
 			draw_msg(&player[i].msg);
 

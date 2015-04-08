@@ -183,6 +183,7 @@ void init_player(void) {
 		player[playerqty].color = COLOR_PAIR(color);
 		player[playerqty].maxhp = maxhp;
 		player[playerqty].hp = maxhp;
+		player[playerqty].isdead = false;
 		player[playerqty].damage = damage;
 		player[playerqty].sight = sight;
 
