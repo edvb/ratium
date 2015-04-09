@@ -13,7 +13,7 @@ bool can_step(Ent *e, int x, int y) {
 		if (isalive(entity[i].hp) &&
 		    entity[i].x == x && entity[i].y == y) {
 			/* TODO: Allow some entities to attack each other */
-			if (e->type == ENT_PLAYER) {
+			if (e->ai == AI_PLAYER) {
 				if (entity[i].msg.disp == true)
 					add_msg(&player[0].msg, entity[i].msg.data);
 				else
@@ -44,7 +44,7 @@ void move_entity(Ent *e, int dx, int dy) {
 
 /* attack: entity e attack entity foe */
 void attack(Ent *e, Ent *foe) {
-	if (e->type != ENT_PEACEFUL)
+	if (e->ai != AI_PEACEFUL)
 		take_damage(foe, deal_damage(e));
 }
 
@@ -114,7 +114,7 @@ void draw_ent(Ent e, Ent oe, int r) {
 	if (isalive(e.hp) &&
 	    oe.x-r < e.x && oe.x+r > e.x &&
 	    oe.y-r < e.y && oe.y+r > e.y) {
-		if (e.type == ENT_PLAYER)
+		if (e.ai == AI_PLAYER)
 			mvprintw(e.bary, 0, "HP: %d", e.hp);
 		mvaddch(e.y, e.x, e.face + e.color);
 		if (e.holding.face != ' ')

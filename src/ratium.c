@@ -117,12 +117,12 @@ int main(int argc, char *argv[]) {
 		clear();
 
 		for (int i = 0; i < entqty; i++)
-			switch (entity[i].type) {
-			case ENT_PLAYER: break;
-			case ENT_HOSTILE:
+			switch (entity[i].ai) {
+			case AI_PLAYER: break;
+			case AI_HOSTILE:
 				dumb_ai(&entity[i], player[0].x, player[0].y, entity[i].speed);
 				break;
-			case ENT_PEACEFUL:
+			case AI_PEACEFUL:
 				rand_ai(&entity[i], entity[i].speed);
 				break;
 			}

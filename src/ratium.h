@@ -40,10 +40,10 @@ typedef enum {
 } ITEM_TYPE;
 
 typedef enum {
-	ENT_PLAYER,
-	ENT_HOSTILE,
-	ENT_PEACEFUL
-} ENT_TYPE;
+	AI_PLAYER,
+	AI_HOSTILE,
+	AI_PEACEFUL
+} AI_TYPE;
 
 typedef struct {
 	char *name;
@@ -64,7 +64,7 @@ struct _Msg {
 typedef struct _Ent Ent;
 struct _Ent {
 	char *name;
-	ENT_TYPE type;
+	AI_TYPE ai;
 	char face;
 	int color;
 

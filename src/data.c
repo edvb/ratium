@@ -79,7 +79,7 @@ void init_entity(void) {
 
 	char *name = malloc(MAX_NAME * sizeof(char));
 	char *drop = malloc(MAX_NAME * sizeof(char));
-	int type;
+	int ai;
 	int x_0, y_0;
 	char face;
 	int color;
@@ -93,8 +93,8 @@ void init_entity(void) {
 	FILE *f = fopen("data/entities.txt", "r");
 
 	do {
-		fscanf(f, "%s %c(%i): hp=%i damge=%i type=%i sight=%i rarity=%i %s\n",
-			   name, &face, &color, &maxhp, &damage, &type, &sight, &rarity, drop);
+		fscanf(f, "%s %c(%i): hp=%i damge=%i ai=%i sight=%i rarity=%i %s\n",
+			   name, &face, &color, &maxhp, &damage, &ai, &sight, &rarity, drop);
 
 		us_to_space(name);
 		us_to_space(drop);
@@ -109,7 +109,7 @@ void init_entity(void) {
 			entity[num].hp = maxhp;
 			entity[num].isdead = false;
 			entity[num].damage = damage;
-			entity[num].type = type;
+			entity[num].ai = ai;
 			entity[num].sight = sight;
 
 			entity[num].speed = 3;
