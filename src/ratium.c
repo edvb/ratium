@@ -110,10 +110,6 @@ int main(int argc, char *argv[]) {
 
 	do {
 
-		for (int i = 0; i <= playerqty; i++)
-			while (!player_run(c, &player[i]) && c != 0)
-				c = getch();
-
 		clear();
 
 		for (int i = 0; i < entqty; i++)
@@ -142,6 +138,11 @@ int main(int argc, char *argv[]) {
 			draw_msg(&player[i].msg);
 
 		c = getch();
+
+		for (int i = 0; i <= playerqty; i++)
+			while (!player_run(c, &player[i]) &&
+			       c != 0 && c != 27 && c != 'q')
+				c = getch();
 
 	} while (c != 27 && c != 'q');
 

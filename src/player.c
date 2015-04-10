@@ -222,9 +222,11 @@ bool player_run(int c, Ent *e) {
 
 		return returnval;
 
-	} else {
+	} else if (!e->isdead) {
 		add_msg(&player[0].msg, "You Died!");
+		e->isdead = true;
 		return true;
-	}
+	} else
+		return false;
 }
 
