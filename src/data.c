@@ -79,8 +79,8 @@ void init_entity(void) {
 
 	char *name = malloc(MAX_NAME * sizeof(char));
 	char *drop = malloc(MAX_NAME * sizeof(char));
+	int type;
 	int ai;
-	int x_0, y_0;
 	char face;
 	int color;
 	int maxhp;
@@ -88,13 +88,16 @@ void init_entity(void) {
 	int sight;
 	int rarity;
 
+	int x_0, y_0;
+	int spawntile;
+
 	entqty = 0;
 
 	FILE *f = fopen("data/entities.txt", "r");
 
 	do {
-		fscanf(f, "%s %c(%i): hp=%i damge=%i ai=%i sight=%i rarity=%i %s\n",
-			   name, &face, &color, &maxhp, &damage, &ai, &sight, &rarity, drop);
+		fscanf(f, "%s %c(%i): hp=%i damge=%i type=%i ai=%i sight=%i rarity=%i %s\n",
+			   name, &face, &color, &maxhp, &damage, &type, &ai, &sight, &rarity, drop);
 
 		us_to_space(name);
 		us_to_space(drop);
@@ -103,13 +106,14 @@ void init_entity(void) {
 		for (int num = 0; num < rarity; num++, entqty++) {
 			entity[num].name = malloc(MAX_NAME * sizeof(char));
 			strcpy(entity[num].name, name);
+			entity[num].type = type;
+			entity[num].ai = ai;
 			entity[num].face = face;
 			entity[num].color = COLOR_PAIR(color);
 			entity[num].maxhp = maxhp;
 			entity[num].hp = maxhp;
 			entity[num].isdead = false;
 			entity[num].damage = damage;
-			entity[num].ai = ai;
 			entity[num].sight = sight;
 
 			entity[num].speed = 3;
@@ -138,12 +142,19 @@ void init_entity(void) {
 			strcpy(entity[num].inv[0].name, drop);
 			entity[num].inv[0].map[0][0] = 1;
 
+			switch(type) {
+			case TYPE_CAVE:  spawntile = '.'; break;
+			case TYPE_GRASS: spawntile = 'g'; break;
+			case TYPE_WATER: spawntile = 'w'; break;
+			default: spawntile = '.'; break;
+			}
+
 			/* TODO: Break into function and add smart
 			* integration of is_floor function */
 			do {
 				x_0 = rand() % MAX_X;
 				y_0 = rand() % MAX_Y;
-			} while (get_map(x_0, y_0) != '.');
+			} while (get_map(x_0, y_0) != spawntile);
 			entity[num].x = x_0;
 			entity[num].y = y_0;
 

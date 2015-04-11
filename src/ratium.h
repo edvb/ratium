@@ -40,10 +40,16 @@ typedef enum {
 } ITEM_TYPE;
 
 typedef enum {
+	TYPE_CAVE,
+	TYPE_GRASS,
+	TYPE_WATER
+} ENT_TYPE;
+
+typedef enum {
 	AI_PLAYER,
 	AI_HOSTILE,
 	AI_PEACEFUL
-} AI_TYPE;
+} ENT_AI;
 
 typedef struct {
 	char *name;
@@ -64,7 +70,8 @@ struct _Msg {
 typedef struct _Ent Ent;
 struct _Ent {
 	char *name;
-	AI_TYPE ai;
+	ENT_TYPE type;
+	ENT_AI ai;
 	char face;
 	int color;
 
@@ -80,7 +87,7 @@ struct _Ent {
 
 	struct _Msg msg;
 	Item inv[MAX_INV];
-	Item holding;
+	Item holding; /* TODO: change to int */
 };
 
 /* map.c: handle the map */

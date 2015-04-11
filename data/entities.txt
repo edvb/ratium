@@ -1,5 +1,5 @@
-rat r(5): hp=2 damge=1 ai=1 sight=3 rarity=15 rat_meat
-super_rat R(5): hp=4 damge=2 ai=1 sight=3 rarity=10 rat_meat
-gnu G(6): hp=6 damge=1 ai=2 sight=3 rarity=3 gnu_meat
-spock @(3): hp=10 damge=0 ai=2 sight=3 rarity=1 rat_meat
+rat r(5): hp=2 damge=1 type=0 ai=1 sight=3 rarity=15 rat_meat
+super_rat R(5): hp=4 damge=2 type=0 ai=1 sight=3 rarity=10 rat_meat
+gnu G(6): hp=6 damge=1 type=1 ai=2 sight=3 rarity=3 gnu_meat
+spock @(3): hp=10 damge=0 type=1 ai=2 sight=3 rarity=1 rat_meat
 
