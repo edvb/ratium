@@ -140,7 +140,7 @@ void init_entity(void) {
 			}
 
 			strcpy(entity[num].inv[0].name, drop);
-			entity[num].inv[0].map[0][0] = 1;
+			entity[num].inv[0].map[0][0] = rand() % 3;
 
 			switch(type) {
 			case TYPE_CAVE:  spawntile = '.'; break;
@@ -215,8 +215,8 @@ void init_player(void) {
 		player[num].msg.data = malloc(MAX_NAME * sizeof(char));
 		player[num].msg.disp = false;
 
-		for (int i = 0; i < 16; i++) {
-			player[num].inv[i].name = "";
+		for (int i = 0; i < MAX_INV; i++) {
+			player[num].inv[i].name = malloc(MAX_NAME * sizeof(char));
 			player[num].inv[i].face = ' ';
 			player[num].inv[i].color = 0;
 			player[num].inv[i].map[0][0] = 0;

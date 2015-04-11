@@ -166,8 +166,10 @@ int main(int argc, char *argv[]) {
 	}
 	for (int i = 0; i <= playerqty; i++) {
 		free(player[i].name);
-		free(player[i].holding.name);
 		free(player[i].msg.data);
+		for (int j = 0; j < MAX_INV; j++)
+			free(player[i].inv[j].name);
+		free(player[i].holding.name);
 	}
 
 	return 0;
