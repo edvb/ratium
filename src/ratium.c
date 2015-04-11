@@ -15,10 +15,10 @@ static const struct option longopts[] = {
 static void ratium_help(void) {
 	printf("\
 Usage: ratium [OPTION]\n\
-A dumb little ncurses game where you player as a '@' and have to kill rats\n\
+A dumb little ncurses game where you play as a '@' and have to kill rats\n\
 \n\
-  -h    display this help and exit\n\
-  -v    display version information and exit\n\
+  -h, --help      display this help and exit\n\
+  -v, --version   display version information and exit\n\
 \n\
 For more info see man page\n\
 \n\
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	int c = 0;
+	int c;
 
 	getmaxyx(stdscr, maxy, maxx);
 
@@ -134,14 +134,14 @@ int main(int argc, char *argv[]) {
 			draw_map(player[i], player[i].sight);
 		}
 
-		for (int i = playerqty; i >= 0; i--)
+		for (int i = 0; i <= playerqty; i++)
 			draw_msg(&player[i].msg);
 
 		c = getch();
 
 		for (int i = 0; i <= playerqty; i++)
 			while (!player_run(c, &player[i]) &&
-			       c != 0 && c != 27 && c != 'q')
+			       c != 27 && c != 'q')
 				c = getch();
 
 	} while (c != 27 && c != 'q');
@@ -157,17 +157,17 @@ int main(int argc, char *argv[]) {
 
 	for (int i = 0; i <= itemqty; i++)
 		free(item[i].name);
-	for (int i = 0; i <= playerqty; i++) {
-		free(player[i].name);
-		free(player[i].holding.name);
-		free(player[i].msg.data);
-	}
 	for (int i = 0; i <= entqty; i++) {
 		free(entity[i].name);
 		free(entity[i].holding.name);
 		free(entity[i].msg.data);
 		for (int j = 0; j < MAX_INV; j++)
 			free(entity[i].inv[j].name);
+	}
+	for (int i = 0; i <= playerqty; i++) {
+		free(player[i].name);
+		free(player[i].holding.name);
+		free(player[i].msg.data);
 	}
 
 	return 0;

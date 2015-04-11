@@ -172,66 +172,76 @@ void init_entity(void) {
 void init_player(void) {
 
 	char *name = malloc(MAX_NAME * sizeof(char));
-	int x_0, y_0;
 	char face;
 	int color;
 	int maxhp;
 	int damage;
 	int sight;
-	playerqty = 0;
+
+	int x_0, y_0;
+	int num = 0;
+	int ch, nol = 0;
 
 	FILE *f = fopen("data/players.txt", "r");
 
 	do {
 		fscanf(f, "%s %c(%d): hp=%d damage=%d sight=%d",
-			   name, &face, &color, &maxhp, &damage, &sight);
+		       name, &face, &color, &maxhp, &damage, &sight);
 
 		us_to_space(name);
 
-		player[playerqty].name = malloc(MAX_NAME * sizeof(char));
-		strcpy(player[playerqty].name, name);
-		player[playerqty].face = face;
-		player[playerqty].color = COLOR_PAIR(color);
-		player[playerqty].maxhp = maxhp;
-		player[playerqty].hp = maxhp;
-		player[playerqty].isdead = false;
-		player[playerqty].damage = damage;
-		player[playerqty].sight = sight;
+		player[num].name = malloc(MAX_NAME * sizeof(char));
+		strcpy(player[num].name, name);
+		player[num].type = TYPE_GRASS;
+		player[num].ai = AI_PLAYER;
+		player[num].face = face;
+		player[num].color = COLOR_PAIR(color);
 
-		player[playerqty].speed = 0;
+		player[num].maxhp = maxhp;
+		player[num].hp = maxhp;
+		player[num].isdead = false;
+		player[num].damage = damage;
+		player[num].sight = sight;
+		player[num].speed = 0;
 
-		player[playerqty].holding.name = malloc(MAX_NAME * sizeof(char));
-		player[playerqty].holding.face = ' ';
-		player[playerqty].holding.color = 0;
-		player[playerqty].holding.type = 0;
-		player[playerqty].holding.stat = 0;
-
+		player[num].direc = RIGHT;
 		do {
 			x_0 = rand() % MAX_X;
 			y_0 = rand() % MAX_Y;
 		} while (!is_floor(x_0, y_0));
-		player[playerqty].x = x_0;
-		player[playerqty].y = y_0;
+		player[num].x = x_0;
+		player[num].y = y_0;
 
-		player[playerqty].msg.data = malloc(MAX_NAME * sizeof(char));
-		player[playerqty].msg.disp = false;
+		player[num].msg.data = malloc(MAX_NAME * sizeof(char));
+		player[num].msg.disp = false;
 
 		for (int i = 0; i < 16; i++) {
-			player[playerqty].inv[i].name = "";
-			player[playerqty].inv[i].face = ' ';
-			player[playerqty].inv[i].color = 0;
-			player[playerqty].inv[i].map[0][0] = 0;
+			player[num].inv[i].name = "";
+			player[num].inv[i].face = ' ';
+			player[num].inv[i].color = 0;
+			player[num].inv[i].map[0][0] = 0;
 		}
 
-		playerqty++;
+		player[num].holding.name = malloc(MAX_NAME * sizeof(char));
+		player[num].holding.face = ' ';
+		player[num].holding.color = 0;
+		player[num].holding.type = 0;
+		player[num].holding.stat = 0;
+
+		num++;
 
 	} while (!feof(f));
+
+	do {
+		ch = fgetc(f);
+		if (ch == '\n')
+			nol++;
+	} while (ch != EOF);
+	playerqty = nol;
 
 	fclose(f);
 
 	free(name);
 
-	/* FIXME */
-	playerqty -= 2;
 }
 
