@@ -151,6 +151,7 @@ void init_entity(void) {
 
 			/* TODO: Break into function and add smart
 			* integration of is_floor function */
+			/* TODO: integrate TYPE_ALL */
 			do {
 				x_0 = rand() % MAX_X;
 				y_0 = rand() % MAX_Y;
@@ -192,7 +193,7 @@ void init_player(void) {
 
 		player[num].name = malloc(MAX_NAME * sizeof(char));
 		strcpy(player[num].name, name);
-		player[num].type = TYPE_GRASS;
+		player[num].type = TYPE_ALL;
 		player[num].ai = AI_PLAYER;
 		player[num].face = face;
 		player[num].color = COLOR_PAIR(color);

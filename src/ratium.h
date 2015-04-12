@@ -40,6 +40,7 @@ typedef enum {
 } ITEM_TYPE;
 
 typedef enum {
+	TYPE_ALL,
 	TYPE_CAVE,
 	TYPE_GRASS,
 	TYPE_WATER
