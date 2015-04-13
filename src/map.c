@@ -66,6 +66,7 @@ bool is_floor(int x, int y) {
 	}
 }
 
+/* floor_count: return how many tiles of charater ch are on map */
 int floor_count(char ch) {
 	int count;
 	for (int i = 0; i < MAX_X; i++)

@@ -7,15 +7,18 @@
 /* TODO: Improve and implement in other functions */
 /* TODO: Add min and max parameters */
 /* calc_rarity: change rarity to make it random */
-static void calc_rarity(int *rarity) {
-	if (*rarity != 0)
+static void
+calc_rarity(int *rarity) {
+	if (*rarity != 0) {
 		*rarity += rand() % 3;
-	if (*rarity + entqty > MAX_ENTITIES)
-		*rarity = 0;
+		if (*rarity + entqty > MAX_ENTITIES)
+			*rarity = 0;
+	}
 }
 
 /* us_to_space: convert underscores in string name to spaces */
-static void us_to_space(char *data) {
+static void
+us_to_space(char *data) {
 	for(int i = 0, l = strlen(data); i < l; i++)
 		if(data[i] == '_') {
 			data[i] = ' ';
@@ -23,6 +26,8 @@ static void us_to_space(char *data) {
 		}
 }
 
+/* gen_ent: change x and y values to a valid place for entity to be generated
+ *          based on type */
 static void
 gen_ent(int *x, int *y, ENT_TYPE type) {
 	int spawntile;

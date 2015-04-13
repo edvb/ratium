@@ -109,6 +109,8 @@ void draw_item(Item item, Ent e, int r);
 
 /* entity.c: handle anything with entities */
 void draw_ent(Ent e, Ent oe, int r);
+
+/* ai.c: different entity AIs */
 void rand_ai(Ent *e, int speed);
 void dumb_ai(Ent *e, int xNew, int yNew, int speed);
 

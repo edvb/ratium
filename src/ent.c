@@ -48,6 +48,7 @@ void attack(Ent *e, Ent *foe) {
 		take_damage(foe, deal_damage(e));
 }
 
+/* take_damage: determine how much damage entity e should take */
 void take_damage(Ent *e, int damage) {
 	switch (e->holding.type) {
 		case ITEM_SHIELD:
@@ -64,6 +65,7 @@ void take_damage(Ent *e, int damage) {
 	}
 }
 
+/* deal_damage: determine how much damage entity e should give to other entities */
 int deal_damage(Ent *e) {
 	switch (e->holding.type) {
 		case ITEM_SWORD:

@@ -28,7 +28,6 @@ void rand_ai(Ent *e, int speed) {
 	}
 }
 
-/* TODO: Make entity have sight and move randomly when player not in sight */
 void dumb_ai(Ent *e, int xNew, int yNew, int speed) {
 	if (isalive(e->hp)) {
 
