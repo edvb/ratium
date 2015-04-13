@@ -23,6 +23,25 @@ static void us_to_space(char *data) {
 		}
 }
 
+static void
+gen_ent(int *x, int *y, ENT_TYPE type) {
+	int spawntile;
+
+	switch(type) {
+	case TYPE_ALL:                    break;
+	case TYPE_CAVE:  spawntile = '.'; break;
+	case TYPE_GRASS: spawntile = 'g'; break;
+	case TYPE_WATER: spawntile = 'w'; break;
+	}
+
+	do {
+		*x = rand() % MAX_X;
+		*y = rand() % MAX_Y;
+	} while ((type == TYPE_ALL) ?
+		  !is_floor(*x, *y) :
+		  get_map(*x, *y) != spawntile);
+}
+
 /* init_item: read from data/items.txt file and store in item array */
 void init_item(void) {
 
@@ -89,7 +108,6 @@ void init_entity(void) {
 	int rarity;
 
 	int x_0, y_0;
-	int spawntile;
 
 	entqty = 0;
 
@@ -142,20 +160,7 @@ void init_entity(void) {
 			strcpy(entity[num].inv[0].name, drop);
 			entity[num].inv[0].map[0][0] = rand() % 3;
 
-			switch(type) {
-			case TYPE_CAVE:  spawntile = '.'; break;
-			case TYPE_GRASS: spawntile = 'g'; break;
-			case TYPE_WATER: spawntile = 'w'; break;
-			default: spawntile = '.'; break;
-			}
-
-			/* TODO: Break into function and add smart
-			* integration of is_floor function */
-			/* TODO: integrate TYPE_ALL */
-			do {
-				x_0 = rand() % MAX_X;
-				y_0 = rand() % MAX_Y;
-			} while (get_map(x_0, y_0) != spawntile);
+			gen_ent(&x_0, &y_0, type);
 			entity[num].x = x_0;
 			entity[num].y = y_0;
 
