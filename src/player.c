@@ -213,7 +213,7 @@ bool player_run(int c, Ent *e) {
 		case RAT_STAND: returnval = true; break;
 		case RAT_GET:   get_item(e); returnval = true; break;
 		case RAT_OPEN:  toggle_door(e->x, e->y); returnval = true; break;
-		case RAT_INV:   inv(e); returnval = true; break;
+		case RAT_INV:   inv(e); returnval = true; break; /* TODO: Make inv not take up turn */
 		default: returnval = false; break;
 		}
 
