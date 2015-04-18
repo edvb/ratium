@@ -1,8 +1,6 @@
 #ifndef RATIUM_H
 #define RATIUM_H
 
-#define ever (;;)
-
 #define RED COLOR_PAIR(1)
 #define GREEN COLOR_PAIR(2)
 #define BLUE COLOR_PAIR(3)
@@ -68,26 +66,28 @@ struct _Msg {
 	bool disp;
 };
 
+/* universal struct for players and any mobile creature */
 typedef struct _Ent Ent;
 struct _Ent {
 	char *name;
-	ENT_TYPE type;
-	ENT_AI ai;
-	char face;
-	int color;
+	ENT_TYPE type; /* used mainly for where to spawn */
+	ENT_AI ai;     /* how should it move around */
+	char face;     /* char that it displayed */
+	int color;     /* color of char */
 
-	DIREC direc;
+	DIREC direc; /* direction they are facing */
 	int x, y;
-	int bary;
+	int bary;    /* position of stat bar, mainly for player,
+		      * should probably make this auto-assign */
 
 	int maxhp, hp;
-	bool isdead;
-	int damage;
-	int sight;
-	int speed;
+	bool isdead; /* set to true after entity death stuff it run */
+	int damage;  /* how much damage entity deals to others */
+	int sight;   /* how far entity can see */
+	int speed;   /* how fast entity ai can move */
 
-	struct _Msg msg;
-	Item inv[MAX_INV];
+	struct _Msg msg; /* message player will display, or message to tell player */
+	Item inv[MAX_INV]; /* inventory */
 	Item holding; /* TODO: change to int */
 };
 
