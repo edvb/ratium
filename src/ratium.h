@@ -53,20 +53,21 @@ typedef enum {
 typedef struct {
 	char *name;
 	ITEM_TYPE type;
-	int map[MAX_Y][MAX_X];
-	char face;
-	int color;
+	int map[MAX_Y][MAX_X]; /* position and count of item in world */
+	char face; /* char that gets displayed */
+	int color; /* color of char */
 
-	int stat;
+	int stat;  /* universal variable for damage of sword, heath healed for food, etc */
 } Item;
 
 typedef struct _Msg Msg;
 struct _Msg {
-	char *data;
-	bool disp;
+	char *data; /* string for contents of message */
+	bool disp;  /* if player should display message
+		     * or if entity tells message */
 };
 
-/* universal struct for players and any mobile creature */
+/* universal struct for players and other entities */
 typedef struct _Ent Ent;
 struct _Ent {
 	char *name;
