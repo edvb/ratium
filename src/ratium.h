@@ -1,6 +1,8 @@
+/* main header file for ratium */
 #ifndef RATIUM_H
 #define RATIUM_H
 
+/* some colors, should probably be replaced with enum, or removed */
 #define RED COLOR_PAIR(1)
 #define GREEN COLOR_PAIR(2)
 #define BLUE COLOR_PAIR(3)
@@ -11,6 +13,7 @@
 #define WATER COLOR_PAIR(9)
 #define GRASS COLOR_PAIR(10)
 
+/* max constants */
 #define MAX_X 80
 #define MAX_Y 24
 #define MAX_NAME 16
@@ -19,6 +22,7 @@
 #define MAX_ITEMS 256
 #define MAX_INV 16
 
+/* direction entities can face */
 typedef enum {
 	LEFT,
 	DOWN,
@@ -37,6 +41,7 @@ typedef enum {
 	ITEM_SHIELD
 } ITEM_TYPE;
 
+/* where the entity can spawn */
 typedef enum {
 	TYPE_ALL,
 	TYPE_CAVE,
@@ -44,6 +49,7 @@ typedef enum {
 	TYPE_WATER
 } ENT_TYPE;
 
+/* type of entity ai, or if entity is player */
 typedef enum {
 	AI_PLAYER,
 	AI_HOSTILE,
@@ -57,7 +63,7 @@ typedef struct {
 	char face; /* char that gets displayed */
 	int color; /* color of char */
 
-	int stat;  /* universal variable for damage of sword, heath healed for food, etc */
+	int stat;  /* universal variable for damage of sword, heath healed for food, etc. */
 } Item;
 
 typedef struct _Msg Msg;
@@ -88,8 +94,9 @@ struct _Ent {
 	int speed;   /* how fast entity ai can move */
 
 	struct _Msg msg; /* message player will display, or message to tell player */
-	Item inv[MAX_INV]; /* inventory */
-	Item holding; /* TODO: change to int */
+	Item inv[MAX_INV]; /* inventory of entity*/
+	/* TODO: change to int */
+	Item holding;
 };
 
 /* map.c: handle the map */
