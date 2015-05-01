@@ -90,7 +90,6 @@ void toggle_door(int x, int y) {
 	else if (get_map(x, y+1) == '-') set_map(x, y+1, '+');
 }
 
-/* TODO: Use get_map function */
 /* draw_map: draw the map foreground (stuff that is on top of entities) */
 void draw_map(Ent e, int r) {
 	for (int i = e.x-r; i < e.x+r && i < MAX_X; i++)
