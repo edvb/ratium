@@ -1,4 +1,24 @@
-include config.mk
+# ratium version number
+VERSION = 0.0.0
+
+### Change the varibles below for your system
+
+# paths
+PREFIX = /usr/local
+MANPREFIX = ${PREFIX}/share/man
+
+# includes and libs
+INCS = -Iinclude
+LIBS = -lncurses
+
+# flags
+CFLAGS = -std=c11 -pedantic -Wall ${INCS} -DVERSION=\"$(VERSION)\"
+LDFLAGS = ${LIBS}
+
+# compiler and linker
+CC = gcc-4.9
+
+### Makefile
 
 EXE = ratium
 SRC = $(wildcard src/*.c)
@@ -12,7 +32,7 @@ options:
 	@echo "CFLAGS  = $(CFLAGS)"
 	@echo "LDFLAGS = $(LDFLAGS)"
 
-$(OBJ): config.h config.mk
+$(OBJ): config.h
 
 .o:
 	@echo LD $@
@@ -42,7 +62,7 @@ clean:
 dist: clean
 	@echo -n creating dist tarball...
 	@mkdir -p $(EXE)-$(VERSION)
-	@cp -R Makefile config.mk src/ data/ misc/ \
+	@cp -R Makefile src/ data/ misc/ \
 		$(EXE).1 $(EXE)-$(VERSION)
 	@tar -cf $(EXE)-$(VERSION).tar $(EXE)-$(VERSION)
 	@gzip $(EXE)-$(VERSION).tar
@@ -69,4 +89,4 @@ uninstall:
 	@rm -f $(DESTDIR)$(MANPREFIX)/man1/$(EXE).1
 	@echo \ done
 
-.PHONY: all options run clean install uninstall
+.PHONY: all options run clean dist install uninstall
