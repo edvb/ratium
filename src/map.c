@@ -94,35 +94,37 @@ void toggle_door(int x, int y) {
 void draw_map(Ent e, int r) {
 	for (int i = e.x-r; i < e.x+r && i < MAX_X; i++)
 		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
-			switch (get_map(i, j)) {
-			case '#': mvaddch(j, i, '#' + COLOR_PAIR(12)); break;
-			case 'X': mvaddch(j, i, 'X' + COLOR_PAIR(13)); break;
-			case '+': mvaddch(j, i, '+' + BROWN);          break;
-			}
+			if (j >= 0)
+				switch (get_map(i, j)) {
+				case '#': mvaddch(j, i, '#' + COLOR_PAIR(12)); break;
+				case 'X': mvaddch(j, i, 'X' + COLOR_PAIR(13)); break;
+				case '+': mvaddch(j, i, '+' + BROWN);          break;
+				}
 }
 
 /* draw_map: draw the map background (stuff that is below entities) */
 void draw_map_floor(Ent e, int r) {
 	for (int i = e.x-r; i < e.x+r && i < MAX_X; i++)
 		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
-			switch (get_map(i, j)) {
-			case ' ': mvaddch(j, i, worldMap[j][i]); break;
-			case '.':
-				attron(COLOR_PAIR(11));
-				mvaddch(j, i,
-					(maprand[j][i] == 0)
-					? ACS_BULLET : ':');
-				attroff(COLOR_PAIR(11));
-				break;
-			case 'g':
-				attron(GRASS);
-				mvaddch(j, i,
-					(maprand[j][i] == 0)
-					? ACS_BULLET : '*');
-				attroff(GRASS);
-				break;
-			case 'w': mvaddch(j, i, '~' + WATER); break;
-			case '-': mvaddch(j, i, '-' + BROWN); break;
-			}
+			if (j >= 0)
+				switch (get_map(i, j)) {
+				case ' ': mvaddch(j, i, get_map(i, j)); break;
+				case '.':
+					attron(COLOR_PAIR(11));
+					mvaddch(j, i,
+						(maprand[j][i] == 0)
+						? ACS_BULLET : ':');
+					attroff(COLOR_PAIR(11));
+					break;
+				case 'g':
+					attron(GRASS);
+					mvaddch(j, i,
+						(maprand[j][i] == 0)
+						? ACS_BULLET : '*');
+					attroff(GRASS);
+					break;
+				case 'w': mvaddch(j, i, '~' + WATER); break;
+				case '-': mvaddch(j, i, '-' + BROWN); break;
+				}
 }
 
