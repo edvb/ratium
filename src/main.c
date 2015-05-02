@@ -102,11 +102,23 @@ int main(int argc, char *argv[]) {
 	srand(time(NULL));
 
 	init_map();
-	init_entity();
-	init_player();
+	if (!init_entity()) {
+		endwin();
+		printf("ratium: error: file data/entities.txt not found\n");
+		return 1;
+	}
+	if (!init_player()) {
+		endwin();
+		printf("ratium: error: file data/players.txt not found\n");
+		return 1;
+	}
 	player[0].bary = 0;
 
-	init_item();
+	if (!init_item()) {
+		endwin();
+		printf("ratium: error: file data/items.txt not found\n");
+		return 1;
+	}
 
 	do {
 

@@ -128,9 +128,9 @@ void draw_msg(Msg *msg);
 bool player_run(int c, Ent *e);
 
 /* data.c: handle reading from data/ directory */
-void init_item(void);
-void init_entity(void);
-void init_player(void);
+bool init_item(void);
+bool init_entity(void);
+bool init_player(void);
 
 int maxx;
 int maxy;

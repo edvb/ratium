@@ -48,7 +48,7 @@ gen_ent(int *x, int *y, ENT_TYPE type) {
 }
 
 /* init_item: read from data/items.txt file and store in item array */
-void init_item(void) {
+bool init_item(void) {
 
 	char *name = malloc(MAX_NAME * sizeof(char));
 	char face;
@@ -59,6 +59,7 @@ void init_item(void) {
 	itemqty = 0;
 
 	FILE *f = fopen("data/items.txt", "r");
+	if (f == NULL) return false;
 
 	do {
 		fscanf(f, "%s %c(%i): type=%i stat=%i rarity=%i\n",
@@ -96,10 +97,11 @@ void init_item(void) {
 
 	itemqty++;
 
+	return true;
 }
 
 /* init_entity: read from data/entities.txt file and store in entity array */
-void init_entity(void) {
+bool init_entity(void) {
 
 	char *name = malloc(MAX_NAME * sizeof(char));
 	char *drop = malloc(MAX_NAME * sizeof(char));
@@ -117,6 +119,7 @@ void init_entity(void) {
 	entqty = 0;
 
 	FILE *f = fopen("data/entities.txt", "r");
+	if (f == NULL) return false;
 
 	do {
 		fscanf(f, "%s %c(%i): hp=%i damge=%i type=%i ai=%i sight=%i rarity=%i %s\n",
@@ -177,11 +180,11 @@ void init_entity(void) {
 	free(name);
 	free(drop);
 
+	return true;
 }
 
 /* init_player: read from data/players.txt file and store in player array */
-void init_player(void) {
-
+bool init_player(void) {
 	char *name = malloc(MAX_NAME * sizeof(char));
 	char face;
 	int color;
@@ -194,6 +197,7 @@ void init_player(void) {
 	int ch, nol = 0;
 
 	FILE *f = fopen("data/players.txt", "r");
+	if (f == NULL) return false;
 
 	do {
 		fscanf(f, "%s %c(%d): hp=%d damage=%d sight=%d",
@@ -254,5 +258,6 @@ void init_player(void) {
 
 	free(name);
 
+	return true;
 }
 
