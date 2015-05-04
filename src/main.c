@@ -6,6 +6,12 @@
 
 #include "ratium.h"
 
+/* display error message and quit */
+#define ERROR(msg) printf("%s: error: %s\n", argv[0], msg); \
+		   return 1;
+/* end ncurses then run ERROR */
+#define NERROR(msg) endwin(); ERROR(msg);
+
 static const struct option longopts[] = {
 	{"help", no_argument, NULL, 'h'},
 	{"version", no_argument, NULL, 'v'},
@@ -42,7 +48,6 @@ int main(int argc, char *argv[]) {
 			ratium_version();
 			return 0;
 		default:
-			printf("ratium: error: option not supported\n");
 			printf("for help run \"ratium --help\"\n");
 			return 1;
 		}
@@ -84,41 +89,23 @@ int main(int argc, char *argv[]) {
 		init_pair(12,  6, 11); /* dark grey bg */
 		init_pair(13,  5, 12); /* dark brown bg */
 	} else {
-		endwin();
-		printf("ratium: error: terminal does not support colors\n");
-		return 1;
+		NERROR("terminal does not support colors");
 	}
 
 	int c;
 
 	getmaxyx(stdscr, maxy, maxx);
 
-	if (maxx < 80 || maxy < 24) {
-		endwin();
-		printf("ratium: error: terminal too small\n");
-		return 1;
-	}
+	if (maxx < 80 || maxy < 24) { NERROR("terminal too small"); }
 
 	srand(time(NULL));
 
 	init_map();
-	if (!init_entity()) {
-		endwin();
-		printf("ratium: error: file data/entities.txt not found\n");
-		return 1;
-	}
-	if (!init_player()) {
-		endwin();
-		printf("ratium: error: file data/players.txt not found\n");
-		return 1;
-	}
-	player[0].bary = 0;
+	if (!init_entity()) { NERROR("file data/entities.txt not found"); }
+	if (!init_player()) { NERROR("file data/players.txt not found"); }
+	if (!init_item())   { NERROR("file data/items.txt not found"); }
 
-	if (!init_item()) {
-		endwin();
-		printf("ratium: error: file data/items.txt not found\n");
-		return 1;
-	}
+	player[0].bary = 0; /* TODO: this should be assigned automatically */
 
 	do {
 
