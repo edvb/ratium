@@ -1,8 +1,7 @@
-/* main header file for ratium */
 #ifndef RATIUM_H
 #define RATIUM_H
 
-/* some colors, should probably be replaced with enum, or removed */
+/* some colors, should probably be replaced with enum, or be removed */
 #define RED COLOR_PAIR(1)
 #define GREEN COLOR_PAIR(2)
 #define BLUE COLOR_PAIR(3)
@@ -104,6 +103,7 @@ void init_map(void);
 char get_map(int x, int y);
 void set_map(int x, int y, char newch);
 bool is_floor(int x, int y);
+bool is_floor_range(int x, int y, int dx, int dy);
 int  floor_count(char ch);
 void toggle_door(int x, int y);
 void draw_map(Ent e, int r);

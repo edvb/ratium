@@ -2,40 +2,38 @@
 #include <stdlib.h>
 
 #include "ratium.h"
+#include "maps.h"
 
-static char worldMap[MAX_Y][MAX_X+1] = {
-"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggg###################ggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggg#.................######gggggggggggggggggggwwwwwgggggg",
-"ggg#####++#####ggggggggggg#.................+....#ggggggggggggggggggwwwwwwwggggg",
-"ggg#..........#ggggggggggg##############+####....#ggggggggggggggggggwwwwwwwwgggg",
-"ggg#..........######ggggggggggggggggggg#.#gg######ggggggggggggggggggggwwwwwwgggg",
-"ggg#..........#....#ggggggggggggggggggg#.#gggggggggggggg..gggggggggggggwwwwggggg",
-"ggg#..........+....#######ggg###########.################..gggggggggggggwwgggggg",
-"ggg#####+######..........#ggg#..........................+..ggggggggggggggggggggg",
-"ggggggg#.#gggg#....#####.#ggg#.#################+########.g.gggggggggggggggggggg",
-"ggggggg#.#gggg######ggg#.#ggg#.#gggggggggggggg#...#gggg...gggggggggggggggggggggg",
-"ggggggg+.+ggggggggggggg#.#ggg#.#gggggggggggggg#...#ggggg.ggggggggggggggggggggggg",
-"ggggggg#.#ggggggggggggg#.#ggg#.#gggggggggggggg#####ggggggggggggggggggggggggggggg",
-"ggggggg#.#ggggggggggg###+#####+####ggggggggggggggggggggggggggggggggggggggggggggg",
-"gggg####.#######ggggg#............#gggggggggggggggggggggggggggggggggggggggggggg#",
-"gggg#..........#ggggg#............#gggggggggggggggggggggggggggggggggggggggg#####",
-"gggg#..........#ggggg###########+##gggggggggggXXXXXXXX+XXXgggggggggggggg########",
-"gggg+..........#ggggggggggggggg#.#ggggggggggggX..........Xggggggggggg###########",
-"gggg#########+##ggggggggggggggg+.#ggggggggggggX..........Xggggggggg#############",
-"gggggggggggg#.#gggggggggggggggg#.#ggggggggggggX..........Xgggggggg##############",
-"gggggggggggg#.##################.#ggggggggggggXXXXXXXXXXXXggggggg###############",
-"gggggggggggg#....................#ggggggggggggggggggggggggggggggg###############",
-"gggggggggggg######################gggggggggggggggggggggggggggggg################",
-"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg################",
-};
+static void
+init_building(int count, const char building[][MAX_X+1], int len, int height) {
+	int x_0, y_0;
+	int tries = 0;
 
-static int maprand[MAX_Y][MAX_X+1];
+	count += rand() % 2; /* randomly change amount of buildings */
+	for (int num = 0; num < count; num++) {
+		do {
+			x_0 = rand() % MAX_X;
+			y_0 = rand() % MAX_Y;
+			tries++;
+			if (tries > 100000) /* if it has tried to many times to find a place to fit, give up */
+				return;
+		} while (!is_floor_range(x_0-2, y_0-2, len+2, height+2)); /* add 2 for gap around building */
+		/* copy building to world */
+		for (int i = 0; i < len; i++)
+			for (int j = 0; j < height; j++)
+				if (building[j][i] != ' ')
+					set_map(i+x_0, j+y_0, building[j][i]);
+	}
+}
 
 /* init_map: asign values to maprand to determine if character displayed there
  * should be a different char */
 void init_map(void) {
 	int num;
+	init_building(1, shed, 12, 5);
+	init_building(1, lake, 8, 6);
+	init_building(1, well, 3, 3);
+	/* asign random values to maprand, used for added decoation */
 	for (int i = 0; i < MAX_X; i++)
 		for (int j = 0; j < MAX_Y; j++) {
 			if ((num = rand() % 50) == 0)
@@ -66,13 +64,21 @@ bool is_floor(int x, int y) {
 	}
 }
 
+/* is_floor_range: return weather or not the area given is all a floor tile */
+bool is_floor_range(int x, int y, int dx, int dy) {
+	for (int i = x; i <= dx+x; i++)
+		for (int j = y; j <= dy+y; j++)
+			if (get_map(i, j) != 'g')
+				return false;
+	return true;
+}
+
 /* floor_count: return how many tiles of charater ch are on map */
 int floor_count(char ch) {
 	int count;
 	for (int i = 0; i < MAX_X; i++)
 		for (int j = 0; j < MAX_Y; j++)
-			/* TODO: Incorporate smart is_floor intergration */
-			if (get_map(i, j) == ch)
+			if (get_map(i, j) == ch) /* TODO: Incorporate smart is_floor intergration */
 				count++;
 	return count;
 }
