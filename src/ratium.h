@@ -21,6 +21,9 @@
 #define MAX_ITEMS 256
 #define MAX_INV 16
 
+#undef false
+#undef true
+#undef bool
 typedef enum { false, true } bool;
 
 /* direction entities can face */
