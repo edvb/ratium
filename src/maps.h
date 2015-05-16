@@ -1,3 +1,9 @@
+typedef struct _Map Map;
+struct _Map {
+	int len, height;
+	char map[MAX_Y][MAX_X+1]; /* +1 for \0 */
+};
+
 char worldMap[MAX_Y][MAX_X+1] = {
 "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
 "gggggggggggggggggggggggggg###################ggggggggggggggggggggggggggggggggggg",
@@ -22,32 +28,28 @@ char worldMap[MAX_Y][MAX_X+1] = {
 "gggggggggggg#.##################.#ggggggggggggggggggggggggggggggg###############",
 "gggggggggggg#....................#ggggggggggggggggggggggggggggggg###############",
 "gggggggggggg######################gggggggggggggggggggggggggggggg################",
-"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg################",
+"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg################"
 };
 
 int maprand[MAX_Y][MAX_X+1];
 
-const char shed[5][MAX_X+1] = {
+struct _Map buildings[10] = {
+{ 12, 5, {
 "XXXXXXXX+XXX",
 "X..........X",
 "X..........X",
 "X..........X",
-"XXXXXXXXXXXX"
-};
-
-
-const char lake[6][MAX_X+1] = {
+"XXXXXXXXXXXX" } },
+{  8, 6, {
 " wwwww  ",
 "wwwwwww ",
 "wwwwwwww",
 "  wwwwww",
 "   wwww ",
-"    ww  "
-};
-
-const char well[3][MAX_X+1] = {
+"    ww  " } },
+{  3, 3, {
 " # ",
 "#w#",
-" # ",
+" # " } }
 };
 

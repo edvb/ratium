@@ -5,7 +5,7 @@
 #include "maps.h"
 
 static void
-init_building(int count, const char building[][MAX_X+1], int len, int height) {
+init_building(int count, Map building) {
 	int x_0, y_0;
 	int tries = 0;
 
@@ -17,12 +17,12 @@ init_building(int count, const char building[][MAX_X+1], int len, int height) {
 			tries++;
 			if (tries > 100000) /* if it has tried to many times to find a place to fit, give up */
 				return;
-		} while (!is_floor_range(x_0-2, y_0-2, len+2, height+2)); /* add 2 for gap around building */
+		} while (!is_floor_range(x_0-2, y_0-2, building.len+2, building.height+2)); /* add 2 for gap around building */
 		/* copy building to world */
-		for (int i = 0; i < len; i++)
-			for (int j = 0; j < height; j++)
-				if (building[j][i] != ' ')
-					set_map(i+x_0, j+y_0, building[j][i]);
+		for (int i = 0; i < building.len; i++)
+			for (int j = 0; j < building.height; j++)
+				if (building.map[j][i] != ' ')
+					set_map(i+x_0, j+y_0, building.map[j][i]);
 	}
 }
 
@@ -30,11 +30,9 @@ init_building(int count, const char building[][MAX_X+1], int len, int height) {
  * should be a different char */
 void init_map(void) {
 	int num;
-	init_building(1, shed, 12, 5);
-	init_building(1, lake, 8, 6);
-	init_building(1, well, 3, 3);
-	/* asign random values to maprand, used for added decoation */
-	for (int i = 0; i < MAX_X; i++)
+	for (int i = 0; i < 10; i++) /* create buildings in world */
+		init_building(1, buildings[i]);
+	for (int i = 0; i < MAX_X; i++) /* asign random values to maprand, used for added decoration */
 		for (int j = 0; j < MAX_Y; j++) {
 			if ((num = rand() % 50) == 0)
 				maprand[j][i] = 1;
