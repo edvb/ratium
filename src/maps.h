@@ -1,6 +1,7 @@
 typedef struct _Map Map;
 struct _Map {
 	int len, height;
+	int rarity;
 	char map[MAX_Y][MAX_X+1]; /* +1 for \0 */
 };
 
@@ -34,22 +35,22 @@ char worldMap[MAX_Y][MAX_X+1] = {
 int maprand[MAX_Y][MAX_X+1];
 
 struct _Map buildings[10] = {
-{ 12, 5, {
+{ 12, 5, 1, {
 "XXXXXXXX+XXX",
 "X..........X",
 "X..........X",
 "X..........X",
-"XXXXXXXXXXXX" } },
-{  8, 6, {
+"XXXXXXXXXXXX" }},
+{ 8, 6, 1, {
 " wwwww  ",
 "wwwwwww ",
 "wwwwwwww",
 "  wwwwww",
 "   wwww ",
-"    ww  " } },
-{  3, 3, {
+"    ww  " }},
+{ 3, 3, 1, {
 " # ",
 "#w#",
-" # " } }
+" # " }}
 };
 

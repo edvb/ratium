@@ -5,12 +5,12 @@
 #include "maps.h"
 
 static void
-init_building(int count, Map building) {
+init_building(Map building) {
 	int x_0, y_0;
 	int tries = 0;
 
-	count += rand() % 2; /* randomly change amount of buildings */
-	for (int num = 0; num < count; num++) {
+	building.rarity += rand() % 2; /* randomly change amount of buildings */
+	for (int num = 0; num < building.rarity; num++) {
 		do {
 			x_0 = rand() % MAX_X;
 			y_0 = rand() % MAX_Y;
@@ -31,7 +31,7 @@ init_building(int count, Map building) {
 void init_map(void) {
 	int num;
 	for (int i = 0; i < 10; i++) /* create buildings in world */
-		init_building(1, buildings[i]);
+		init_building(buildings[i]);
 	for (int i = 0; i < MAX_X; i++) /* asign random values to maprand, used for added decoration */
 		for (int j = 0; j < MAX_Y; j++) {
 			if ((num = rand() % 50) == 0)
