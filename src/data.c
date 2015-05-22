@@ -4,6 +4,11 @@
 
 #include "ratium.h"
 
+static struct _Keys player_keys[MAX_PLAYERS] = {
+{ 'h', 'j', 'k', 'l', 'b', 'y', 'n', 'u', '.', 'g', 'o', 'i' },
+{ 'a', 'x', 'w', 'd', 'z', 'q', 'c', 'e', 's', 'r', 'f', 'v' },
+};
+
 /* TODO: Improve and implement in other functions */
 /* TODO: Add min and max parameters */
 /* calc_rarity: change rarity to make it random */
@@ -226,6 +231,8 @@ bool init_player(void) {
 		} while (!is_floor(x_0, y_0));
 		player[num].x = x_0;
 		player[num].y = y_0;
+
+		player[num].keys = player_keys[num];
 
 		player[num].msg.data = malloc(MAX_NAME * sizeof(char));
 		player[num].msg.disp = false;

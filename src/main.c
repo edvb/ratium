@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
 			       c != 27 && c != 'q')
 				c = getch();
 
-	} while (c != 27 && c != 'q');
+	} while (c != 27);
 
 	endwin();
 	printf("GAME OVER\n");

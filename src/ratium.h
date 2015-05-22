@@ -77,6 +77,13 @@ struct _Msg {
 		     * or if entity tells message */
 };
 
+typedef struct _Keys Keys;
+struct _Keys {
+	char left, down, up, right;
+	char leftdown, leftup, rightdown, rightup;
+	char stand, get, open, inv;
+};
+
 /* universal struct for players and other entities */
 typedef struct _Ent Ent;
 struct _Ent {
@@ -97,6 +104,7 @@ struct _Ent {
 	int sight;   /* how far entity can see */
 	int speed;   /* how fast entity ai can move */
 
+	struct _Keys keys; /* player keys */
 	struct _Msg msg; /* message player will display, or message to tell player */
 	Item inv[MAX_INV]; /* inventory of entity*/
 	/* TODO: change to int */

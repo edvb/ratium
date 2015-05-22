@@ -160,62 +160,44 @@ bool player_run(int c, Ent *e) {
 	if (isalive(e->hp)) {
 		bool returnval; /* true if key pressed is valid key */
 
-		switch (c) {
-		case '4':
-		case RAT_LEFT:
+		if (c == e->keys.left) {
 			move_entity(e, -1, 0);
 			e->direc = LEFT;
 			returnval = true;
-			break;
-		case '2':
-		case RAT_DOWN:
+		} else if (c == e->keys.down) {
 			move_entity(e, 0, 1);
 			e->direc = DOWN;
 			returnval = true;
-			break;
-		case '8':
-		case RAT_UP:
+		} else if (c == e->keys.up) {
 			move_entity(e, 0, -1);
 			e->direc = UP;
 			returnval = true;
-			break;
-		case '6':
-		case RAT_RIGHT:
+		} else if  (c == e->keys.right) {
 			move_entity(e, 1, 0);
 			e->direc = RIGHT;
 			returnval = true;
-			break;
-		case '1':
-		case RAT_LEFTDOWN:
+		} else if  (c == e->keys.leftdown) {
 			move_entity(e, -1, 1);
 			e->direc = LEFTDOWN;
 			returnval = true;
-			break;
-		case '7':
-		case RAT_LEFTUP:
+		} else if  (c == e->keys.leftup) {
 			move_entity(e, -1, -1);
 			e->direc = LEFTUP;
 			returnval = true;
-			break;
-		case '3':
-		case RAT_RIGHTDOWN:
+		} else if (c == e->keys.rightdown) {
 			move_entity(e, 1, 1);
 			e->direc = RIGHTDOWN;
 			returnval = true;
-			break;
-		case '9':
-		case RAT_RIGHTUP:
+		} else if (c == e->keys.rightup) {
 			move_entity(e, 1, -1);
 			e->direc = RIGHTUP;
 			returnval = true;
-			break;
-		case '5':
-		case RAT_STAND: returnval = true; break;
-		case RAT_GET:   get_item(e); returnval = true; break;
-		case RAT_OPEN:  toggle_door(e->x, e->y); returnval = true; break;
-		case RAT_INV:   inv(e); returnval = true; break; /* TODO: Make inv not take up turn */
-		default: returnval = false; break;
 		}
+		else if (c == e->keys.stand) { returnval = true; }
+		else if (c == e->keys.get)   { get_item(e); returnval = true; }
+		else if (c == e->keys.open)  { toggle_door(e->x, e->y); returnval = true; }
+		else if (c == e->keys.inv)   { inv(e); returnval = true; } /* TODO: Make inv not take up turn */
+		else { returnval = true; }
 
 		if (e->hp > e->maxhp)
 			e->hp = e->maxhp;
