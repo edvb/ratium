@@ -163,6 +163,7 @@ bool init_entity(void) {
 				entity[num].msg.disp = true;
 			}
 
+			/* TODO: Make drop apart of inv */
 			for (int i = 0; i < MAX_INV; i++) {
 				entity[num].inv[i].name = malloc(MAX_NAME * sizeof(char));
 				entity[num].inv[i].face = ' ';
@@ -199,13 +200,12 @@ bool init_player(void) {
 
 	int x_0, y_0;
 	int num = 0;
-	int ch, nol = 0;
 
 	FILE *f = fopen("data/players.txt", "r");
 	if (f == NULL) return false;
 
 	do {
-		fscanf(f, "%s %c(%d): hp=%d damage=%d sight=%d",
+		fscanf(f, "%s %c(%d): hp=%d damage=%d sight=%d\n",
 		       name, &face, &color, &maxhp, &damage, &sight);
 
 		us_to_space(name);
@@ -254,12 +254,7 @@ bool init_player(void) {
 
 	} while (!feof(f));
 
-	do {
-		ch = fgetc(f);
-		if (ch == '\n')
-			nol++;
-	} while (ch != EOF);
-	playerqty = nol;
+	playerqty = num-1;
 
 	fclose(f);
 
