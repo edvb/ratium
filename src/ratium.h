@@ -143,7 +143,7 @@ bool player_run(int c, Ent *e);
 /* data.c: handle reading from data/ directory */
 bool init_item(void);
 bool init_entity(void);
-bool init_player(void);
+bool init_player(int count);
 
 int maxx;
 int maxy;

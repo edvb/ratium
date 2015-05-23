@@ -103,10 +103,8 @@ int main(int argc, char *argv[]) {
 
 	init_map();
 	if (!init_entity()) { NERROR("file data/entities.txt not found"); }
-	if (!init_player()) { NERROR("file data/players.txt not found"); }
+	if (!init_player(2)) { NERROR("file data/players.txt not found"); } /* TODO: Add option to change this */
 	if (!init_item())   { NERROR("file data/items.txt not found"); }
-
-	player[0].bary = 0; /* TODO: this should be assigned automatically */
 
 	do {
 

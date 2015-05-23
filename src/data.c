@@ -190,7 +190,7 @@ bool init_entity(void) {
 }
 
 /* init_player: read from data/players.txt file and store in player array */
-bool init_player(void) {
+bool init_player(int count) {
 	char *name = malloc(MAX_NAME * sizeof(char));
 	char face;
 	int color;
@@ -204,7 +204,7 @@ bool init_player(void) {
 	FILE *f = fopen("data/players.txt", "r");
 	if (f == NULL) return false;
 
-	do {
+	while (num < count) {
 		fscanf(f, "%s %c(%d): hp=%d damage=%d sight=%d\n",
 		       name, &face, &color, &maxhp, &damage, &sight);
 
@@ -214,7 +214,7 @@ bool init_player(void) {
 		strcpy(player[num].name, name);
 		player[num].type = TYPE_ALL;
 		player[num].ai = AI_PLAYER;
-		player[num].face = face;
+		player[num].face = '@';
 		player[num].color = COLOR_PAIR(color);
 
 		player[num].maxhp = maxhp;
@@ -231,6 +231,7 @@ bool init_player(void) {
 		} while (!is_floor(x_0, y_0));
 		player[num].x = x_0;
 		player[num].y = y_0;
+		player[num].bary = num;
 
 		player[num].keys = player_keys[num];
 
@@ -251,10 +252,9 @@ bool init_player(void) {
 		player[num].holding.stat = 0;
 
 		num++;
+	}
 
-	} while (!feof(f));
-
-	playerqty = num-1;
+	playerqty = count-1;
 
 	fclose(f);
 
