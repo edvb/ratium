@@ -81,7 +81,7 @@ typedef struct _Keys Keys;
 struct _Keys {
 	char left, down, up, right;
 	char leftdown, leftup, rightdown, rightup;
-	char stand, get, open, inv;
+	char stand, get, open, drop, inv;
 };
 
 /* universal struct for players and other entities */

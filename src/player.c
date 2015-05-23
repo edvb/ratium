@@ -106,20 +106,10 @@ static void inv(Ent *e) {
 	int k;
 
 	do {
-		switch (k) {
-			case RAT_UP:
-				arrow_y--;
-				break;
-			case RAT_DOWN:
-				arrow_y++;
-				break;
-			case RAT_GET:
-				inv_use_item(e, arrow_y-1);
-				break;
-			case RAT_DROP:
-				inv_drop_item(e, arrow_y-1);
-				break;
-		}
+		if      (k == e->keys.up) { arrow_y--; }
+		else if (k == e->keys.down) { arrow_y++; }
+		else if (k == e->keys.get) { inv_use_item(e, arrow_y-1); }
+		else if (k == e->keys.drop) { inv_drop_item(e, arrow_y-1); }
 
 		if (e->inv[arrow_y-1].face == ' ')
 			arrow_y--;
@@ -130,7 +120,7 @@ static void inv(Ent *e) {
 
 		draw_inv(e, arrow_y);
 
-	} while ((k = getch()) != RAT_INV);
+	} while ((k = getch()) != e->keys.inv);
 
 	clear();
 
