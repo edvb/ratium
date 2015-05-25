@@ -1,7 +1,8 @@
-#include <ncurses.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "ratium.h"
+#include "gfx.h"
 #include "ent.h"
 
 /* can_step: determine if entity can move to a new space */
@@ -116,12 +117,15 @@ void draw_ent(Ent e, Ent oe, int r) {
 	if (isalive(e.hp) &&
 	    oe.x-r < e.x && oe.x+r > e.x &&
 	    oe.y-r < e.y && oe.y+r > e.y) {
-		if (e.ai == AI_PLAYER)
-			mvprintw(e.bary, 0, "HP: %d", e.hp);
-		mvaddch(e.y, e.x, e.face + e.color);
+		if (e.ai == AI_PLAYER) {
+			char s[20];
+			sprintf(s, "HP: %d", e.hp);
+			rat_mvprint(0, e.bary, s, 0);
+		}
+		rat_mvaddch(e.x, e.y, e.face, e.color);
 		if (e.holding.face != ' ')
-			mvaddch(holding_y(e, e.y), holding_x(e, e.x),
-				e.holding.face + e.holding.color);
+			rat_mvaddch(holding_x(e, e.x), holding_y(e, e.y),
+				e.holding.face, e.holding.color);
 	}
 }
 

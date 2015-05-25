@@ -1,7 +1,7 @@
-#include <ncurses.h>
 #include <string.h>
 
 #include "ratium.h"
+#include "gfx.h"
 
 /* query_item: return element number of array matching name supplied */
 int query_item(char *name) {
@@ -26,6 +26,6 @@ void draw_item(Item item, Ent e, int r) {
 	for (int i = e.x-r; i < e.x+r && i < MAX_X; i++)
 		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
 			if (item.map[j][i] > 0)
-				mvaddch(j, i, item.face + item.color);
+				rat_mvaddch(i, j, item.face, item.color);
 }
 

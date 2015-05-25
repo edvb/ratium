@@ -1,17 +1,17 @@
 #include <getopt.h>
-#include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
 #include "ratium.h"
+#include "gfx.h"
 
 /* display error message and quit */
 #define ERROR(msg) printf("%s: error: %s\n", argv[0], msg); \
 		   return 1;
 /* end ncurses then run ERROR */
-#define NERROR(msg) endwin(); ERROR(msg);
+#define NERROR(msg) rat_endwin(); ERROR(msg);
 
 static const struct option longopts[] = {
 	{"help", no_argument, NULL, 'h'},
@@ -53,62 +53,24 @@ int main(int argc, char *argv[]) {
 			return 1;
 		}
 
-	initscr();
-	/* nodelay(stdscr,true); */
-	noecho();
-	cbreak();
-	curs_set(0);
-	nonl();
-	keypad(stdscr,true);
-	scrollok(stdscr, false);
-
-	/* TODO: Improve how colors are assigned */
-	if (start_color() == 0) {
-		init_color( 0, 100,  100,  100); /* black */
-		init_color( 1, 600,    0,    0); /* red */
-		init_color( 2,   0,  600,    0); /* green */
-		init_color( 3,   0,  400,  800); /* blue */
-		init_color( 4, 800,  800,    0); /* yellow */
-		init_color( 5, 370,  280,    0); /* brown */
-		init_color( 6, 500,  500,  500); /* grey */
-		init_color( 8, 650,  550,    0); /* dark yellow */
-		init_color( 9,   0,  400,    0); /* dark green */
-		init_color(10,   0,  200,  400); /* dark blue */
-		init_color(11, 200,  200,  200); /* dark grey */
-		init_color(12, 150,  120,   50); /* dark brown */
-
-		init_pair( 1,  1,  0); /* red */
-		init_pair( 2,  2,  0); /* green */
-		init_pair( 3,  3,  0); /* blue */
-		init_pair( 4,  4,  0); /* yellow */
-		init_pair( 5,  5,  0); /* brown */
-		init_pair( 6,  6,  0); /* grey */
-		init_pair( 8,  8,  0); /* dark yellow */
-		init_pair( 9,  3,  0); /* water */
-		init_pair(10,  2,  0); /* grass */
-		init_pair(11, 11,  0); /* dark grey */
-		init_pair(12,  6, 11); /* dark grey bg */
-		init_pair(13,  5, 12); /* dark brown bg */
-	} else {
-		NERROR("terminal does not support colors");
-	}
+	rat_init();
+	rat_start_color();
 
 	int c;
 
-	getmaxyx(stdscr, maxy, maxx);
+	rat_getmaxxy();
 
 	if (maxx < 80 || maxy < 24) { NERROR("terminal too small"); }
 
 	srand(time(NULL));
 
 	init_map();
-	if (!init_entity()) { NERROR("file data/entities.txt not found"); }
+	if (!init_entity())  { NERROR("file data/entities.txt not found"); }
 	if (!init_player(2)) { NERROR("file data/players.txt not found"); } /* TODO: Add option to change this */
-	if (!init_item())   { NERROR("file data/items.txt not found"); }
+	if (!init_item())    { NERROR("file data/items.txt not found"); }
 
 	do {
-
-		clear();
+		rat_clear();
 
 		for (int i = 0; i < entqty; i++)
 			switch (entity[i].ai) {
@@ -121,11 +83,12 @@ int main(int argc, char *argv[]) {
 				break;
 			}
 
-		for (int i = playerqty; i >= 0; i--)
-			draw_map_floor(player[i], player[i].sight);
 		for (int i = playerqty; i >= 0; i--) {
+			draw_map_floor(player[i], player[i].sight);
 			for (int j = itemqty; j >= 0; j--)
 				draw_item(item[j], player[i], player[i].sight);
+		}
+		for (int i = playerqty; i >= 0; i--) {
 			draw_ent(player[i], player[i], player[i].sight);
 			for (int j = entqty; j >= 0; j--)
 				draw_ent(entity[j], player[i], player[i].sight);
@@ -135,16 +98,16 @@ int main(int argc, char *argv[]) {
 		for (int i = 0; i <= playerqty; i++)
 			draw_msg(&player[i].msg);
 
-		c = getch();
+		c = rat_getch();
 
 		for (int i = 0; i <= playerqty; i++)
 			while (!player_run(c, &player[i]) &&
 			       c != 27 && c != 'q')
-				c = getch();
+				c = rat_getch();
 
 	} while (c != 27);
 
-	endwin();
+	rat_endwin();
 	printf("GAME OVER\n");
 
 	for (int i = 0; i <= playerqty; i++)

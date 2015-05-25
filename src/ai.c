@@ -1,4 +1,3 @@
-#include <ncurses.h>
 #include <stdlib.h>
 
 #include "ratium.h"

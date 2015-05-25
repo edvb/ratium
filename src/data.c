@@ -1,4 +1,3 @@
-#include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -75,7 +74,7 @@ bool init_item(void) {
 		item[itemqty].name = malloc(MAX_NAME * sizeof(char));
 		strcpy(item[itemqty].name, name);
 		item[itemqty].face = face;
-		item[itemqty].color = COLOR_PAIR(color);
+		item[itemqty].color = color;
 		item[itemqty].type = type;
 		item[itemqty].stat = stat;
 
@@ -140,7 +139,7 @@ bool init_entity(void) {
 			entity[num].type = type;
 			entity[num].ai = ai;
 			entity[num].face = face;
-			entity[num].color = COLOR_PAIR(color);
+			entity[num].color = color;
 			entity[num].maxhp = maxhp;
 			entity[num].hp = maxhp;
 			entity[num].isdead = false;
@@ -215,7 +214,7 @@ bool init_player(int count) {
 		player[num].type = TYPE_ALL;
 		player[num].ai = AI_PLAYER;
 		player[num].face = '@';
-		player[num].color = COLOR_PAIR(color);
+		player[num].color = color;
 
 		player[num].maxhp = maxhp;
 		player[num].hp = maxhp;

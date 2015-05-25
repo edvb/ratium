@@ -1,8 +1,8 @@
-#include <ncurses.h>
 #include <stdlib.h>
 
 #include "ratium.h"
 #include "maps.h"
+#include "gfx.h"
 
 static void
 init_building(Map building) {
@@ -100,9 +100,9 @@ void draw_map(Ent e, int r) {
 		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
 			if (j >= 0)
 				switch (get_map(i, j)) {
-				case '#': mvaddch(j, i, '#' + COLOR_PAIR(12)); break;
-				case 'X': mvaddch(j, i, 'X' + COLOR_PAIR(13)); break;
-				case '+': mvaddch(j, i, '+' + BROWN);          break;
+				case '#': rat_mvaddch(i, j, '#', 12); break;
+				case 'X': rat_mvaddch(i, j, 'X', 13); break;
+				case '+': rat_mvaddch(i, j, '+', 5);  break;
 				}
 }
 
@@ -112,23 +112,19 @@ void draw_map_floor(Ent e, int r) {
 		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
 			if (j >= 0)
 				switch (get_map(i, j)) {
-				case ' ': mvaddch(j, i, get_map(i, j)); break;
+				case ' ': rat_mvaddch(i, j, get_map(i, j), 0); break;
 				case '.':
-					attron(COLOR_PAIR(11));
-					mvaddch(j, i,
+					rat_mvaddch(i, j,
 						(maprand[j][i] == 0)
-						? ACS_BULLET : ':');
-					attroff(COLOR_PAIR(11));
+						? '.' : ':', 11);
 					break;
 				case 'g':
-					attron(GRASS);
-					mvaddch(j, i,
+					rat_mvaddch(i, j,
 						(maprand[j][i] == 0)
-						? ACS_BULLET : '*');
-					attroff(GRASS);
+						? '.' : '*', 10);
 					break;
-				case 'w': mvaddch(j, i, '~' + WATER); break;
-				case '-': mvaddch(j, i, '-' + BROWN); break;
+				case 'w': rat_mvaddch(i, j, '~', 9); break;
+				case '-': rat_mvaddch(i, j, '-', 5); break;
 				}
 }
 

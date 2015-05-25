@@ -1,9 +1,10 @@
-#include <ncurses.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "ratium.h"
 #include "ent.h"
+#include "gfx.h"
 #include "../config.h"
 
 void add_msg(Msg *msg, char *message) {
@@ -16,39 +17,34 @@ void draw_msg(Msg *msg) {
 		int x, y;
 		x = (maxx / 2) - (strlen(msg->data) / 2);
 		y = maxy/2;
-		attron(COLOR_PAIR(12));
-		mvprintw(y, x, msg->data);
-		attroff(COLOR_PAIR(12));
+		rat_mvprint(x, y, msg->data, 12);
 		msg->disp = false;
 	}
 }
 
 static void draw_inv(Ent *e, int arrow_y) {
+	char s[50];
 
-		clear();
+	rat_clear();
 
-		attron(A_REVERSE);
-		mvprintw(0, 0, " -- Inventory -- \n");
-		attroff(A_REVERSE);
+	rat_mvprint(0, 0, " -- Inventory -- \n", -1);
 
-		for (int i = 0; i < MAX_INV; i++)
-			if (e->inv[i].face != ' ') {
-				attron(GREY);
-				printw("   %c)", i + 97);
-				attroff(GREY);
+	for (int i = 0; i < MAX_INV; i++)
+		if (e->inv[i].face != ' ') {
+			sprintf(s, "   %c)", i + 97);
+			rat_print(s, 6);
 
-				attron(e->inv[i].color);
-				printw(" %c", e->inv[i].face);
-				attroff(e->inv[i].color);
+			sprintf(s, " %c", e->inv[i].face);
+			rat_print(s, e->inv[i].color);
 
-				printw(" %s", e->inv[i].name);
+			sprintf(s, " %s", e->inv[i].name);
+			rat_print(s, 0);
 
-				attron(GREY);
-				printw(" (%d)\n", e->inv[i].map[0][0]);
-				attroff(GREY);
-			}
+			sprintf(s, " (%d)\n", e->inv[i].map[0][0]);
+			rat_print(s, 6);
+		}
 
-		mvprintw(arrow_y, 1, ">");
+	rat_mvprint(1, arrow_y, ">", 0);
 
 }
 
@@ -120,9 +116,9 @@ static void inv(Ent *e) {
 
 		draw_inv(e, arrow_y);
 
-	} while ((k = getch()) != e->keys.inv);
+	} while ((k = rat_getch()) != e->keys.inv);
 
-	clear();
+	rat_clear();
 
 }
 
