@@ -21,7 +21,7 @@
 #define MAX_ITEMS 256
 #define MAX_INV 16
 
-#undef false
+#undef false /* damn ncurses.... */
 #undef true
 #undef bool
 typedef enum { false, true } bool;
@@ -53,7 +53,7 @@ typedef enum {
 	TYPE_WATER
 } ENT_TYPE;
 
-/* type of entity ai, or if entity is player */
+/* type of entity ai, or if entity is a player */
 typedef enum {
 	AI_PLAYER,
 	AI_HOSTILE,

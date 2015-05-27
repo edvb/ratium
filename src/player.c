@@ -5,7 +5,6 @@
 #include "ratium.h"
 #include "ent.h"
 #include "gfx.h"
-#include "../config.h"
 
 void add_msg(Msg *msg, char *message) {
 	strcpy(msg->data, message);
