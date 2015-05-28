@@ -1,17 +1,6 @@
 #ifndef RATIUM_H
 #define RATIUM_H
 
-/* some colors, should probably be replaced with enum, or be removed */
-#define RED COLOR_PAIR(1)
-#define GREEN COLOR_PAIR(2)
-#define BLUE COLOR_PAIR(3)
-#define YELLOW COLOR_PAIR(4)
-#define BROWN COLOR_PAIR(5)
-#define GREY COLOR_PAIR(6)
-#define DARK_YELLOW COLOR_PAIR(8)
-#define WATER COLOR_PAIR(9)
-#define GRASS COLOR_PAIR(10)
-
 /* max constants */
 #define MAX_X 80
 #define MAX_Y 24
