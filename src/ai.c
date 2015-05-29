@@ -10,10 +10,10 @@ void rand_ai(Ent *e, int speed) {
 		int direc = rand() % speed;
 
 		switch (direc) {
-			case 0: move_entity(e, -1,  0); break;
-			case 1: move_entity(e,  0,  1); break;
-			case 2: move_entity(e,  0, -1); break;
-			case 3: move_entity(e,  1,  0); break;
+		case 0: move_entity(e, -1,  0); break;
+		case 1: move_entity(e,  0,  1); break;
+		case 2: move_entity(e,  0, -1); break;
+		case 3: move_entity(e,  1,  0); break;
 		}
 
 	} else if (!e->isdead) {

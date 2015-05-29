@@ -1,7 +1,6 @@
 #ifndef GFX_H
 #define GFX_H
 
-/* ((n) << 8) */
 #define RAT_REVERSE ((1Ul) << 18)
 
 void rat_init();

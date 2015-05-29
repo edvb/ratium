@@ -101,9 +101,9 @@ static void inv(Ent *e) {
 	int k;
 
 	do {
-		if      (k == e->keys.up) { arrow_y--; }
+		if      (k == e->keys.up)   { arrow_y--; }
 		else if (k == e->keys.down) { arrow_y++; }
-		else if (k == e->keys.get) { inv_use_item(e, arrow_y-1); }
+		else if (k == e->keys.get)  { inv_use_item(e, arrow_y-1); }
 		else if (k == e->keys.drop) { inv_drop_item(e, arrow_y-1); }
 
 		if (e->inv[arrow_y-1].face == ' ')

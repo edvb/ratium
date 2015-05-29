@@ -79,7 +79,7 @@ void rat_mvprint(int x, int y, char *data, int color) {
 }
 
 void rat_print(char *data, int color) {
-	if (color == -1)
+	if (color == -1) /* TODO: Improve so other types can be used */
 		attron(RAT_REVERSE);
 	else
 		attron(COLOR_PAIR(color));
