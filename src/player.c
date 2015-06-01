@@ -15,7 +15,7 @@ void draw_msg(Msg *msg) {
 	if (msg->disp == true) {
 		int x, y;
 		x = (maxx / 2) - (strlen(msg->data) / 2);
-		y = maxy/2;
+		y = maxy / 2;
 		rat_mvprint(x, y, msg->data, 12);
 		msg->disp = false;
 	}

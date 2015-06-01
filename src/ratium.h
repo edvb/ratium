@@ -59,6 +59,13 @@ typedef struct {
 	int stat;  /* universal variable for damage of sword, heath healed for food, etc. */
 } Item;
 
+typedef struct _Keys Keys;
+struct _Keys {
+	char left, down, up, right;
+	char leftdown, leftup, rightdown, rightup;
+	char stand, get, open, drop, inv;
+};
+
 typedef struct _Msg Msg;
 struct _Msg {
 	char *data; /* string for contents of message */
@@ -66,11 +73,9 @@ struct _Msg {
 		     * or if entity tells message */
 };
 
-typedef struct _Keys Keys;
-struct _Keys {
-	char left, down, up, right;
-	char leftdown, leftup, rightdown, rightup;
-	char stand, get, open, drop, inv;
+typedef struct _Armor Armor;
+struct _Armor {
+	int body, head, chest, hands, legs, feet;
 };
 
 /* universal struct for players and other entities */
