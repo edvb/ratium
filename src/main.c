@@ -101,8 +101,7 @@ int main(int argc, char *argv[]) {
 		c = rat_getch();
 
 		for (int i = 0; i <= playerqty; i++)
-			while (!player_run(c, &player[i]) &&
-			       c != 27 && c != 'q')
+			while (!player_run(c, &player[i]) && c != 27)
 				c = rat_getch();
 
 	} while (c != 27);
