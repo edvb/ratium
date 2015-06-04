@@ -95,16 +95,16 @@ int main(int argc, char *argv[]) {
 			draw_map(player[i], player[i].sight);
 		}
 
-		for (int i = 0; i <= playerqty; i++)
+		for (int i = 0; i <= playerqty; i++) /* TODO: Move */
 			draw_msg(&player[i].msg);
 
 		c = rat_getch();
 
 		for (int i = 0; i <= playerqty; i++)
-			while (!player_run(c, &player[i]) && c != 27)
+			while (!player_run(c, &player[i]) && c != RAT_ESC) /* TODO: 27 > ESC */
 				c = rat_getch();
 
-	} while (c != 27);
+	} while (c != RAT_ESC);
 
 	rat_endwin();
 	printf("GAME OVER\n");

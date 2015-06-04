@@ -1,6 +1,8 @@
 #ifndef GFX_H
 #define GFX_H
 
+#define RAT_ESC 27 /* ncurses escape code */
+
 #define RAT_REVERSE ((1Ul) << 18)
 
 void rat_init();

@@ -147,7 +147,7 @@ bool init_entity(void) {
 			entity[num].damage = damage;
 			entity[num].sight = sight;
 
-			entity[num].speed = 3;
+			entity[num].speed = 3; /* TODO */
 
 			entity[num].holding.name = malloc(MAX_NAME * sizeof(char));
 			entity[num].holding.face = ' ';
@@ -157,8 +157,7 @@ bool init_entity(void) {
 
 			entity[num].msg.data = malloc(MAX_NAME * sizeof(char));
 			entity[num].msg.disp = false;
-			/* TODO: Make this not suck */
-			if (strcmp(name, "spock") == 0) {
+			if (strcmp(name, "spock") == 0) { /* TODO: Make this not suck */
 				strcpy(entity[num].msg.data, "live long and proposer");
 				entity[num].msg.disp = true;
 			}
