@@ -76,10 +76,10 @@ int main(int argc, char *argv[]) {
 			switch (entity[i].ai) {
 			case AI_PLAYER: break;
 			case AI_HOSTILE:
-				dumb_ai(&entity[i], player[0].x, player[0].y, entity[i].speed);
+				dumb_ai(&entity[i], player[0].x, player[0].y);
 				break;
 			case AI_PEACEFUL:
-				rand_ai(&entity[i], entity[i].speed);
+				rand_ai(&entity[i]);
 				break;
 			}
 

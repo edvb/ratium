@@ -3,11 +3,11 @@
 #include "ratium.h"
 #include "ent.h"
 
-void rand_ai(Ent *e, int speed) {
+void rand_ai(Ent *e) {
 	if (isalive(e->hp)) {
 
 		/* TODO: Improve */
-		int direc = rand() % speed;
+		int direc = rand() % e->speed;
 
 		switch (direc) {
 		case 0: move_entity(e, -1,  0); break;
@@ -27,13 +27,13 @@ void rand_ai(Ent *e, int speed) {
 	}
 }
 
-void dumb_ai(Ent *e, int xNew, int yNew, int speed) {
+void dumb_ai(Ent *e, int xNew, int yNew) {
 	if (isalive(e->hp)) {
 
 		if (abs(e->x - xNew) <= e->sight &&
 		    abs(e->y - yNew) <= e->sight) {
 
-			int shouldMove = rand() % speed;
+			int shouldMove = rand() % e->speed;
 
 			if (shouldMove != 0) {
 				if (xNew > e->x)
@@ -46,7 +46,7 @@ void dumb_ai(Ent *e, int xNew, int yNew, int speed) {
 					move_entity(e, 0, -1);
 			}
 		} else
-			rand_ai(e, speed);
+			rand_ai(e);
 
 	} else if (!e->isdead) {
 		e->isdead = true;

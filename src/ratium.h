@@ -126,8 +126,8 @@ void draw_item(Item item, Ent e, int r);
 void draw_ent(Ent e, Ent oe, int r);
 
 /* ai.c: different entity AIs */
-void rand_ai(Ent *e, int speed);
-void dumb_ai(Ent *e, int xNew, int yNew, int speed);
+void rand_ai(Ent *e);
+void dumb_ai(Ent *e, int xNew, int yNew);
 
 /* player.c: handle the player */
 void add_msg(Msg *msg, char *message);
