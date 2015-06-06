@@ -101,7 +101,7 @@ int main(int argc, char *argv[]) {
 		c = rat_getch();
 
 		for (int i = 0; i <= playerqty; i++)
-			while (!player_run(c, &player[i]) && c != RAT_ESC) /* TODO: 27 > ESC */
+			while (!player_run(c, &player[i]) && c != RAT_ESC)
 				c = rat_getch();
 
 	} while (c != RAT_ESC);

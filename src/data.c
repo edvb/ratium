@@ -162,7 +162,6 @@ bool init_entity(void) {
 				entity[num].msg.disp = true;
 			}
 
-			/* TODO: Make drop apart of inv */
 			for (int i = 0; i < MAX_INV; i++) {
 				entity[num].inv[i].name = malloc(MAX_NAME * sizeof(char));
 				entity[num].inv[i].face = ' ';
@@ -170,8 +169,10 @@ bool init_entity(void) {
 				entity[num].inv[i].map[0][0] = 0;
 			}
 
-			strcpy(entity[num].inv[0].name, drop);
-			entity[num].inv[0].map[0][0] = rand() % 3;
+			if (strcmp(drop, "none") != 0) {
+				strcpy(entity[num].inv[0].name, drop);
+				entity[num].inv[0].map[0][0] = rand() % 3;
+			}
 
 			gen_ent(&x_0, &y_0, type);
 			entity[num].x = x_0;
