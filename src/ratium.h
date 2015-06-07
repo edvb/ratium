@@ -148,6 +148,6 @@ int entqty;
 
 Item item[MAX_ITEMS];
 Ent player[MAX_PLAYERS];
-Ent entity[MAX_ENTITIES]; /* TODO: rename all ent */
+Ent entity[MAX_ENTITIES];
 
 #endif /* RATIUM_H */

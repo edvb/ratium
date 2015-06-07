@@ -9,6 +9,19 @@ static struct _Keys player_keys[MAX_PLAYERS] = {
 { 'a', 'x', 'w', 'd', 'z', 'q', 'c', 'e', 's', 'r', 'f', 't', 'v' },
 };
 
+struct Ent_t {
+	char *name;
+	int color;
+	int hp;
+	int damage;
+	int sight;
+};
+
+static struct Ent_t player_t[MAX_PLAYERS] = {
+{ "player1", 3, 10, 1, 16 },
+{ "player2", 4, 10, 1, 16 },
+};
+
 /* TODO: Improve and implement in other functions */
 /* TODO: Add min and max parameters */
 /* calc_rarity: change rarity to make it random */
@@ -189,39 +202,23 @@ bool init_entity(void) {
 	return true;
 }
 
-/* init_player: read from data/players.txt file and store in player array */
+/* init_player: set up player array with contents of player_t */
 bool init_player(int count) {
-	char *name = malloc(MAX_NAME * sizeof(char));
-	char face;
-	int color;
-	int maxhp;
-	int damage;
-	int sight;
-
 	int x_0, y_0;
-	int num = 0;
 
-	FILE *f = fopen("data/players.txt", "r");
-	if (f == NULL) return false;
-
-	while (num < count) {
-		fscanf(f, "%s %c(%d): hp=%d damage=%d sight=%d\n",
-		       name, &face, &color, &maxhp, &damage, &sight);
-
-		us_to_space(name);
-
+	for (int num = 0; num < count; num++) {
 		player[num].name = malloc(MAX_NAME * sizeof(char));
-		strcpy(player[num].name, name);
+		strcpy(player[num].name, player_t[num].name);
 		player[num].type = TYPE_ALL;
 		player[num].ai = AI_PLAYER;
 		player[num].face = '@';
-		player[num].color = color;
+		player[num].color = player_t[num].color;
 
-		player[num].maxhp = maxhp;
-		player[num].hp = maxhp;
+		player[num].maxhp = player_t[num].hp;
+		player[num].hp = player[num].maxhp;
 		player[num].isdead = false;
-		player[num].damage = damage;
-		player[num].sight = sight;
+		player[num].damage = player_t[num].damage;
+		player[num].sight = player_t[num].sight;
 		player[num].speed = 0;
 
 		player[num].direc = RIGHT;
@@ -251,14 +248,9 @@ bool init_player(int count) {
 		player[num].holding.type = 0;
 		player[num].holding.stat = 0;
 
-		num++;
 	}
 
-	playerqty = count-1;
-
-	fclose(f);
-
-	free(name);
+	playerqty = count-1; /* TODO Fix */
 
 	return true;
 }

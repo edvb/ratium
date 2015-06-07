@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
 
 	init_map();
 	if (!init_entity())  { NERROR("file data/entities.txt not found"); }
-	if (!init_player(2)) { NERROR("file data/players.txt not found"); } /* TODO: Add option to change this */
+	init_player(2); /* TODO: Add option to change this */
 	if (!init_item())    { NERROR("file data/items.txt not found"); }
 
 	do {
