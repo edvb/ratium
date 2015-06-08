@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 	srand(time(NULL));
 
 	init_map();
-	if (!init_entity())  { NERROR("file data/entities.txt not found"); }
+	init_entity();
 	init_player(2); /* TODO: Add option to change this */
 	if (!init_item())    { NERROR("file data/items.txt not found"); }
 
