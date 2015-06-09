@@ -23,7 +23,7 @@ struct Ent_t {
 
 static struct Ent_t player_t[MAX_PLAYERS] = {
 { "player1", NULL, NULL, '@', 3, 10, 1, 16, 0, 0, 0 },
-{ "player2", NULL, NULL, '@', 4, 10, 1, 16, 0, 0, 0 },
+{ "player2", NULL, NULL, '@', 1, 10, 1, 16, 0, 0, 0 },
 };
 
 static struct Ent_t ent_t[MAX_ENTITIES] = {
@@ -35,8 +35,12 @@ static struct Ent_t ent_t[MAX_ENTITIES] = {
    'G', 6, 6,  1, 3,  2, 2, 3 },
 { "cow", "beef", NULL,
    'c', 5, 2,  0, 3,  2, 2, 8 },
-{ "knight", NULL, "Who goes there?",
+{ "peasant", NULL, "Oh. How'd you do",
+   '@', 5, 10, 0, 16, 0, 2, 1 },
+{ "knight", "sword", "Who goes there?",
    '@', 6, 10, 0, 16, 0, 2, 1 },
+{ "King Arthur", "gold", "I am King Arthur",
+   '@', 4, 10, 0, 16, 0, 2, 1 },
 };
 
 /* TODO: Improve and implement in other functions */
@@ -141,7 +145,7 @@ bool init_entity(void) {
 
 	entqty = 0;
 
-	for (int i = 0; i < 5; i++) { /* TODO: rm 5 */
+	for (int i = 0; i < 7; i++) { /* TODO: rm number */
 		calc_rarity(&ent_t[i].rarity);
 		for (int num = 0; num < ent_t[i].rarity; num++, entqty++) {
 			entity[num].name = malloc(MAX_NAME * sizeof(char));
