@@ -42,6 +42,7 @@ static struct Ent_t ent_t[MAX_ENTITIES] = {
 { "King Arthur", "gold", "I am King Arthur",
    '@', 4, 10, 0, 16, 0, 2, 1 },
 };
+int entqty_t = 7;
 
 /* TODO: Improve and implement in other functions */
 /* TODO: Add min and max parameters */
@@ -145,7 +146,7 @@ bool init_entity(void) {
 
 	entqty = 0;
 
-	for (int i = 0; i < 7; i++) { /* TODO: rm number */
+	for (int i = 0; i < entqty_t; i++) {
 		calc_rarity(&ent_t[i].rarity);
 		for (int num = 0; num < ent_t[i].rarity; num++, entqty++) {
 			entity[num].name = malloc(MAX_NAME * sizeof(char));
