@@ -59,6 +59,7 @@ typedef struct {
 	int stat;  /* universal variable for damage of sword, heath healed for food, etc. */
 } Item;
 
+/* player keys */
 typedef struct _Keys Keys;
 struct _Keys {
 	char left, down, up, right;
@@ -69,40 +70,42 @@ struct _Keys {
 typedef struct _Msg Msg;
 struct _Msg {
 	char *data; /* string for contents of message */
+	/* TODO: remove necessity for this by checking if *data is NULL */
 	bool disp;  /* if player should display message
 		     * or if entity tells message */
 };
 
+/* different armor slots that entities could have items in */
 typedef struct _Armor Armor;
 struct _Armor {
+	/* int which points to ent inventory slot */
 	int body, head, chest, hands, legs, feet;
 };
 
 /* universal struct for players and other entities */
 typedef struct _Ent Ent;
 struct _Ent {
-	char *name;
+	char *name;    /* name of ent */
 	ENT_TYPE type; /* used mainly for where to spawn */
-	ENT_AI ai;     /* how should it move around */
-	char face;     /* char that it displayed */
+	ENT_AI ai;     /* how ent should move around */
+	char face;     /* the ascii appearance */
 	int color;     /* color of char */
 
-	DIREC direc; /* direction they are facing */
-	int x, y;
-	int bary;    /* position of stat bar, mainly for player,
-		      * should probably make this auto-assign */
+	DIREC direc; /* direction ent is facing */
+	int x, y;    /* ent position */
+	int bary;    /* position of stat bar, mainly for player */
 
-	int maxhp, hp;
-	bool isdead; /* set to true after entity death stuff it run */
-	int damage;  /* how much damage entity deals to others */
-	int sight;   /* how far entity can see */
-	int speed;   /* how fast entity ai can move */
+	int maxhp, hp; /* ent heath and max heath */
+	bool isdead;   /* set to true after entity death stuff it run */
+	int damage;    /* how much damage entity deals to others */
+	int sight;     /* how far entity can see */
+	int speed;     /* how fast entity ai can move */
 
 	struct _Keys keys; /* player keys */
-	struct _Msg msg; /* message player will display, or message to tell player */
-	Item inv[MAX_INV]; /* inventory of entity*/
-	/* TODO: change to int */
-	Item holding;
+	struct _Msg msg;   /* message player will display, or message to tell player */
+	Item inv[MAX_INV]; /* inventory of ent */
+	Item holding; /* TODO: change to int pointing to inv element */
+	Armor armor;
 };
 
 /* map.c: handle the map */
