@@ -28,32 +28,34 @@ static struct Ent_t player_t[MAX_PLAYERS] = {
 
 static struct Ent_t ent_t[MAX_ENTITIES] = {
 { "rat", "rat meat", NULL,
-   'r', 5, 2,  1, 4, 1,  1, 15 },
+  'r', 5, 2,  1, 4, 1,  1, 11 },
 { "supper rat", "rat meat", NULL,
-   'R', 5, 4,  2, 8,  1, 1, 10 },
+  'R', 5, 4,  2, 8,  1, 1, 7 },
 { "gnu", "gnu meat", NULL,
-   'G', 6, 6,  1, 3,  2, 2, 3 },
+  'G', 6, 6,  1, 3,  2, 2, 2 },
 { "cow", "beef", NULL,
-   'c', 5, 2,  0, 3,  2, 2, 8 },
-{ "peasant", NULL, "Oh. How'd you do",
-   '@', 5, 10, 0, 16, 0, 2, 1 },
-{ "knight", "sword", "Who goes there?",
-   '@', 6, 10, 0, 16, 0, 2, 1 },
+  'c', 5, 2,  0, 3,  2, 2, 5 },
 { "King Arthur", "gold", "I am King Arthur",
-   '@', 4, 10, 0, 16, 0, 2, 1 },
+  '@', 4, 10, 0, 16, 0, 2, 2 },
+{ "knight", "sword", "Who goes there?",
+  '@', 6, 10, 0, 16, 0, 2, 2 },
+{ "peasant", NULL, "Oh. How'd you do",
+  '@', 5, 10, 0, 16, 0, 2, 2 },
+{ "peasant", NULL, "lovely filth down here",
+  '@', 5, 10, 0, 16, 0, 2, 2 },
 };
-int entqty_t = 7;
+int entqty_t = 8;
 
 /* TODO: Improve and implement in other functions */
 /* TODO: Add min and max parameters */
 /* calc_rarity: change rarity to make it random */
 static void
 calc_rarity(int *rarity) {
-	if (*rarity != 0) {
-		*rarity += rand() % 3;
-		if (*rarity + entqty > MAX_ENTITIES)
-			*rarity = 0;
-	}
+	if (*rarity != 0)
+		switch (rand() % 2) {
+		case 0: *rarity += rand() % 3;
+		case 1: *rarity -= rand() % 3;
+		}
 }
 
 /* us_to_space: convert underscores in string name to spaces */
@@ -161,7 +163,7 @@ bool init_entity(void) {
 			entity[num].damage = ent_t[i].damage;
 			entity[num].sight = ent_t[i].sight;
 
-			entity[num].speed = 3; /* TODO */
+			entity[num].speed = 4; /* TODO */
 
 			entity[num].holding.name = malloc(MAX_NAME * sizeof(char));
 			entity[num].holding.face = ' ';
