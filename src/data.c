@@ -16,33 +16,34 @@ struct Ent_t {
 	int hp;
 	int damage;
 	int sight;
+	int speed;
 	ENT_TYPE type;
 	ENT_AI ai;
 	int rarity;
 };
 
 static struct Ent_t player_t[MAX_PLAYERS] = {
-{ "player1", NULL, NULL, '@', 3, 10, 1, 16, 0, 0, 0 },
-{ "player2", NULL, NULL, '@', 1, 10, 1, 16, 0, 0, 0 },
+{ "player1", NULL, NULL, '@', 3, 10, 1, 16, 0, 0, 0, 0 },
+{ "player2", NULL, NULL, '@', 1, 10, 1, 16, 0, 0, 0, 0 },
 };
 
 static struct Ent_t ent_t[MAX_ENTITIES] = {
 { "rat", "rat meat", NULL,
-  'r', 5, 2,  1, 4, 1,  1, 11 },
+  'r', 5, 2,  1, 4, 4, 1,  1, 11 },
 { "supper rat", "rat meat", NULL,
-  'R', 5, 4,  2, 8,  1, 1, 7 },
+  'R', 5, 4,  2, 8, 4,  1, 1, 7 },
 { "gnu", "gnu meat", NULL,
-  'G', 6, 6,  1, 3,  2, 2, 2 },
+  'G', 6, 6,  1, 3, 4,  2, 2, 2 },
 { "cow", "beef", NULL,
-  'c', 5, 2,  0, 3,  2, 2, 5 },
+  'c', 5, 2,  0, 3, 4,  2, 2, 5 },
 { "King Arthur", "gold", "I am King Arthur",
-  '@', 4, 10, 0, 16, 0, 2, 2 },
+  '@', 4, 10, 0, 16, 4, 0, 2, 2 },
 { "knight", "sword", "Who goes there?",
-  '@', 6, 10, 0, 16, 0, 2, 2 },
+  '@', 6, 10, 0, 16, 4, 0, 2, 2 },
 { "peasant", NULL, "Oh. How'd you do",
-  '@', 5, 10, 0, 16, 0, 2, 2 },
+  '@', 5, 10, 0, 16, 4, 0, 2, 2 },
 { "peasant", NULL, "lovely filth down here",
-  '@', 5, 10, 0, 16, 0, 2, 2 },
+  '@', 5, 10, 0, 16, 4, 0, 2, 2 },
 };
 int entqty_t = 8;
 
@@ -163,7 +164,7 @@ bool init_entity(void) {
 			entity[num].damage = ent_t[i].damage;
 			entity[num].sight = ent_t[i].sight;
 
-			entity[num].speed = 4; /* TODO */
+			entity[num].speed = ent_t[i].speed;
 
 			entity[num].holding.name = malloc(MAX_NAME * sizeof(char));
 			entity[num].holding.face = ' ';
@@ -217,7 +218,7 @@ bool init_player(int count) {
 		player[num].isdead = false;
 		player[num].damage = player_t[num].damage;
 		player[num].sight = player_t[num].sight;
-		player[num].speed = 0;
+		player[num].speed = player_t[num].speed;
 
 		player[num].direc = RIGHT;
 		do {
