@@ -145,8 +145,6 @@ bool init_item(void) {
 
 /* init_entity: read from data/entities.txt file and store in entity array */
 bool init_entity(void) {
-	int x_0, y_0;
-
 	entqty = 0;
 
 	for (int i = 0; i < entqty_t; i++) {
@@ -191,9 +189,7 @@ bool init_entity(void) {
 				entity[num].inv[0].map[0][0] = rand() % 3;
 			}
 
-			gen_ent(&x_0, &y_0, ent_t[i].type);
-			entity[num].x = x_0;
-			entity[num].y = y_0;
+			gen_ent(&entity[num].x, &entity[num].y, ent_t[i].type);
 
 		}
 	}
