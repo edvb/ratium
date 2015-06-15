@@ -9,7 +9,11 @@ init_building(Map building) {
 	int x_0, y_0;
 	int tries = 0;
 
-	building.rarity += rand() % 2; /* randomly change amount of buildings */
+	switch (rand() % 2) { /* randomly change amount of buildings */
+	case 0: building.rarity += rand() % 2;
+	case 1: building.rarity -= rand() % 2;
+	}
+
 	for (int num = 0; num < building.rarity; num++) {
 		do {
 			x_0 = rand() % MAX_X;
