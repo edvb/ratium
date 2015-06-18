@@ -1,6 +1,6 @@
 typedef struct _Map Map;
 struct _Map {
-	int len, height;
+	size_t len, height;
 	int rarity;
 	char map[MAX_Y][MAX_X+1]; /* +1 for \0 */
 };

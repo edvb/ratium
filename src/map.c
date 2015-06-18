@@ -5,28 +5,28 @@
 #include "gfx.h"
 
 static void
-init_building(Map building) {
+init_building(Map bld) {
 	int x_0, y_0;
-	int tries = 0;
 
 	switch (rand() % 2) { /* randomly change amount of buildings */
-	case 0: building.rarity += rand() % 2;
-	case 1: building.rarity -= rand() % 2;
+	case 0: bld.rarity += rand() % 2;
+	case 1: bld.rarity -= rand() % 2;
 	}
 
-	for (int num = 0; num < building.rarity; num++) {
-		do {
+	for (int num = 0; num < bld.rarity; num++) {
+		/* add 2 for gap around building */
+		for (int tries = 0;
+		     !is_floor_range(x_0-2, y_0-2, bld.len+2, bld.height+2);
+		     tries++) {
 			x_0 = rand() % MAX_X;
 			y_0 = rand() % MAX_Y;
-			tries++;
 			if (tries > 100000) /* if it has tried to many times to find a place to fit, give up */
 				return;
-		} while (!is_floor_range(x_0-2, y_0-2, building.len+2, building.height+2)); /* add 2 for gap around building */
-		/* copy building to world */
-		for (int i = 0; i < building.len; i++)
-			for (int j = 0; j < building.height; j++)
-				if (building.map[j][i] != ' ')
-					set_map(i+x_0, j+y_0, building.map[j][i]);
+		}
+		for (int i = 0; i < bld.len; i++) /* copy building to world */
+			for (int j = 0; j < bld.height; j++)
+				if (bld.map[j][i] != ' ')
+					set_map(i+x_0, j+y_0, bld.map[j][i]);
 	}
 }
 
