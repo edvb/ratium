@@ -23,27 +23,27 @@ struct Ent_t {
 };
 
 static struct Ent_t player_t[MAX_PLAYERS] = {
-{ "player1", NULL, NULL, '@', 3, 10, 1, 16, 0, 0, 0, 0 },
-{ "player2", NULL, NULL, '@', 1, 10, 1, 16, 0, 0, 0, 0 },
+{ "player1", NULL, NULL, '@', 3, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
+{ "player2", NULL, NULL, '@', 1, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
 };
 
 static struct Ent_t ent_t[MAX_ENTITIES] = {
 { "rat", "rat meat", NULL,
-  'r', 5, 2,  1, 4, 4, 1,  1, 11 },
+  'r', 5, 2,  1, 4, 4, TYPE_CAVE,  AI_HOSTILE, 11 },
 { "supper rat", "rat meat", NULL,
-  'R', 5, 4,  2, 8, 4,  1, 1, 7 },
+  'R', 5, 4,  2, 8, 4,  TYPE_CAVE, AI_HOSTILE, 7 },
 { "gnu", "gnu meat", NULL,
-  'G', 6, 6,  1, 3, 4,  2, 2, 2 },
+  'G', 6, 6,  1, 3, 4,  TYPE_GRASS, AI_PEACEFUL, 2 },
 { "cow", "beef", NULL,
-  'c', 5, 2,  0, 3, 4,  2, 2, 5 },
+  'c', 5, 2,  0, 3, 4,  TYPE_GRASS, AI_PEACEFUL, 5 },
 { "King Arthur", "gold", "I am King Arthur",
-  '@', 4, 10, 0, 16, 4, 0, 2, 2 },
+  '@', 4, 10, 0, 16, 4, TYPE_ALL, AI_PEACEFUL, 2 },
 { "knight", "sword", "Who goes there?",
-  '@', 6, 10, 0, 16, 4, 0, 2, 2 },
+  '@', 6, 10, 0, 16, 4, TYPE_ALL, AI_PEACEFUL, 2 },
 { "peasant", NULL, "Oh. How'd you do",
-  '@', 5, 10, 0, 16, 4, 0, 2, 2 },
+  '@', 5, 10, 0, 16, 4, TYPE_ALL, AI_PEACEFUL, 2 },
 { "peasant", NULL, "lovely filth down here",
-  '@', 5, 10, 0, 16, 4, 0, 2, 2 },
+  '@', 5, 10, 0, 16, 4, TYPE_ALL, AI_PEACEFUL, 2 },
 };
 int entqty_t = 8;
 
