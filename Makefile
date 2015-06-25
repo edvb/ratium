@@ -24,7 +24,7 @@ EXE = ratium
 SRC = $(wildcard src/*.c)
 OBJ = $(SRC:.c=.o)
 
-all: options ratium
+all: options $(EXE)
 
 options:
 	@echo $(EXE) build options:
@@ -47,7 +47,7 @@ config.h:
 	@cp config.def.h $@
 	@echo \ done
 
-ratium: $(OBJ)
+$(EXE): $(OBJ)
 	@echo CC -o $@
 	@$(CC) -o $@ $(OBJ) $(LDFLAGS)
 
