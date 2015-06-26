@@ -1,6 +1,8 @@
 #ifndef RATIUM_H
 #define RATIUM_H
 
+#include "../config.h"
+
 /* max constants */
 #define MAX_X 80
 #define MAX_Y 24

@@ -1,10 +1,14 @@
-#include <ncurses.h>
 #include <stdlib.h>
+
+#if RAT_GFX == NCURSES
+#  include <ncurses.h>
+#endif
 
 #include "ratium.h"
 #include "gfx.h"
 
 void rat_init() {
+#if RAT_GFX == NCURSES
 	initscr();
 	/* nodelay(stdscr,true); */
 	noecho();
@@ -13,9 +17,11 @@ void rat_init() {
 	nonl();
 	keypad(stdscr,true);
 	scrollok(stdscr, false);
+#endif
 }
 
 void rat_start_color() {
+#if RAT_GFX == NCURSES
 	/* TODO: Improve how colors are assigned */
 	if (start_color() == 0) {
 		init_color( 0, 100,  100,  100); /* black */
@@ -48,27 +54,37 @@ void rat_start_color() {
 		printf("ratium: error: terminal does not support colors\n");
 		exit(1);
 	}
+#endif
 }
 
 void rat_getmaxxy() {
+#if RAT_GFX == NCURSES
 	getmaxyx(stdscr, maxy, maxx);
+#endif
 }
 
 void rat_clear() {
+#if RAT_GFX == NCURSES
 	clear();
+#endif
 }
 
 int rat_getch() {
+#if RAT_GFX == NCURSES
 	return getch();
+#endif
 }
 
 void rat_mvaddch(int x, int y, char face, int color) {
+#if RAT_GFX == NCURSES
 	attron(COLOR_PAIR(color));
 	mvaddch(y, x, face);
 	attroff(COLOR_PAIR(color));
+#endif
 }
 
 void rat_mvprint(int x, int y, char *data, int color) {
+#if RAT_GFX == NCURSES
 	if (color == -1)
 		attron(RAT_REVERSE);
 	else
@@ -76,9 +92,11 @@ void rat_mvprint(int x, int y, char *data, int color) {
 	mvprintw(y, x, data);
 	attroff(COLOR_PAIR(color));
 	attroff(RAT_REVERSE);
+#endif
 }
 
 void rat_print(char *data, int color) {
+#if RAT_GFX == NCURSES
 	if (color == -1) /* TODO: Improve so other types can be used */
 		attron(RAT_REVERSE);
 	else
@@ -86,9 +104,12 @@ void rat_print(char *data, int color) {
 	printw(data);
 	attroff(COLOR_PAIR(color));
 	attroff(RAT_REVERSE);
+#endif
 }
 
 void rat_endwin() {
+#if RAT_GFX == NCURSES
 	endwin();
+#endif
 }
 
