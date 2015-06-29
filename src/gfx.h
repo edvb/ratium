@@ -1,7 +1,7 @@
 #ifndef GFX_H
 #define GFX_H
 
-#if RAT_GFX == NCURSES
+#ifdef RAT_NCURSES
 #  define RAT_ESC 27 /* ncurses escape code */
 #  define RAT_REVERSE ((1Ul) << 18)
 #endif

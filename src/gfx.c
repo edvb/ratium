@@ -1,14 +1,15 @@
 #include <stdlib.h>
 
-#if RAT_GFX == NCURSES
+#include "ratium.h"
+
+#ifdef RAT_NCURSES
 #  include <ncurses.h>
 #endif
 
-#include "ratium.h"
 #include "gfx.h"
 
 void rat_init() {
-#if RAT_GFX == NCURSES
+#ifdef RAT_NCURSES
 	initscr();
 	/* nodelay(stdscr,true); */
 	noecho();
@@ -21,7 +22,7 @@ void rat_init() {
 }
 
 void rat_start_color() {
-#if RAT_GFX == NCURSES
+#ifdef RAT_NCURSES
 	/* TODO: Improve how colors are assigned */
 	if (start_color() == 0) {
 		init_color( 0, 100,  100,  100); /* black */
@@ -58,25 +59,25 @@ void rat_start_color() {
 }
 
 void rat_getmaxxy() {
-#if RAT_GFX == NCURSES
+#ifdef RAT_NCURSES
 	getmaxyx(stdscr, maxy, maxx);
 #endif
 }
 
 void rat_clear() {
-#if RAT_GFX == NCURSES
+#ifdef RAT_NCURSES
 	clear();
 #endif
 }
 
 int rat_getch() {
-#if RAT_GFX == NCURSES
+#ifdef RAT_NCURSES
 	return getch();
 #endif
 }
 
 void rat_mvaddch(int x, int y, char face, int color) {
-#if RAT_GFX == NCURSES
+#ifdef RAT_NCURSES
 	attron(COLOR_PAIR(color));
 	mvaddch(y, x, face);
 	attroff(COLOR_PAIR(color));
@@ -84,7 +85,7 @@ void rat_mvaddch(int x, int y, char face, int color) {
 }
 
 void rat_mvprint(int x, int y, char *data, int color) {
-#if RAT_GFX == NCURSES
+#ifdef RAT_NCURSES
 	if (color == -1)
 		attron(RAT_REVERSE);
 	else
@@ -96,7 +97,7 @@ void rat_mvprint(int x, int y, char *data, int color) {
 }
 
 void rat_print(char *data, int color) {
-#if RAT_GFX == NCURSES
+#ifdef RAT_NCURSES
 	if (color == -1) /* TODO: Improve so other types can be used */
 		attron(RAT_REVERSE);
 	else
@@ -108,7 +109,7 @@ void rat_print(char *data, int color) {
 }
 
 void rat_endwin() {
-#if RAT_GFX == NCURSES
+#ifdef RAT_NCURSES
 	endwin();
 #endif
 }
