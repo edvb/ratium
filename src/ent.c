@@ -15,7 +15,8 @@ bool can_step(Ent *e, int x, int y) {
 		    entity[i].x == x && entity[i].y == y) {
 			/* TODO: Allow some entities to attack each other */
 			if (e->ai == AI_PLAYER) {
-				if (entity[i].msg.disp == true)
+				if (entity[i].msg.disp == true &&
+				    e->holding.type != ITEM_SWORD)
 					add_msg(&player[0].msg, entity[i].msg.data);
 				else
 					attack(e, &entity[i]);
