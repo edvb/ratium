@@ -13,7 +13,6 @@ bool can_step(Ent *e, int x, int y) {
 	for (int i = 0; i <= entqty; i++)
 		if (isalive(entity[i].hp) &&
 		    entity[i].x == x && entity[i].y == y) {
-			/* TODO: Allow some entities to attack each other */
 			if (e->ai == AI_PLAYER) {
 				if (entity[i].msg.disp == true &&
 				    e->holding.type != ITEM_SWORD)

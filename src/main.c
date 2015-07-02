@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
 
 	init_map();
 	init_entity();
-	init_player(2); /* TODO: Add option to change this */
+	init_player(DEF_PLAYERS);
 	if (!init_item())    { NERROR("file data/items.txt not found"); }
 
 	do {
