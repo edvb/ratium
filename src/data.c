@@ -22,6 +22,15 @@ struct Ent_t {
 	int rarity;
 };
 
+/* struct Item_t { */
+/* 	char *name; */
+/* 	ITEM_TYPE type; */
+/* 	char face; */
+/* 	int color; */
+/* 	int stat; */
+/* 	int rarity; */
+/* }; */
+
 static struct Ent_t player_t[MAX_PLAYERS] = {
 { "player1", NULL, NULL, '@', 3, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
 { "player2", NULL, NULL, '@', 1, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
