@@ -22,15 +22,6 @@ struct Ent_t {
 	int rarity;
 };
 
-/* struct Item_t { */
-/* 	char *name; */
-/* 	ITEM_TYPE type; */
-/* 	char face; */
-/* 	int color; */
-/* 	int stat; */
-/* 	int rarity; */
-/* }; */
-
 static struct Ent_t player_t[MAX_PLAYERS] = {
 { "player1", NULL, NULL, '@', 3, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
 { "player2", NULL, NULL, '@', 1, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
@@ -55,6 +46,20 @@ static struct Ent_t ent_t[MAX_ENTITIES] = {
   '@', 5, 10, 0, 16, 4, TYPE_ALL, AI_PEACEFUL, 2 },
 };
 int entqty_t = 8;
+
+struct Item_t {
+	char *name;
+	ITEM_TYPE type;
+	char face;
+	int color;
+	int stat;
+	int rarity;
+};
+
+static struct Item_t item_t[MAX_ITEMS] = {
+{ "gold", 0, '$', 4,  0, 5 },
+{ "spam", 1, '=', 8,  2, 4 },
+};
 
 /* TODO: Improve and implement in other functions */
 /* TODO: Add min and max parameters */
