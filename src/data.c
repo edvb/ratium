@@ -57,9 +57,16 @@ struct Item_t {
 };
 
 static struct Item_t item_t[MAX_ITEMS] = {
-{ "gold", 0, '$', 4,  0, 5 },
-{ "spam", 1, '=', 8,  2, 4 },
+{ "gold",     0, '&', 4,  0,  5 },
+{ "spam",     1, '=', 8,  2,  4 },
+{ "sword",    2, '/', 6,  2,  3 },
+{ "shield",   3, '0', 6,  4,  2 },
+{ "haggis",   1, 'o', 11, 10, 1 },
+{ "rat meat", 1, '%', 5,  -1, 0 },
+{ "gnu meat", 1, '%', 6,  4,  0 },
+{ "beef",     1, '%', 5,  22, 0 },
 };
+int itemqty_t = 8;
 
 /* TODO: Improve and implement in other functions */
 /* TODO: Add min and max parameters */
@@ -107,36 +114,22 @@ gen_ent(int *x, int *y, ENT_TYPE type) {
 /* init_item: read from data/items.txt file and store in item array */
 bool init_item(void) {
 
-	char *name = malloc(MAX_NAME * sizeof(char));
-	char face;
-	int color;
-	int type;
-	int stat;
-	int rarity;
 	itemqty = 0;
 
-	FILE *f = fopen("data/items.txt", "r");
-	if (f == NULL) return false;
-
-	do {
-		fscanf(f, "%s %c(%i): type=%i stat=%i rarity=%i\n",
-			   name, &face, &color, &type, &stat, &rarity);
-
-		us_to_space(name);
-
+	for (int num = 0; num < itemqty_t; num++) {
 		item[itemqty].name = malloc(MAX_NAME * sizeof(char));
-		strcpy(item[itemqty].name, name);
-		item[itemqty].face = face;
-		item[itemqty].color = color;
-		item[itemqty].type = type;
-		item[itemqty].stat = stat;
+		strcpy(item[itemqty].name, item_t[itemqty].name);
+		item[itemqty].face = item_t[itemqty].face;
+		item[itemqty].color = item_t[itemqty].color;
+		item[itemqty].type = item_t[itemqty].type;
+		item[itemqty].stat = item_t[itemqty].stat;
 
 		for (int i = 0; i < MAX_X; i++)
 			for (int j = 0; j < MAX_Y; j++)
 				item[itemqty].map[j][i] = 0;
 
-		calc_rarity(&rarity);
-		for (int x, y, i = 0; i < rarity; i++) {
+		calc_rarity(&item_t[itemqty].rarity);
+		for (int x, y, i = 0; i < item_t[itemqty].rarity; i++) {
 			do {
 				x = rand() % MAX_X;
 				y = rand() % MAX_Y;
@@ -145,12 +138,7 @@ bool init_item(void) {
 		}
 
 		itemqty++;
-
-	} while (!feof(f));
-
-	fclose(f);
-
-	free(name);
+	}
 
 	itemqty++;
 
