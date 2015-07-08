@@ -80,16 +80,6 @@ calc_rarity(int *rarity) {
 		}
 }
 
-/* us_to_space: convert underscores in string name to spaces */
-static void
-us_to_space(char *data) {
-	for(int i = 0, l = strlen(data); i < l; i++)
-		if(data[i] == '_') {
-			data[i] = ' ';
-			continue;
-		}
-}
-
 /* gen_ent: change x and y values to a valid place for entity to be generated
  *          based on type */
 static void
@@ -111,7 +101,7 @@ gen_ent(int *x, int *y, ENT_TYPE type) {
 		  get_map(*x, *y) != spawntile);
 }
 
-/* init_item: read from data/items.txt file and store in item array */
+/* init_item: copies values from item_t[] to item[] */
 bool init_item(void) {
 
 	itemqty = 0;
@@ -145,7 +135,7 @@ bool init_item(void) {
 	return true;
 }
 
-/* init_entity: read from data/entities.txt file and store in entity array */
+/* init_entity: copies values from ent_t[] to entity[] */
 bool init_entity(void) {
 	entqty = 0;
 
@@ -199,7 +189,7 @@ bool init_entity(void) {
 	return true;
 }
 
-/* init_player: set up player array with contents of player_t */
+/* init_player: copies values from player_t[] to player[] */
 bool init_player(int count) {
 	int x_0, y_0;
 
