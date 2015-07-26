@@ -35,20 +35,14 @@ char worldMap[MAX_Y][MAX_X+1] = {
 int maprand[MAX_Y][MAX_X+1];
 
 struct _Map buildings[10] = {
-{ 12, 5, 2, {
-"XXXXXXXX+XXX",
-"X..........X",
-"X..........X",
-"X..........X",
-"XXXXXXXXXXXX" }},
-{ 8, 6, 2, {
+{ 8, 6, 1, {
 " wwwww  ",
 "wwwwwww ",
 "wwwwwwww",
 "  wwwwww",
 "   wwww ",
 "    ww  " }},
-{ 3, 3, 3, {
+{ 3, 3, 1, {
 " # ",
 "#w#",
 " # " }},

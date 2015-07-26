@@ -4,6 +4,21 @@
 #include "maps.h"
 #include "gfx.h"
 
+static bool
+find_bld_loc(int *x_0, int *y_0, int len, int height) {
+	for (int tries = 0;
+	     !is_floor_range(*x_0-2, *y_0-2, len+2, height+2);
+	     tries++) {
+		*x_0 = rand() % MAX_X;
+		*y_0 = rand() % MAX_Y;
+		if (tries > 100000) /* if it has tried to many times to find a place to fit, give up */
+			return false;
+	}
+	return true;
+}
+
+/* init_building: called by init_map for every building in the array and puts
+ * them on the map */
 static void
 init_building(Map bld) {
 	int x_0, y_0;
@@ -15,14 +30,8 @@ init_building(Map bld) {
 
 	for (int num = 0; num < bld.rarity; num++) {
 		/* add 2 for gap around building */
-		for (int tries = 0;
-		     !is_floor_range(x_0-2, y_0-2, bld.len+2, bld.height+2);
-		     tries++) {
-			x_0 = rand() % MAX_X;
-			y_0 = rand() % MAX_Y;
-			if (tries > 100000) /* if it has tried to many times to find a place to fit, give up */
-				return;
-		}
+		if (!find_bld_loc(&x_0, &y_0, bld.len, bld.height))
+			return;
 		for (int i = 0; i < bld.len; i++) /* copy building to world */
 			for (int j = 0; j < bld.height; j++)
 				if (bld.map[j][i] != ' ')
@@ -30,12 +39,38 @@ init_building(Map bld) {
 	}
 }
 
+static void
+init_room(char wall, char floor, int doorqty, char door) {
+	int x_0, y_0;
+	int len = rand() % 7 + 4;
+	int height = rand() % 7 + 4;
+
+	if (!find_bld_loc(&x_0, &y_0, len, height))
+		return;
+
+	for (int i = 0; i < len; i++)
+		for (int j = 0; j < height; j++)
+			set_map(i+x_0, j+y_0, wall);
+	for (int i = 0; i < len-2; i++)
+		for (int j = 0; j < height-2; j++)
+			set_map(i+x_0+1, j+y_0+1, floor);
+	for (int i = 0; i < doorqty; i++)
+		switch (rand()%4) {
+		case 0: set_map(x_0+rand()%len, y_0,               door); break;
+		case 1: set_map(x_0,            y_0+rand()%height, door); break;
+		case 2: set_map(x_0+rand()%len, y_0+height-1,      door); break;
+		case 3: set_map(x_0+len-1,      y_0+rand()%height, door); break;
+		}
+}
+
 /* init_map: asign values to maprand to determine if character displayed there
  * should be a different char */
 void init_map(void) {
 	int num;
-	for (int i = 0; i < 10; i++) /* create buildings in world */
+	for (int i = 0; i < 10; i++) /* create buildings in the world */
 		init_building(buildings[i]);
+	for (int i = 0; i < rand()%4; i++) /* create rooms in the world */
+		init_room('X', '.', rand()%3+1, '+');
 	for (int i = 0; i < MAX_X; i++) /* asign random values to maprand, used for added decoration */
 		for (int j = 0; j < MAX_Y; j++) {
 			if ((num = rand() % 50) == 0)
