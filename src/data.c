@@ -57,7 +57,7 @@ struct Item_t {
 };
 
 static struct Item_t item_t[MAX_ITEMS] = {
-{ "gold",     0, '&', 4,  0,  5 },
+{ "gold",     0, '$', 4,  0,  5 },
 { "spam",     1, '=', 8,  2,  4 },
 { "sword",    2, '/', 6,  2,  3 },
 { "shield",   3, '0', 6,  4,  2 },
