@@ -6,6 +6,7 @@
 
 static bool
 find_bld_loc(int *x_0, int *y_0, int len, int height) {
+	/* add 2 for gap around building */
 	for (int tries = 0;
 	     !is_floor_range(*x_0-2, *y_0-2, len+2, height+2);
 	     tries++) {
@@ -20,7 +21,7 @@ find_bld_loc(int *x_0, int *y_0, int len, int height) {
 /* init_building: called by init_map for every building in the array and puts
  * them on the map */
 static void
-init_building(Map bld) {
+draw_building(Map bld) {
 	int x_0, y_0;
 
 	switch (rand() % 2) { /* randomly change amount of buildings */
@@ -29,7 +30,6 @@ init_building(Map bld) {
 	}
 
 	for (int num = 0; num < bld.rarity; num++) {
-		/* add 2 for gap around building */
 		if (!find_bld_loc(&x_0, &y_0, bld.len, bld.height))
 			return;
 		for (int i = 0; i < bld.len; i++) /* copy building to world */
@@ -40,7 +40,7 @@ init_building(Map bld) {
 }
 
 static void
-init_room(char wall, char floor, int doorqty, char door) {
+draw_room(char wall, char floor, int doorqty, char door) {
 	int x_0, y_0;
 	int len = rand() % 7 + 4;
 	int height = rand() % 7 + 4;
@@ -68,9 +68,9 @@ init_room(char wall, char floor, int doorqty, char door) {
 void init_map(void) {
 	int num;
 	for (int i = 0; i < 10; i++) /* create buildings in the world */
-		init_building(buildings[i]);
+		draw_building(buildings[i]);
 	for (int i = 0; i < rand()%4; i++) /* create rooms in the world */
-		init_room('X', '.', rand()%3+1, '+');
+		draw_room('X', '.', rand()%3+1, '+');
 	for (int i = 0; i < MAX_X; i++) /* asign random values to maprand, used for added decoration */
 		for (int j = 0; j < MAX_Y; j++) {
 			if ((num = rand() % 50) == 0)
