@@ -66,7 +66,7 @@ typedef struct _Keys Keys;
 struct _Keys {
 	char left, down, up, right;
 	char leftdown, leftup, rightdown, rightup;
-	char stand, get, open, drop, inv;
+	char stand, act, drop, inv;
 };
 
 typedef struct _Msg Msg;

@@ -103,7 +103,7 @@ static void inv(Ent *e) {
 	do {
 		if      (k == e->keys.up)   { arrow_y--; }
 		else if (k == e->keys.down) { arrow_y++; }
-		else if (k == e->keys.get)  { inv_use_item(e, arrow_y-1); }
+		else if (k == e->keys.act)  { inv_use_item(e, arrow_y-1); }
 		else if (k == e->keys.drop) { inv_drop_item(e, arrow_y-1); }
 
 		if (e->inv[arrow_y-1].face == ' ')
@@ -121,13 +121,7 @@ static void inv(Ent *e) {
 
 }
 
-static void get_item(Ent *e) {
-	for (int i = 0; i <= itemqty; i++)
-		if (item[i].map[e->y][e->x] > 0) {
-			inv_add_item(e, &item[i], 1);
-			clear_item(&item[i], e->x, e->y);
-			return;
-		}
+static void drop_item(Ent *e) {
 	/* TODO: Break into function */
 	/* if nothing is under player put what player was holding into inv */
 	if (e->holding.face != ' ') {
@@ -171,17 +165,26 @@ bool player_run(int c, Ent *e) {
 			e->direc = RIGHTUP;
 		}
 		else if (c == e->keys.stand) { returnval = true; }
-		else if (c == e->keys.get)   { get_item(e); }
-		else if (c == e->keys.open)  { toggle_door(e->x, e->y); }
+		else if (c == e->keys.drop)  { drop_item(e); }
+		else if (c == e->keys.act)   { toggle_door(e->x, e->y); }
 		else if (c == e->keys.inv)   { inv(e); returnval = true; } /* TODO: Make inv not take up turn */
 		else { returnval = false; }
 
+		/* collect item on ground */
+		for (int i = 0; i <= itemqty; i++)
+			if (item[i].map[e->y][e->x] > 0) {
+				inv_add_item(e, &item[i], 1);
+				clear_item(&item[i], e->x, e->y);
+			}
+
+		/* make sure heath does not go over max */
 		if (e->hp > e->maxhp)
 			e->hp = e->maxhp;
 
 		return returnval;
 
 	} else if (!e->isdead) {
+		/* TODO: Improve death, drop items on ground */
 		add_msg(&player[0].msg, "You Died!");
 		e->isdead = true;
 		return true;

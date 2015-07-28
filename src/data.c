@@ -5,8 +5,8 @@
 #include "ratium.h"
 
 static struct _Keys player_keys[MAX_PLAYERS] = {
-{ 'h', 'j', 'k', 'l', 'b', 'y', 'n', 'u', '.', 'g', 'o', 'p', 'i' },
-{ 'a', 'x', 'w', 'd', 'z', 'q', 'c', 'e', 's', 'r', 'f', 't', 'v' },
+{ 'h', 'j', 'k', 'l', 'b', 'y', 'n', 'u', '.', 'o', 'p', 'i' },
+{ 'a', 'x', 'w', 'd', 'z', 'q', 'c', 'e', 's', 'f', 't', 'v' },
 };
 
 struct Ent_t {
