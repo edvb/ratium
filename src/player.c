@@ -143,46 +143,38 @@ static void get_item(Ent *e) {
 
 bool player_run(int c, Ent *e) {
 	if (isalive(e->hp)) {
-		bool returnval; /* true if key pressed is valid key */
+		bool returnval = true; /* true if key pressed is valid key */
 
 		if (c == e->keys.left) {
 			move_entity(e, -1, 0);
 			e->direc = LEFT;
-			returnval = true;
 		} else if (c == e->keys.down) {
 			move_entity(e, 0, 1);
 			e->direc = DOWN;
-			returnval = true;
 		} else if (c == e->keys.up) {
 			move_entity(e, 0, -1);
 			e->direc = UP;
-			returnval = true;
 		} else if  (c == e->keys.right) {
 			move_entity(e, 1, 0);
 			e->direc = RIGHT;
-			returnval = true;
 		} else if  (c == e->keys.leftdown) {
 			move_entity(e, -1, 1);
 			e->direc = LEFTDOWN;
-			returnval = true;
 		} else if  (c == e->keys.leftup) {
 			move_entity(e, -1, -1);
 			e->direc = LEFTUP;
-			returnval = true;
 		} else if (c == e->keys.rightdown) {
 			move_entity(e, 1, 1);
 			e->direc = RIGHTDOWN;
-			returnval = true;
 		} else if (c == e->keys.rightup) {
 			move_entity(e, 1, -1);
 			e->direc = RIGHTUP;
-			returnval = true;
 		}
 		else if (c == e->keys.stand) { returnval = true; }
-		else if (c == e->keys.get)   { get_item(e); returnval = true; }
-		else if (c == e->keys.open)  { toggle_door(e->x, e->y); returnval = true; }
+		else if (c == e->keys.get)   { get_item(e); }
+		else if (c == e->keys.open)  { toggle_door(e->x, e->y); }
 		else if (c == e->keys.inv)   { inv(e); returnval = true; } /* TODO: Make inv not take up turn */
-		else { returnval = true; }
+		else { returnval = false; }
 
 		if (e->hp > e->maxhp)
 			e->hp = e->maxhp;
