@@ -135,6 +135,26 @@ static void drop_item(Ent *e) {
 	}
 }
 
+static void act_key(Ent *e) {
+	/* toogle door if looking at one */
+	int door_x = holding_x(*e, e->x);
+	int door_y = holding_y(*e, e->y);
+	if (get_map(door_x, door_y) == '+' || get_map(door_x, door_y) == '-') {
+		toggle_door(door_x, door_y);
+		return;
+	}
+
+	/* use item in hand */
+	switch (e->holding.type) {
+	case ITEM_MISC:
+	case ITEM_FOOD: break;
+	case ITEM_SWORD:
+	case ITEM_SHIELD:
+		break;
+	}
+
+}
+
 bool player_run(int c, Ent *e) {
 	if (isalive(e->hp)) {
 		bool returnval = true; /* true if key pressed is valid key */
@@ -166,7 +186,7 @@ bool player_run(int c, Ent *e) {
 		}
 		else if (c == e->keys.stand) { returnval = true; }
 		else if (c == e->keys.drop)  { drop_item(e); }
-		else if (c == e->keys.act)   { toggle_door(e->x, e->y); }
+		else if (c == e->keys.act)   { act_key(e); }
 		else if (c == e->keys.inv)   { inv(e); returnval = true; } /* TODO: Make inv not take up turn */
 		else { returnval = false; }
 
