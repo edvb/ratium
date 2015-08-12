@@ -32,6 +32,7 @@ typedef enum {
 typedef enum {
 	ITEM_MISC,
 	ITEM_FOOD,
+	ITEM_SHOOTER,
 	ITEM_SWORD,
 	ITEM_SHIELD
 } ITEM_TYPE;

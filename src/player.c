@@ -148,6 +148,8 @@ static void act_key(Ent *e) {
 	switch (e->holding.type) {
 	case ITEM_MISC:
 	case ITEM_FOOD: break;
+	case ITEM_SHOOTER:
+		break;
 	case ITEM_SWORD:
 	case ITEM_SHIELD:
 		break;
