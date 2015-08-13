@@ -135,6 +135,16 @@ static void drop_item(Ent *e) {
 	}
 }
 
+static void
+load_shooter(Ent *e) {
+
+}
+
+static void
+fire_shooter(Ent *e) {
+
+}
+
 static void act_key(Ent *e) {
 	/* toogle door if looking at one */
 	int door_x = holding_x(*e, e->x);
