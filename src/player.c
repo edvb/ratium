@@ -136,13 +136,22 @@ static void drop_item(Ent *e) {
 }
 
 static void
-load_shooter(Ent *e) {
-
+fire_shooter(Ent *e) {
+	switch (e->direc) {
+	case LEFT:
+	case DOWN:
+	case UP:
+	case RIGHT:
+	case LEFTDOWN:
+	case LEFTUP:
+	case RIGHTDOWN:
+	case RIGHTUP:
+		break;
+	}
 }
 
 static void
-fire_shooter(Ent *e) {
-
+load_shooter(Ent *e) {
 }
 
 static void act_key(Ent *e) {
