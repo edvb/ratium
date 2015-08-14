@@ -15,7 +15,7 @@ bool can_step(Ent *e, int x, int y) {
 		    entity[i].x == x && entity[i].y == y) {
 			if (e->ai == AI_PLAYER) {
 				if (entity[i].msg.disp == true &&
-				    e->holding.type != ITEM_SWORD)
+				    e->inv[e->hand].type != ITEM_SWORD)
 					add_msg(&player[0].msg, entity[i].msg.data);
 				else
 					attack(e, &entity[i]);
@@ -51,14 +51,11 @@ void attack(Ent *e, Ent *foe) {
 
 /* take_damage: determine how much damage entity e should take */
 void take_damage(Ent *e, int damage) {
-	switch (e->holding.type) {
+	switch (e->inv[e->hand].type) {
 		case ITEM_SHIELD:
-			e->holding.stat -= damage;
-			if (e->holding.stat < 0) {
-				e->holding.face = ' ';
-				e->holding.color = 0;
-				e->holding.type = 0;
-				e->holding.stat = 0;
+			e->inv[e->hand].stat -= damage;
+			if (e->inv[e->hand].stat < 0) {
+				e->hand = -1;
 			}
 			break;
 		default:
@@ -68,9 +65,9 @@ void take_damage(Ent *e, int damage) {
 
 /* deal_damage: determine how much damage entity e should give to other entities */
 int deal_damage(Ent *e) {
-	switch (e->holding.type) {
+	switch (e->inv[e->hand].type) {
 		case ITEM_SWORD:
-			return e->damage + e->holding.stat;
+			return e->damage + e->inv[e->hand].stat;
 			break;
 		default:
 			return e->damage;
@@ -123,9 +120,9 @@ void draw_ent(Ent e, Ent oe, int r) {
 			rat_mvprint(0, e.bary, s, 0);
 		}
 		rat_mvaddch(e.x, e.y, e.face, e.color);
-		if (e.holding.face != ' ')
+		if (e.hand != -1)
 			rat_mvaddch(holding_x(e, e.x), holding_y(e, e.y),
-				e.holding.face, e.holding.color);
+				e.inv[e.hand].face, e.inv[e.hand].color);
 	}
 }
 

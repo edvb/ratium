@@ -119,7 +119,6 @@ int main(int argc, char *argv[]) {
 		free(item[i].name);
 	for (int i = 0; i <= entqty; i++) {
 		free(entity[i].name);
-		free(entity[i].holding.name);
 		free(entity[i].msg.data);
 		for (int j = 0; j < MAX_INV; j++)
 			free(entity[i].inv[j].name);
@@ -129,7 +128,6 @@ int main(int argc, char *argv[]) {
 		free(player[i].msg.data);
 		for (int j = 0; j < MAX_INV; j++)
 			free(player[i].inv[j].name);
-		free(player[i].holding.name);
 	}
 
 	return 0;

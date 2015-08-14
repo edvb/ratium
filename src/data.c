@@ -156,11 +156,7 @@ bool init_entity(void) {
 
 			entity[num].speed = ent_t[i].speed;
 
-			entity[num].holding.name = malloc(MAX_NAME * sizeof(char));
-			entity[num].holding.face = ' ';
-			entity[num].holding.color = 0;
-			entity[num].holding.type = 0;
-			entity[num].holding.stat = 0;
+			entity[num].hand = -1;
 
 			entity[num].msg.data = malloc(MAX_NAME * sizeof(char));
 			if (ent_t[i].msg != NULL) {
@@ -229,11 +225,7 @@ bool init_player(int count) {
 			player[num].inv[i].map[0][0] = 0;
 		}
 
-		player[num].holding.name = malloc(MAX_NAME * sizeof(char));
-		player[num].holding.face = ' ';
-		player[num].holding.color = 0;
-		player[num].holding.type = 0;
-		player[num].holding.stat = 0;
+		player[num].hand = -1;
 
 	}
 

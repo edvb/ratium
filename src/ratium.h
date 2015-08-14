@@ -107,7 +107,7 @@ struct _Ent {
 	struct _Keys keys; /* player keys */
 	struct _Msg msg;   /* message player will display, or message to tell player */
 	Item inv[MAX_INV]; /* inventory of ent */
-	Item holding; /* TODO: change to int pointing to inv element */
+	int hand;
 	Armor armor;
 };
 

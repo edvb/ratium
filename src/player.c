@@ -72,14 +72,11 @@ static void inv_use_item(Ent *e, int num) {
 				e->hp += e->inv[num].stat;
 				e->inv[num].map[0][0]--;
 				break;
+			case ITEM_SHOOTER:
 			case ITEM_SWORD:
 			case ITEM_SHIELD:
-				if (e->holding.face == ' ') {
-					e->holding.name  = e->inv[num].name;
-					e->holding.face  = e->inv[num].face;
-					e->holding.color = e->inv[num].color;
-					e->holding.type  = e->inv[num].type;
-					e->holding.stat  = e->inv[num].stat;
+				if (e->hand == -1) {
+					e->hand = num;
 					e->inv[num].map[0][0]--;
 				}
 				break;
@@ -122,16 +119,12 @@ static void inv(Ent *e) {
 }
 
 static void drop_item(Ent *e) {
-	/* TODO: Break into function */
 	/* if nothing is under player put what player was holding into inv */
-	if (e->holding.face != ' ') {
-		e->holding.face = ' ';
-		e->holding.color = 0;
-		e->holding.type = 0;
-		e->holding.stat = 0;
+	if (e->hand != -1) {
 		for (int i = 0; i < MAX_INV; i++)
-			if (strcmp(e->inv[i].name, e->holding.name) == 0)
+			if (strcmp(e->inv[i].name, e->inv[e->hand].name) == 0)
 				e->inv[i].map[0][0]++;
+		e->hand = -1;
 	}
 }
 
@@ -152,6 +145,7 @@ fire_shooter(Ent *e) {
 
 static void
 load_shooter(Ent *e) {
+	fire_shooter(e);
 }
 
 static void act_key(Ent *e) {
@@ -164,10 +158,11 @@ static void act_key(Ent *e) {
 	}
 
 	/* use item in hand */
-	switch (e->holding.type) {
+	switch (e->inv[e->hand].type) {
 	case ITEM_MISC:
 	case ITEM_FOOD: break;
 	case ITEM_SHOOTER:
+		load_shooter(e);
 		break;
 	case ITEM_SWORD:
 	case ITEM_SHIELD:
