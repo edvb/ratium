@@ -4,11 +4,11 @@
 #include "maps.h"
 #include "gfx.h"
 
+/* find_bld_loc: determines postion for a building on map which it can fit in */
 static bool
 find_bld_loc(int *x_0, int *y_0, int len, int height) {
-	/* add 2 for gap around building */
 	for (int tries = 0;
-	     !is_floor_range(*x_0-2, *y_0-2, len+2, height+2);
+	     !is_floor_range(*x_0-2, *y_0-2, len+2, height+2); /* add 2 for gap around building */
 	     tries++) {
 		*x_0 = rand() % MAX_X;
 		*y_0 = rand() % MAX_Y;
