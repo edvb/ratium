@@ -14,9 +14,9 @@ bool can_step(Ent *e, int x, int y) {
 		if (isalive(entity[i].hp) &&
 		    entity[i].x == x && entity[i].y == y) {
 			if (e->ai == AI_PLAYER) {
-				if (entity[i].msg.disp == true &&
+				if (entity[i].msg != NULL &&
 				    e->inv[e->hand].type != ITEM_SWORD)
-					add_msg(&player[0].msg, entity[i].msg.data);
+					add_msg(player[0].msg, entity[i].msg);
 				else
 					attack(e, &entity[i]);
 			}

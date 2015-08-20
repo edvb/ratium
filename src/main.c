@@ -29,7 +29,7 @@ A dumb little ncurses game where you play as a '@' and have to kill rats\n\
 \n\
 For more info see man page\n\
 \n\
-ratium home page: <https://github.com/edvb54/ratium-c>\n\
+ratium home page: <https://github.com/edvb54/ratium>\n\
 ");
 }
 
@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		for (int i = 0; i <= playerqty; i++) /* TODO: Move */
-			draw_msg(&player[i].msg);
+			draw_msg(player[i].msg);
 
 		c = rat_getch();
 
@@ -119,13 +119,13 @@ int main(int argc, char *argv[]) {
 		free(item[i].name);
 	for (int i = 0; i <= entqty; i++) {
 		free(entity[i].name);
-		free(entity[i].msg.data);
+		free(entity[i].msg);
 		for (int j = 0; j < MAX_INV; j++)
 			free(entity[i].inv[j].name);
 	}
 	for (int i = 0; i <= playerqty; i++) {
 		free(player[i].name);
-		free(player[i].msg.data);
+		free(player[i].msg);
 		for (int j = 0; j < MAX_INV; j++)
 			free(player[i].inv[j].name);
 	}

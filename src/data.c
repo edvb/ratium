@@ -158,12 +158,11 @@ bool init_entity(void) {
 
 			entity[num].hand = -1;
 
-			entity[num].msg.data = malloc(MAX_NAME * sizeof(char));
+			entity[num].msg = malloc(MAX_NAME * sizeof(char));
 			if (ent_t[i].msg != NULL) {
-				strcpy(entity[num].msg.data, ent_t[i].msg);
-				entity[num].msg.disp = true;
+				strcpy(entity[num].msg, ent_t[i].msg);
 			} else
-				entity[num].msg.disp = false;
+				entity[num].msg = NULL;
 
 			for (int j = 0; j < MAX_INV; j++) {
 				entity[num].inv[j].name = malloc(MAX_NAME * sizeof(char));
@@ -215,8 +214,7 @@ bool init_player(int count) {
 
 		player[num].keys = player_keys[num];
 
-		player[num].msg.data = malloc(MAX_NAME * sizeof(char));
-		player[num].msg.disp = false;
+		player[num].msg = malloc(MAX_NAME * sizeof(char));
 
 		for (int i = 0; i < MAX_INV; i++) {
 			player[num].inv[i].name = malloc(MAX_NAME * sizeof(char));

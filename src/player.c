@@ -6,18 +6,17 @@
 #include "ent.h"
 #include "gfx.h"
 
-void add_msg(Msg *msg, char *message) {
-	strcpy(msg->data, message);
-	msg->disp = true;
+void add_msg(char *msg, char *message) {
+	strcpy(msg, message);
 }
 
-void draw_msg(Msg *msg) {
-	if (msg->disp == true) {
+void draw_msg(char *msg) {
+	if (msg != NULL) {
 		int x, y;
-		x = (maxx / 2) - (strlen(msg->data) / 2);
+		x = (maxx / 2) - (strlen(msg) / 2);
 		y = maxy / 2;
-		rat_mvprint(x, y, msg->data, 12);
-		msg->disp = false;
+		rat_mvprint(x, y, msg, 12);
+		msg[0] = '\0';
 	}
 }
 
@@ -221,7 +220,7 @@ bool player_run(int c, Ent *e) {
 
 	} else if (!e->isdead) {
 		/* TODO: Improve death, drop items on ground */
-		add_msg(&player[0].msg, "You Died!");
+		add_msg(player[0].msg, "You Died!");
 		e->isdead = true;
 		return true;
 	} else

@@ -70,14 +70,6 @@ struct _Keys {
 	char stand, act, drop, inv;
 };
 
-typedef struct _Msg Msg;
-struct _Msg {
-	char *data; /* string for contents of message */
-	/* TODO: remove necessity for this by checking if *data is NULL */
-	bool disp;  /* if player should display message
-		     * or if entity tells message */
-};
-
 /* different armor slots that entities could have items in */
 typedef struct _Armor Armor;
 struct _Armor {
@@ -105,7 +97,7 @@ struct _Ent {
 	int speed;     /* how fast entity ai can move */
 
 	struct _Keys keys; /* player keys */
-	struct _Msg msg;   /* message player will display, or message to tell player */
+	char *msg;   /* message player will display, or message to tell player */
 	Item inv[MAX_INV]; /* inventory of ent */
 	int hand;
 	Armor armor;
@@ -136,8 +128,8 @@ void rand_ai(Ent *e);
 void dumb_ai(Ent *e, int xNew, int yNew);
 
 /* player.c: handle the player */
-void add_msg(Msg *msg, char *message);
-void draw_msg(Msg *msg);
+void add_msg(char *msg, char *message);
+void draw_msg(char *msg);
 bool player_run(int c, Ent *e);
 
 /* data.c: handle reading from data/ directory */
