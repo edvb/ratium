@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
 			draw_map(player[i], player[i].sight);
 		}
 
-		for (int i = 0; i <= playerqty; i++) /* TODO: Move */
+		for (int i = 0; i <= playerqty; i++)
 			draw_msg(player[i].msg);
 
 		c = rat_getch();
