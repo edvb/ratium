@@ -6,7 +6,6 @@
 void rand_ai(Ent *e) {
 	if (isalive(e->hp)) {
 
-		/* TODO: Improve */
 		int direc = rand() % e->speed;
 
 		switch (direc) {
