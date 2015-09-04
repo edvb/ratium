@@ -32,9 +32,10 @@ typedef enum {
 typedef enum {
 	ITEM_MISC,
 	ITEM_FOOD,
-	ITEM_SHOOTER,
 	ITEM_SWORD,
-	ITEM_SHIELD
+	ITEM_SHIELD,
+	ITEM_SHOOTER,
+	ITEM_AMMO
 } ITEM_TYPE;
 
 /* where the entity can spawn */
@@ -137,6 +138,7 @@ bool init_item(void);
 bool init_entity(void);
 bool init_player(int count);
 
+/* TODO: Make local */
 int maxx;
 int maxy;
 
