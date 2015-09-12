@@ -66,6 +66,7 @@ static void inv_use_item(Ent *e, int num) {
 	if (e->inv[num].map[0][0] > 0)
 		switch (e->inv[num].type) {
 			case ITEM_MISC:
+			case ITEM_AMMO:
 				break;
 			case ITEM_FOOD:
 				e->hp += e->inv[num].stat;
@@ -159,6 +160,7 @@ static void act_key(Ent *e) {
 	/* use item in hand */
 	switch (e->inv[e->hand].type) {
 	case ITEM_MISC:
+	case ITEM_AMMO:
 	case ITEM_FOOD: break;
 	case ITEM_SHOOTER:
 		load_shooter(e);
