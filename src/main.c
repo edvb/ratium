@@ -53,82 +53,15 @@ int main(int argc, char *argv[]) {
 			return 1;
 		}
 
+	int c = 0;
+
 	rat_init();
-	rat_start_color();
-
-	int c;
-
-	rat_getmaxxy();
 
 	if (maxx < 80 || maxy < 24) { NERROR("terminal too small"); }
 
-	srand(time(NULL));
+	rat_loop(c);
 
-	init_map();
-	init_entity();
-	init_player(DEF_PLAYERS);
-	init_item();
-
-	do {
-		rat_clear();
-
-		for (int i = 0; i < entqty; i++)
-			switch (entity[i].ai) {
-			case AI_PLAYER: break;
-			case AI_HOSTILE:
-				dumb_ai(&entity[i], player[0].x, player[0].y);
-				break;
-			case AI_PEACEFUL:
-				rand_ai(&entity[i]);
-				break;
-			}
-
-		for (int i = playerqty; i >= 0; i--) {
-			draw_map_floor(player[i], player[i].sight);
-			for (int j = itemqty; j >= 0; j--)
-				draw_item(item[j], player[i], player[i].sight);
-		}
-		for (int i = playerqty; i >= 0; i--) {
-			draw_ent(player[i], player[i], player[i].sight);
-			for (int j = entqty; j >= 0; j--)
-				draw_ent(entity[j], player[i], player[i].sight);
-			draw_map(player[i], player[i].sight);
-		}
-
-		for (int i = 0; i <= playerqty; i++)
-			draw_msg(player[i].msg);
-
-		c = rat_getch();
-
-		for (int i = 0; i <= playerqty; i++)
-			while (!player_run(c, &player[i]) && c != RAT_ESC)
-				c = rat_getch();
-
-	} while (c != RAT_ESC);
-
-	rat_endwin();
-	printf("GAME OVER\n");
-
-	for (int i = 0; i <= playerqty; i++)
-		for (int j = 0; i < MAX_INV; i++)
-			if (player[i].inv[j].face == '$')
-				printf("%s's Score: %d\n",
-				        player[i].name, player[i].inv[j].map[0][0]);
-
-	for (int i = 0; i <= itemqty; i++)
-		free(item[i].name);
-	for (int i = 0; i <= entqty; i++) {
-		free(entity[i].name);
-		free(entity[i].msg);
-		for (int j = 0; j < MAX_INV; j++)
-			free(entity[i].inv[j].name);
-	}
-	for (int i = 0; i <= playerqty; i++) {
-		free(player[i].name);
-		free(player[i].msg);
-		for (int j = 0; j < MAX_INV; j++)
-			free(player[i].inv[j].name);
-	}
+	rat_cleanup();
 
 	return 0;
 }

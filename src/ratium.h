@@ -104,6 +104,11 @@ struct _Ent {
 	Armor armor;
 };
 
+/* game.c: game functions */
+void rat_init(void);
+void rat_loop(int c);
+void rat_cleanup();
+
 /* map.c: handle the map */
 void init_map(void);
 char get_map(int x, int y);

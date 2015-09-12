@@ -8,7 +8,7 @@
 
 #include "gfx.h"
 
-void rat_init() {
+void rat_init_gfx() {
 #ifdef RAT_NCURSES
 	initscr();
 	/* nodelay(stdscr,true); */

@@ -6,7 +6,7 @@
 #  define RAT_REVERSE ((1Ul) << 18)
 #endif
 
-void rat_init();
+void rat_init_gfx();
 void rat_start_color();
 void rat_getmaxxy();
 void rat_clear();
