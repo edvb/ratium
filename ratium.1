@@ -1,61 +1,70 @@
-.TH RATIUM 1 ratium\-VERSION
-.SH NAME
-ratium \- A Dumb Little NCurses Game of Killing Rats
+.TH NAME
+.PP
+ratium \- A Dumb Little NCurses ASCII Game
 .SH SYNOPSIS
-.B ratium [-hv] [--help] [--version]
+.PP
+ratium [\-\-help] [\-\-version]
 .SH DESCRIPTION
-ratium is a dumb little game where you are a '@' and have survive in an ASCII 
-world by defending yourself from various enemies, such as the super rat.
-Collect spam, swords, and haggises to survive.
+.PP
+ratium  is a dumb little game where you are a '@' and have to survive in an
+ASCII world by defending yourself from various enemies, like the super rat.
+Collect items such as spam, swords, and haggises to aid you in your battles.
 .SH COMMANDS
-To quit game press 'q' or ESC, you can also press ctrl-z to suspend the game,
-exiting to your shell where you can enter 'fg' to bring it back up again.
-.IP
+.PP
+To quit the game press ESC, you can also press ctrl\-z to suspend the game.
 .SS MOVEMENT
-.IP
-.BR h
-Move player left.
-.IP
-.BR j
-Move player down.
-.IP
-.BR k
-Move player up.
-.IP
-.BR l
-Move player right.
-.IP
+.RS
+.IP \(bu 2
+\fBh\fP: Move player left.
+.IP \(bu 2
+\fBj\fP: Move player down.
+.IP \(bu 2
+\fBk\fP: Move player up.
+.IP \(bu 2
+\fBl\fP: Move player right.
+.RE
 .SS PLAYER ACTIONS
-.IP
-.BR g
-Get item under player.
-.IP
-.BR o
-Open/close door.
-.IP
-.BR i
-Open inventory menu.
-.IP
+.RS
+.IP \(bu 2
+\fBg\fP: Get item under player.
+.IP \(bu 2
+\fBo\fP: Open/close door.
+.IP \(bu 2
+\fBi\fP: Open inventory menu.
+.RE
 .SS INVENTORY
-.IP
-.BR i
-Exit from inventory menu.
-.IP
-.BR g
-Use item, depending on item type you can eat it or equip it in hand.
-.IP
-.BR d
-Drop item onto map.
+.RS
+.IP \(bu 2
+\fBi\fP: Exit from inventory menu.
+.IP \(bu 2
+\fBg\fP: Use item, depending on item type you can eat it or equip it in hand.
+.IP \(bu 2
+\fBd\fP: Drop item onto map.
+.RE
 .SH ENTITIES
-.TP
-.BR Rat\ (r)
-A hostile creature which deals 1 damage and has 2 heath. Drops rat meat when it
-dies.
-.TP
-.BR Super\ Rat\ (R)
-A hostile creature which deals 2 damage and has 4 heath. Drops rat meat when it
-dies.
-.IP
-.TP
-.BR Gnu\ (G)
-A peaceful animal with 6 heath. Drops gnu meat when it dies
+.RS
+.IP \(bu 2
+Rat (r)
+.RS
+.IP \(bu 2
+A hostile creature which deals 1 damage and has 2 heath.
+.IP \(bu 2
+Drops rat meat when it dies.
+.RE
+.IP \(bu 2
+Super Rat (R)
+.RS
+.IP \(bu 2
+A hostile creature which deals 2 damage and has 4 heath.
+.IP \(bu 2
+Drops rat meat when it dies.
+.RE
+.IP \(bu 2
+Gnu (G)
+.RS
+.IP \(bu 2
+A peaceful animal with 6 heath.
+.IP \(bu 2
+Drops gnu meat when it dies
+.RE
+.RE
