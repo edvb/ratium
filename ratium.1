@@ -13,33 +13,20 @@ Collect items such as spam, swords, and haggises to aid you in your battles.
 .PP
 To quit the game press ESC, you can also press ctrl\-z to suspend the game.
 .SS MOVEMENT
-.RS
-.IP \(bu 2
-\fBh\fP: Move player left.
-.IP \(bu 2
-\fBj\fP: Move player down.
-.IP \(bu 2
-\fBk\fP: Move player up.
-.IP \(bu 2
-\fBl\fP: Move player right.
-.RE
+.PP
+y k u
+.PP
+h . l
+.PP
+b j n
 .SS PLAYER ACTIONS
 .RS
 .IP \(bu 2
-\fBg\fP: Get item under player.
+\fBi\fP: Open/close inventory menu.
 .IP \(bu 2
-\fBo\fP: Open/close door.
+\fBo\fP: Action key.
 .IP \(bu 2
-\fBi\fP: Open inventory menu.
-.RE
-.SS INVENTORY
-.RS
-.IP \(bu 2
-\fBi\fP: Exit from inventory menu.
-.IP \(bu 2
-\fBg\fP: Use item, depending on item type you can eat it or equip it in hand.
-.IP \(bu 2
-\fBd\fP: Drop item onto map.
+\fBp\fP: drop key.
 .RE
 .SH ENTITIES
 .RS
@@ -47,24 +34,117 @@ To quit the game press ESC, you can also press ctrl\-z to suspend the game.
 Rat (r)
 .RS
 .IP \(bu 2
-A hostile creature which deals 1 damage and has 2 heath.
+A hostile creature.
 .IP \(bu 2
-Drops rat meat when it dies.
+Attack: 1
+.IP \(bu 2
+Heath:  2
+.IP \(bu 2
+Drops rat meat on death.
 .RE
 .IP \(bu 2
 Super Rat (R)
 .RS
 .IP \(bu 2
-A hostile creature which deals 2 damage and has 4 heath.
+A hostile creature.
 .IP \(bu 2
-Drops rat meat when it dies.
+Attack: 2
+.IP \(bu 2
+Heath:  4
+.IP \(bu 2
+Drops rat meat on death.
 .RE
 .IP \(bu 2
 Gnu (G)
 .RS
 .IP \(bu 2
-A peaceful animal with 6 heath.
+A peaceful animal.
 .IP \(bu 2
-Drops gnu meat when it dies
+Heath:  6
+.IP \(bu 2
+Drops gnu meat on death.
+.RE
+.IP \(bu 2
+Cow (c)
+.RS
+.IP \(bu 2
+A peaceful animal.
+.IP \(bu 2
+Heath:  2
+.IP \(bu 2
+Drops beef on death.
+.RE
+.IP \(bu 2
+King Arthur (@)
+.RS
+.IP \(bu 2
+A NPC which will talk to you.
+.IP \(bu 2
+Heath:  10
+.IP \(bu 2
+Drops gold on death.
+.RE
+.RE
+.SH Items
+.RS
+.IP \(bu 2
+Gold ($)
+.RS
+.IP \(bu 2
+Increase score
+.RE
+.IP \(bu 2
+Spam (=)
+.RS
+.IP \(bu 2
+Eat to restore 2 heath
+.RE
+.IP \(bu 2
+Haggis (o)
+.RS
+.IP \(bu 2
+Eat to restore 10 heath
+.RE
+.IP \(bu 2
+Sword (/)
+.RS
+.IP \(bu 2
+Hold to deal more damage
+.RE
+.IP \(bu 2
+Shield (0)
+.RS
+.IP \(bu 2
+Hold to block damage
+.RE
+.IP \(bu 2
+Bow ())
+.RS
+.IP \(bu 2
+Hold to fire arrows
+.RE
+.IP \(bu 2
+Arrow (|)
+.RS
+.IP \(bu 2
+Used by bow to deal 5 damage
+.RE
+.IP \(bu 2
+Rat Meat (%)
+.RS
+.IP \(bu 2
+Eat to remove 1 heath
+.RE
+.IP \(bu 2
+Gnu Meat (%)
+.RS
+.IP \(bu 2
+Eat to restore 4 heath
+.RE
+.IP \(bu 2
+Beef (%)
+.RS
+.IP \(bu 2
+Eat to restore 22 heath
 .RE
 .RE

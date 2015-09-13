@@ -18,30 +18,60 @@ To quit the game press ESC, you can also press ctrl-z to suspend the game.
 
 ### MOVEMENT
 
- * **h**: Move player left.
- * **j**: Move player down.
- * **k**: Move player up.
- * **l**: Move player right.
+y k u
+
+h . l
+
+b j n
 
 ### PLAYER ACTIONS
 
- * **g**: Get item under player.
- * **o**: Open/close door.
- * **i**: Open inventory menu.
-
-### INVENTORY
- * **i**: Exit from inventory menu.
- * **g**: Use item, depending on item type you can eat it or equip it in hand.
- * **d**: Drop item onto map.
+ * **i**: Open/close inventory menu.
+ * **o**: Action key.
+ * **p**: drop key.
 
 ## ENTITIES
  * Rat (r)
-   * A hostile creature which deals 1 damage and has 2 heath.
-   * Drops rat meat when it dies.
+   * A hostile creature.
+   * Attack: 1
+   * Heath:  2
+   * Drops rat meat on death.
  * Super Rat (R)
-   * A hostile creature which deals 2 damage and has 4 heath.
-   * Drops rat meat when it dies.
+   * A hostile creature.
+   * Attack: 2
+   * Heath:  4
+   * Drops rat meat on death.
  * Gnu (G)
-   * A peaceful animal with 6 heath.
-   * Drops gnu meat when it dies
+   * A peaceful animal.
+   * Heath:  6
+   * Drops gnu meat on death.
+ * Cow (c)
+   * A peaceful animal.
+   * Heath:  2
+   * Drops beef on death.
+ * King Arthur (@)
+   * A NPC which will talk to you.
+   * Heath:  10
+   * Drops gold on death.
 
+## Items
+ * Gold ($)
+   * Increase score
+ * Spam (=)
+   * Eat to restore 2 heath
+ * Haggis (o)
+   * Eat to restore 10 heath
+ * Sword (/)
+   * Hold to deal more damage
+ * Shield (0)
+   * Hold to block damage
+ * Bow ())
+   * Hold to fire arrows
+ * Arrow (|)
+   * Used by bow to deal 5 damage
+ * Rat Meat (%)
+   * Eat to remove 1 heath
+ * Gnu Meat (%)
+   * Eat to restore 4 heath
+ * Beef (%)
+   * Eat to restore 22 heath
