@@ -32,8 +32,6 @@ options:
 	@echo "CFLAGS  = $(CFLAGS)"
 	@echo "LDFLAGS = $(LDFLAGS)"
 
-$(OBJ): config.h
-
 .o:
 	@echo LD $@
 	@$(LD) -o $@ $< $(LDFLAGS)
@@ -41,11 +39,6 @@ $(OBJ): config.h
 .c.o:
 	@echo CC $<
 	@$(CC) -c -o $@ $< $(CFLAGS)
-
-config.h:
-	@echo -n creating $@ from config.def.h ...
-	@cp config.def.h $@
-	@echo \ done
 
 $(EXE): $(OBJ)
 	@echo CC -o $@
