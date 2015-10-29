@@ -35,7 +35,7 @@ bool can_step(Ent *e, int x, int y) {
 	return true;
 }
 
-/* move_entity: move a entity by x_0 and y_0 */
+/* move_entity: move a entity by dx and dy */
 void move_entity(Ent *e, int dx, int dy) {
 	if (can_step(e, e->x + dx, e->y + dy)) {
 		e->x += dx;
