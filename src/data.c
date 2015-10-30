@@ -37,13 +37,13 @@ static struct Ent_t ent_t[MAX_ENTITIES] = {
 { "cow", "beef", NULL,
   'c', 5, 2,  0, 3, 6,  TYPE_GRASS, AI_PEACEFUL, 5 },
 { "King Arthur", "gold", "I am King Arthur",
-  '@', 4, 10, 0, 16, 4, TYPE_ALL, AI_PEACEFUL, 2 },
+  '@', 4, 10, 0, 16, 12, TYPE_ALL, AI_PEACEFUL, 2 },
 { "knight", "sword", "Who goes there?",
-  '@', 6, 10, 0, 16, 4, TYPE_ALL, AI_PEACEFUL, 2 },
+  '@', 6, 10, 0, 16, 12, TYPE_ALL, AI_PEACEFUL, 2 },
 { "peasant", NULL, "Oh. How'd you do",
-  '@', 5, 10, 0, 16, 4, TYPE_ALL, AI_PEACEFUL, 2 },
+  '@', 5, 10, 0, 16, 12, TYPE_ALL, AI_PEACEFUL, 2 },
 { "peasant", NULL, "lovely filth down here",
-  '@', 5, 10, 0, 16, 4, TYPE_ALL, AI_PEACEFUL, 2 },
+  '@', 5, 10, 0, 16, 12, TYPE_ALL, AI_PEACEFUL, 2 },
 };
 int entqty_t = 8;
 
@@ -59,9 +59,11 @@ struct Item_t {
 static struct Item_t item_t[MAX_ITEMS] = {
 { "gold",     0, '$', 4,  0,  5 },
 { "spam",     1, '=', 8,  2,  4 },
+{ "haggis",   1, 'o', 11, 10, 1 },
 { "sword",    2, '/', 6,  2,  3 },
 { "shield",   3, '0', 6,  4,  2 },
-{ "haggis",   1, 'o', 11, 10, 1 },
+{ "bow",      4, ')', 5,  0,  3 },
+{ "arrow",    5, '|', 5,  5,  4 },
 { "rat meat", 1, '%', 5,  -1, 0 },
 { "gnu meat", 1, '%', 6,  4,  0 },
 { "beef",     1, '%', 5,  22, 0 },

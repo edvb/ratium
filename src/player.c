@@ -128,30 +128,76 @@ static void drop_item(Ent *e) {
 	}
 }
 
+static bool
+fire_spot(int x, int y, int dmg) {
+	for (int i = 0; i < entqty; i++)
+		if (entity[i].x == x && entity[i].y == y) {
+			entity[i].hp -= dmg;
+			return false;
+		}
+	if (!is_floor(x, y))
+		return false;
+	rat_mvaddch(x, y, 'x', 1);
+
+	return true;
+}
+
 static void
-fire_shooter(Ent *e) {
-	switch (e->direc) {
+fire_shooter(DIREC direc, int x_0, int y_0, int range, int dmg) {
+	/* int i = x_0, j = y_0; */
+	switch (direc) {
 	case LEFT:
+		for (int i = x_0; i > x_0-range; i--)
+			if (!fire_spot(i, y_0, dmg)) return;
+		break;
 	case DOWN:
+		for (int i = y_0; i < y_0+range; i++)
+			if (!fire_spot(x_0, i, dmg)) return;
+		break;
 	case UP:
+		for (int i = y_0; i > y_0-range; i--)
+			if (!fire_spot(x_0, i, dmg)) return;
+		break;
 	case RIGHT:
+		for (int i = x_0; i < x_0+range; i++)
+			if (!fire_spot(i, y_0, dmg)) return;
+		break;
 	case LEFTDOWN:
+		for (int i = x_0, j = y_0; i > x_0-range && j < y_0+range; i--, j++)
+			if (!fire_spot(i, j, dmg)) return;
+		break;
 	case LEFTUP:
+		for (int i = x_0, j = y_0; i > x_0-range && j > y_0-range; i--, j--)
+			if (!fire_spot(i, j, dmg)) return;
+		break;
 	case RIGHTDOWN:
+		for (int i = x_0, j = y_0; i < x_0+range && j > y_0-range; i++, j++)
+			if (!fire_spot(i, j, dmg)) return;
+		break;
 	case RIGHTUP:
+		for (int i = x_0, j = y_0; i < x_0+range && j > y_0-range; i++, j--)
+			if (!fire_spot(i, j, dmg)) return;
 		break;
 	}
 }
 
 static void
 load_shooter(Ent *e) {
-	fire_shooter(e);
+	if (e->inv[e->hand].type == ITEM_SHOOTER)
+		for (int i = 0; i <= MAX_INV; i++)
+			if (e->inv[i].map[0][0] > 0 &&
+			    e->inv[i].type == ITEM_AMMO) {
+				e->inv[i].map[0][0]--;
+				e->inv[e->hand].face = ']';
+				return;
+			}
 }
 
 static void act_key(Ent *e) {
 	/* toogle door if looking at one */
 	int door_x = holding_x(*e, e->x);
 	int door_y = holding_y(*e, e->y);
+	int dmg;
 	if (get_map(door_x, door_y) == '+' || get_map(door_x, door_y) == '-') {
 		toggle_door(door_x, door_y);
 		return;
@@ -163,7 +209,12 @@ static void act_key(Ent *e) {
 	case ITEM_AMMO:
 	case ITEM_FOOD: break;
 	case ITEM_SHOOTER:
-		load_shooter(e);
+		if (e->inv[e->hand].face == ']') {
+			/* TODO: change 5 to arrow stat var */
+			fire_shooter(e->direc, e->x, e->y, 20, 5);
+			e->inv[e->hand].face = ')';
+		} else
+			load_shooter(e);
 		break;
 	case ITEM_SWORD:
 	case ITEM_SHIELD:
