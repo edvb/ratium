@@ -1,6 +1,4 @@
-# NAME
-
-ratium - A Dumb Little NCurses ASCII Game
+# NAME ratium - A Dumb Little NCurses ASCII Game
 
 ## SYNOPSIS
 
@@ -75,3 +73,12 @@ b j n
    * Eat to restore 4 heath
  * Beef (%)
    * Eat to restore 22 heath
+
+## Author
+
+Written by ED van Bruggen.
+
+## See Also
+
+View source code at: <https://gitlab.com/edvb/ratium> or see screenshots, videos
+and binary download at: <http://edvb.itch.io/ratium>
