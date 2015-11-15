@@ -23,6 +23,7 @@ void draw_msg(char *msg) {
 static void draw_inv(Ent *e, int arrow_y) {
 	char s[50];
 
+	/* TODO: Clear what is only needed */
 	rat_clear();
 
 	rat_mvprint(0, 0, " -- Inventory -- \n", -1);
@@ -105,8 +106,6 @@ static void inv(Ent *e) {
 
 		if (e->inv[arrow_y-1].face == ' ')
 			arrow_y--;
-
-		/* TODO: Make moving arrow work better so this is not needed */
 		if (arrow_y <= 0)
 			arrow_y = 1;
 
@@ -210,7 +209,7 @@ static void act_key(Ent *e) {
 	case ITEM_FOOD: break;
 	case ITEM_SHOOTER:
 		if (e->inv[e->hand].face == ']') {
-			/* TODO: change 5 to arrow stat var */
+			/* TODO: Make range depened on bow and dmg depened on arrow */
 			fire_shooter(e->direc, e->x, e->y, 20, 5);
 			e->inv[e->hand].face = ')';
 		} else

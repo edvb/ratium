@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "ratium.h"
-#include "maps.h"
+#include "map.h"
 #include "gfx.h"
 
 /* find_bld_loc: determines postion for a building on map which it can fit in */

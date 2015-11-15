@@ -29,7 +29,7 @@ A dumb little ncurses game where you play as a '@' and have to kill rats\n\
 \n\
 For more info see man page\n\
 \n\
-ratium home page: <https://github.com/edvb54/ratium>\n\
+ratium home page: <https://gitlab.com/edvb/ratium>\n\
 ");
 }
 

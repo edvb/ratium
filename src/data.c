@@ -229,7 +229,7 @@ bool init_player(int count) {
 
 	}
 
-	playerqty = count-1; /* TODO Fix */
+	playerqty = count-1;
 
 	return true;
 }
