@@ -1,3 +1,4 @@
+/* See LICENSE for licence details. */
 #include <stdlib.h>
 
 #include "ratium.h"

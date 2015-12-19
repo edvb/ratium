@@ -1,3 +1,4 @@
+/* See LICENSE for licence details. */
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>

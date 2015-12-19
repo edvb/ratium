@@ -1,3 +1,4 @@
+/* See LICENSE for licence details. */
 #ifndef RATIUM_H
 #define RATIUM_H
 
