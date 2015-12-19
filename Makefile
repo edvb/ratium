@@ -82,4 +82,10 @@ uninstall:
 	@rm -f $(DESTDIR)$(MANPREFIX)/man1/$(EXE).1
 	@echo \ done
 
-.PHONY: all options run clean dist install uninstall
+update-man:
+	@echo -n updating man page $(EXE).1...
+	@cat README.md | sed "s/# $(EXE)/# $(EXE) 1\n\n##NAME\n\n$(EXE) /" \
+		| md2man-roff > $(EXE).1
+	@echo \ done
+
+.PHONY: all options run clean dist install uninstall update-man

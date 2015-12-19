@@ -1,4 +1,4 @@
-# NAME ratium - A Dumb Little NCurses ASCII Game
+# ratium - A Dumb Little NCurses ASCII Game
 
 ## SYNOPSIS
 
@@ -52,7 +52,7 @@ b j n
    * Heath:  10
    * Drops gold on death.
 
-## Items
+## ITEMS
  * Gold ($)
    * Increase score
  * Spam (=)
@@ -74,11 +74,16 @@ b j n
  * Beef (%)
    * Eat to restore 22 heath
 
-## Author
+## AUTHOR
 
 Written by ED van Bruggen.
 
-## See Also
+## SEE ALSO
 
-View source code at: <https://gitlab.com/edvb/ratium> or see screenshots, videos
-and binary download at: <http://edvb.itch.io/ratium>
+View source code at: <https://gitlab.com/edvb/ratium>
+
+See screenshots, videos, and binary download at: <http://edvb.itch.io/ratium>
+
+## LICENSE
+
+GPL v3 License
