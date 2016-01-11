@@ -17,8 +17,4 @@ ratium
 *.so.*
 
 # Misc
-*Session*.vim
 *tags
-
-# Project Specific Files
-config.h
