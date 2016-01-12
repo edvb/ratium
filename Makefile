@@ -16,7 +16,7 @@ CFLAGS = -std=c11 -pedantic -Wall ${INCS} -DVERSION=\"$(VERSION)\"
 LDFLAGS = ${LIBS}
 
 # compiler and linker
-CC = gcc-4.9
+CC = gcc
 
 ### Makefile
 
