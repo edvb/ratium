@@ -12,7 +12,7 @@ INCS = -Iinclude
 LIBS = -lncurses
 
 # flags
-CFLAGS = -std=c11 -pedantic -Wall ${INCS} -DVERSION=\"$(VERSION)\"
+CFLAGS = -std=c99 -pedantic -Wall ${INCS} -DVERSION=\"$(VERSION)\"
 LDFLAGS = ${LIBS}
 
 # compiler and linker
