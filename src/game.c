@@ -58,7 +58,6 @@ void rat_loop(int c) {
 				c = rat_getch();
 
 	} while (c != RAT_ESC);
-
 }
 
 void rat_cleanup() {

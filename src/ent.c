@@ -116,14 +116,14 @@ void draw_ent(Ent e, Ent oe, int r) {
 	    oe.x-r < e.x && oe.x+r > e.x &&
 	    oe.y-r < e.y && oe.y+r > e.y) {
 		if (e.ai == AI_PLAYER) {
-			char s[20];
-			sprintf(s, "HP: %d", e.hp);
-			rat_mvprint(0, e.bary, s, 0);
+			char str[MAX_NAME];
+			sprintf(str, "HP: %d", e.hp);
+			rat_mvprint(0, e.bary, str, 0);
 		}
 		rat_mvaddch(e.x, e.y, e.face, e.color);
 		if (e.hand != -1)
 			rat_mvaddch(holding_x(e, e.x), holding_y(e, e.y),
-				e.inv[e.hand].face, e.inv[e.hand].color);
+			            e.inv[e.hand].face, e.inv[e.hand].color);
 	}
 }
 
