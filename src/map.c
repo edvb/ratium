@@ -8,13 +8,13 @@
 /* find_bld_loc: determines postion for a building on map which it can fit in */
 static bool
 find_bld_loc(int *x_0, int *y_0, int len, int height) {
-	for (int tries = 0;
-	     !is_floor_range(*x_0-2, *y_0-2, len+2, height+2); /* add 2 for gap around building */
-	     tries++) {
+	int tries = 0;         /* add 2 for gap around building */
+	while (!is_floor_range(*x_0-2, *y_0-2, len+2, height+2)) {
 		*x_0 = rand() % MAX_X;
 		*y_0 = rand() % MAX_Y;
 		if (tries > 100000) /* if it has tried to many times to find a place to fit, give up */
 			return false;
+		tries++;
 	}
 	return true;
 }
@@ -57,10 +57,18 @@ draw_room(char wall, char floor, int doorqty, char door) {
 			set_map(i+x_0+1, j+y_0+1, floor);
 	for (int i = 0; i < doorqty; i++)
 		switch (rand()%4) {
-		case 0: set_map(x_0+rand()%len, y_0,               door); break;
-		case 1: set_map(x_0,            y_0+rand()%height, door); break;
-		case 2: set_map(x_0+rand()%len, y_0+height-1,      door); break;
-		case 3: set_map(x_0+len-1,      y_0+rand()%height, door); break;
+		case 0:
+			set_map(x_0+rand()%len, y_0, door);
+			break;
+		case 1:
+			set_map(x_0, y_0+rand()%height, door);
+			break;
+		case 2:
+			set_map(x_0+rand()%len, y_0+height-1, door);
+			break;
+		case 3:
+			set_map(x_0+len-1, y_0+rand()%height, door);
+			break;
 		}
 }
 
@@ -72,13 +80,6 @@ void init_map(void) {
 		draw_building(buildings[i]);
 	for (int i = 0; i < rand()%4; i++) /* create rooms in the world */
 		draw_room('X', '.', rand()%3+1, '+');
-	for (int i = 0; i < MAX_X; i++) /* asign random values to maprand, used for added decoration */
-		for (int j = 0; j < MAX_Y; j++) {
-			if ((num = rand() % 50) == 0)
-				maprand[j][i] = 1;
-			else
-				maprand[j][i] = 0;
-		}
 }
 
 /* get_map: get character of map at x and y position */
@@ -149,16 +150,8 @@ void draw_map_floor(Ent e, int r) {
 			if (j >= 0)
 				switch (get_map(i, j)) {
 				case ' ': rat_mvaddch(i, j, get_map(i, j), 0); break;
-				case '.':
-					rat_mvaddch(i, j,
-						(maprand[j][i] == 0)
-						? '.' : ':', 11);
-					break;
-				case 'g':
-					rat_mvaddch(i, j,
-						(maprand[j][i] == 0)
-						? '.' : '*', 10);
-					break;
+				case '.': rat_mvaddch(i, j, '.', 11); break;
+				case 'g': rat_mvaddch(i, j, '.', 10); break;
 				case 'w': rat_mvaddch(i, j, '~', 9); break;
 				case '-': rat_mvaddch(i, j, '-', 5); break;
 				}
