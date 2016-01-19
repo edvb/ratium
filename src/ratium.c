@@ -20,7 +20,8 @@ static const struct option longopts[] = {
 	{NULL, 0, NULL, 0}
 };
 
-static void ratium_help(void) {
+static void
+ratium_help(void) {
 	printf("\
 Usage: ratium [OPTION]\n\
 A dumb little ncurses game where you play as a '@' and have to kill rats\n\
@@ -30,16 +31,13 @@ A dumb little ncurses game where you play as a '@' and have to kill rats\n\
 \n\
 For more info see man page\n\
 \n\
-ratium home page: <https://gitlab.com/edvb/ratium>\n\
+ratium home page: <http://edvb.itch.io/ratium>\n\
 ");
-}
-
-static void ratium_version(void) {
-	printf("ratium v%s\n", VERSION);
 }
 
 int main(int argc, char *argv[]) {
 	int optc;
+	int c = 0;
 
 	while ((optc = getopt_long(argc, argv, "hv", longopts, NULL)) != -1)
 		switch (optc) {
@@ -47,14 +45,12 @@ int main(int argc, char *argv[]) {
 			ratium_help();
 			return 0;
 		case 'v':
-			ratium_version();
+			printf("ratium v%s\n", VERSION);
 			return 0;
 		default:
 			printf("for help run \"ratium --help\"\n");
 			return 1;
 		}
-
-	int c = 0;
 
 	rat_init();
 

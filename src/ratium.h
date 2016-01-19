@@ -156,7 +156,7 @@ int playerqty;
 int entqty;
 
 Item item[MAX_ITEMS];
-Ent player[MAX_PLAYERS];
+Ent player[MAX_PLAYERS]; /* TODO cobine player with entity */
 Ent entity[MAX_ENTITIES];
 
 #endif /* RATIUM_H */

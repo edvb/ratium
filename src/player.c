@@ -24,8 +24,9 @@ void draw_msg(char *msg) {
 static void draw_inv(Ent *e, int arrow_y) {
 	char s[50];
 
-	/* TODO: Clear what is only needed */
-	rat_clear();
+	for (int i = 0; i < 32; i++)
+		for (int j = 0; j < MAX_INV; j++)
+			rat_mvaddch(i, j, ' ', 0);
 
 	rat_mvprint(0, 0, " -- Inventory -- \n", -1);
 
@@ -45,7 +46,6 @@ static void draw_inv(Ent *e, int arrow_y) {
 		}
 
 	rat_mvprint(1, arrow_y, ">", 0);
-
 }
 
 static void inv_add_item(Ent *e, Item *item, int qty) {
@@ -67,21 +67,21 @@ static void inv_add_item(Ent *e, Item *item, int qty) {
 static void inv_use_item(Ent *e, int num) {
 	if (e->inv[num].map[0][0] > 0)
 		switch (e->inv[num].type) {
-			case ITEM_MISC:
-			case ITEM_AMMO:
-				break;
-			case ITEM_FOOD:
-				e->hp += e->inv[num].stat;
+		case ITEM_MISC:
+		case ITEM_AMMO:
+			break;
+		case ITEM_FOOD:
+			e->hp += e->inv[num].stat;
+			e->inv[num].map[0][0]--;
+			break;
+		case ITEM_SHOOTER:
+		case ITEM_SWORD:
+		case ITEM_SHIELD:
+			if (e->hand == -1) {
+				e->hand = num;
 				e->inv[num].map[0][0]--;
-				break;
-			case ITEM_SHOOTER:
-			case ITEM_SWORD:
-			case ITEM_SHIELD:
-				if (e->hand == -1) {
-					e->hand = num;
-					e->inv[num].map[0][0]--;
-				}
-				break;
+			}
+			break;
 		}
 }
 
