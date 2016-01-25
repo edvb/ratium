@@ -72,10 +72,8 @@ draw_room(char wall, char floor, int doorqty, char door) {
 		}
 }
 
-/* init_map: asign values to maprand to determine if character displayed there
- * should be a different char */
+/* draw buildings and rooms to map */
 void init_map(void) {
-	int num;
 	for (int i = 0; i < 10; i++) /* create buildings in the world */
 		draw_building(buildings[i]);
 	for (int i = 0; i < rand()%4; i++) /* create rooms in the world */
