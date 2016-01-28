@@ -106,7 +106,6 @@ gen_ent(int *x, int *y, ENT_TYPE type) {
 
 /* init_item: copies values from item_t[] to item[] */
 bool init_item(void) {
-
 	itemqty = 0;
 
 	for (int num = 0; num < itemqty_t; num++) {
@@ -138,48 +137,57 @@ bool init_item(void) {
 	return true;
 }
 
-/* init_entity: copies values from ent_t[] to entity[] */
-bool init_entity(void) {
+bool /* copies values from ent_t[] to entity[] */
+init_entity(void) {
 	entqty = 0;
-
 	for (int i = 0; i < entqty_t; i++) {
 		calc_rarity(&ent_t[i].rarity);
-		for (int num = 0; num < ent_t[i].rarity; num++, entqty++) {
-			entity[num].name = malloc(MAX_NAME * sizeof(char));
-			strcpy(entity[num].name, ent_t[i].name);
-			entity[num].type = ent_t[i].type;
-			entity[num].ai = ent_t[i].ai;
-			entity[num].face = ent_t[i].face;
-			entity[num].color = ent_t[i].color;
-			entity[num].maxhp = ent_t[i].hp;
-			entity[num].hp = ent_t[i].hp;
-			entity[num].isdead = false;
-			entity[num].damage = ent_t[i].damage;
-			entity[num].sight = ent_t[i].sight;
+		for (; entqty < ent_t[i].rarity; entqty++) {
+			entity[entqty].name = malloc(MAX_NAME * sizeof(char));
+			strcpy(entity[entqty].name, ent_t[i].name);
+			entity[entqty].type = ent_t[i].type;
+			entity[entqty].ai = ent_t[i].ai;
+			entity[entqty].face = ent_t[i].face;
+			entity[entqty].color = ent_t[i].color;
+			entity[entqty].maxhp = ent_t[i].hp;
+			entity[entqty].hp = ent_t[i].hp;
+			entity[entqty].isdead = false;
+			entity[entqty].damage = ent_t[i].damage;
+			entity[entqty].sight = ent_t[i].sight;
 
-			entity[num].speed = ent_t[i].speed;
+			entity[entqty].speed = ent_t[i].speed;
 
-			entity[num].hand = -1;
+			entity[entqty].hand = -1;
 
-			entity[num].msg = malloc(MAX_NAME * sizeof(char));
+			entity[entqty].msg = malloc(MAX_NAME * sizeof(char));
 			if (ent_t[i].msg != NULL) {
-				strcpy(entity[num].msg, ent_t[i].msg);
+				strcpy(entity[entqty].msg, ent_t[i].msg);
 			} else
-				entity[num].msg = NULL;
+				entity[entqty].msg = NULL;
 
 			for (int j = 0; j < MAX_INV; j++) {
-				entity[num].inv[j].name = malloc(MAX_NAME * sizeof(char));
-				entity[num].inv[j].face = ' ';
-				entity[num].inv[j].color = 0;
-				entity[num].inv[j].map[0][0] = 0;
+				entity[entqty].inv[j].name = malloc(MAX_NAME * sizeof(char));
+				entity[entqty].inv[j].face = ' ';
+				entity[entqty].inv[j].color = 0;
+				entity[entqty].inv[j].map[0][0] = 0;
 			}
 
 			if (ent_t[i].drop != NULL) {
-				strcpy(entity[num].inv[0].name, ent_t[i].drop);
-				entity[num].inv[0].map[0][0] = rand() % 3;
+				strcpy(entity[entqty].inv[0].name, ent_t[i].drop);
+				entity[entqty].inv[0].map[0][0] = rand() % 3;
 			}
 
-			gen_ent(&entity[num].x, &entity[num].y, ent_t[i].type);
+			gen_ent(&entity[entqty].x, &entity[entqty].y, ent_t[i].type);
+
+			switch(ent_t[i].ai) {
+			case AI_PLAYER: break;
+			case AI_HOSTILE:
+				entity[entqty].run = dumb_ai;
+				break;
+			case AI_PEACEFUL:
+				entity[entqty].run = rand_ai;
+				break;
+			}
 
 		}
 	}
@@ -228,6 +236,7 @@ bool init_player(int count) {
 
 		player[num].hand = -1;
 
+		player[num].run = NULL;
 	}
 
 	playerqty = count-1;

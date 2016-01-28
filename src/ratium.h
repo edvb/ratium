@@ -106,12 +106,14 @@ struct _Ent {
 	Item inv[MAX_INV]; /* inventory of ent */
 	int hand;
 	Armor armor;
+
+	void (*run)(Ent *e); /* function containing entity movement logic */
 };
 
 /* game.c: game functions */
 void rat_init(void);
-void rat_loop(int c);
-void rat_cleanup();
+void rat_loop(void);
+void rat_cleanup(void);
 
 /* map.c: handle the map */
 void init_map(void);
@@ -135,7 +137,7 @@ void draw_ent(Ent e, Ent oe, int r);
 
 /* ai.c: different entity AIs */
 void rand_ai(Ent *e);
-void dumb_ai(Ent *e, int xNew, int yNew);
+void dumb_ai(Ent *e);
 
 /* player.c: handle the player */
 void add_msg(char *msg, char *message);

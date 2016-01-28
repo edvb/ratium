@@ -37,7 +37,6 @@ ratium home page: <http://edvb.itch.io/ratium>\n\
 
 int main(int argc, char *argv[]) {
 	int optc;
-	int c = 0;
 
 	while ((optc = getopt_long(argc, argv, "hv", longopts, NULL)) != -1)
 		switch (optc) {
@@ -56,7 +55,7 @@ int main(int argc, char *argv[]) {
 
 	if (maxx < 80 || maxy < 24) { NERROR("terminal too small"); }
 
-	rat_loop(c);
+	rat_loop();
 
 	rat_cleanup();
 

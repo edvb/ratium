@@ -76,7 +76,7 @@ draw_room(char wall, char floor, int doorqty, char door) {
 void init_map(void) {
 	for (int i = 0; i < 10; i++) /* create buildings in the world */
 		draw_building(buildings[i]);
-	for (int i = 0; i < rand()%4; i++) /* create rooms in the world */
+	for (int i = 0; i < rand()%6; i++) /* create rooms in the world */
 		draw_room('X', '.', rand()%3+1, '+');
 }
 

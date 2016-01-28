@@ -18,23 +18,16 @@ void rat_init(void) {
 	init_entity();
 	init_player(DEF_PLAYERS);
 	init_item();
-
 }
 
-void rat_loop(int c) {
+void rat_loop(void) {
+	int c = 0;
+
 	do {
 		rat_clear();
 
 		for (int i = 0; i < entqty; i++)
-			switch (entity[i].ai) {
-			case AI_PLAYER: break;
-			case AI_HOSTILE:
-				dumb_ai(&entity[i], player[0].x, player[0].y);
-				break;
-			case AI_PEACEFUL:
-				rand_ai(&entity[i]);
-				break;
-			}
+			entity[i].run(&entity[i]);
 
 		for (int i = playerqty; i >= 0; i--) {
 			draw_map_floor(player[i], player[i].sight);
@@ -60,7 +53,7 @@ void rat_loop(int c) {
 	} while (c != RAT_ESC);
 }
 
-void rat_cleanup() {
+void rat_cleanup(void) {
 	rat_endwin();
 	printf("GAME OVER\n");
 
