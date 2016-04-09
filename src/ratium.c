@@ -15,9 +15,9 @@
 #define NERROR(msg) rat_endwin(); ERROR(msg);
 
 static const struct option longopts[] = {
-	{"help", no_argument, NULL, 'h'},
+	{"help",    no_argument, NULL, 'h'},
 	{"version", no_argument, NULL, 'v'},
-	{NULL, 0, NULL, 0}
+	{NULL,      0,           NULL, 0  }
 };
 
 static void
@@ -26,8 +26,8 @@ ratium_help(void) {
 Usage: ratium [OPTION]\n\
 A dumb little ncurses game where you play as a '@' and have to kill rats\n\
 \n\
-  -h, --help      display this help and exit\n\
-  -v, --version   display version information and exit\n\
+      --help      display this help and exit\n\
+      --version   output version information and exit\n\
 \n\
 For more info see man page\n\
 \n\
@@ -38,7 +38,7 @@ ratium home page: <http://edvb.itch.io/ratium>\n\
 int main(int argc, char *argv[]) {
 	int optc;
 
-	while ((optc = getopt_long(argc, argv, "hv", longopts, NULL)) != -1)
+	while ((optc = getopt_long(argc, argv, "", longopts, NULL)) != -1)
 		switch (optc) {
 		case 'h':
 			ratium_help();
