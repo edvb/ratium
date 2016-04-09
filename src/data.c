@@ -11,7 +11,7 @@ static struct _Keys player_keys[MAX_PLAYERS] = {
 };
 
 struct Ent_t {
-	char *name, *drop, *msg;
+	char *name, *drop, *msg; /* TODO: Make msg (& drop?) an array */
 	char face;
 	int color;
 	int hp;
@@ -24,21 +24,21 @@ struct Ent_t {
 };
 
 static struct Ent_t player_t[MAX_PLAYERS] = {
-{ "player1", NULL, NULL, '@', 3, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
+{ "player1", NULL, NULL, '@', 3, 10, 1, 61, 0, TYPE_ALL, AI_PLAYER, 0 },
 { "player2", NULL, NULL, '@', 1, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
 };
 
 static struct Ent_t ent_t[MAX_ENTITIES] = {
 { "rat", "rat meat", NULL,
-  'r', 5, 2,  1, 4, 6, TYPE_CAVE,  AI_HOSTILE, 11 },
+  'r', 5, 2,  1, 4, 6, TYPE_CAVE,  AI_HOSTILE, 5 },
 { "supper rat", "rat meat", NULL,
-  'R', 5, 4,  2, 8, 5,  TYPE_CAVE, AI_HOSTILE, 7 },
+  'R', 5, 4,  2, 8, 5,  TYPE_CAVE, AI_HOSTILE, 3 },
 { "gnu", "gnu meat", NULL,
   'G', 6, 6,  1, 3, 8,  TYPE_GRASS, AI_PEACEFUL, 2 },
 { "cow", "beef", NULL,
   'c', 5, 2,  0, 3, 6,  TYPE_GRASS, AI_PEACEFUL, 5 },
 { "King Arthur", "gold", "I am King Arthur",
-  '@', 4, 10, 0, 16, 12, TYPE_ALL, AI_PEACEFUL, 2 },
+  '@', 4, 10, 0, 16, 12, TYPE_ALL, AI_PEACEFUL, 1 },
 { "knight", "sword", "Who goes there?",
   '@', 6, 10, 0, 16, 12, TYPE_ALL, AI_PEACEFUL, 2 },
 { "peasant", NULL, "Oh. How'd you do",
@@ -142,7 +142,7 @@ init_entity(void) {
 	entqty = 0;
 	for (int i = 0; i < entqty_t; i++) {
 		calc_rarity(&ent_t[i].rarity);
-		for (; entqty < ent_t[i].rarity; entqty++) {
+		for (int num = 0; num < ent_t[i].rarity; num++, entqty++) {
 			entity[entqty].name = malloc(MAX_NAME * sizeof(char));
 			strcpy(entity[entqty].name, ent_t[i].name);
 			entity[entqty].type = ent_t[i].type;
