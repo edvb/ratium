@@ -5,47 +5,34 @@
 
 #include "ratium.h"
 #include "ent.h"
-#include "gfx.h"
 
 void add_msg(char *msg, char *message) {
 	strcpy(msg, message);
 }
 
 void draw_msg(char *msg) {
-	if (msg != NULL) {
-		int x, y;
-		x = (maxx / 2) - (strlen(msg) / 2);
-		y = maxy / 2;
-		rat_mvprint(x, y, msg, 12);
-		msg[0] = '\0';
-	}
+	if (msg == NULL)
+		return;
+	int x, y;
+	SDL_Color color = { 255, 255, 255 };
+	x = (MAX_X*U / 2) - ((strlen(msg)*FONT_W) / 2);
+	y = (MAX_Y*U / 2) - (FONT_H / 2);
+	draw_text(msg, color, x, y);
 }
 
 static void draw_inv(Ent *e, int arrow_y) {
 	char s[50];
 
-	for (int i = 0; i < 32; i++)
-		for (int j = 0; j < MAX_INV; j++)
-			rat_mvaddch(i, j, ' ', 0);
-
-	rat_mvprint(0, 0, " -- Inventory -- \n", -1);
+	draw_text(" -- Inventory -- ", (SDL_Color){5,5,5}, 8*20, 0);
 
 	for (int i = 0; i < MAX_INV; i++)
 		if (e->inv[i].face != ' ') {
-			sprintf(s, "   %c)", i + 97);
-			rat_print(s, 6);
-
-			sprintf(s, " %c", e->inv[i].face);
-			rat_print(s, e->inv[i].color);
-
-			sprintf(s, " %s", e->inv[i].name);
-			rat_print(s, 0);
-
-			sprintf(s, " (%d)\n", e->inv[i].map[0][0]);
-			rat_print(s, 6);
+			sprintf(s, "   %c) %c %s (%d)",
+			        i+97, e->inv[i].face, e->inv[i].name, e->inv[i].map[0][0]);
+			draw_text(s, (SDL_Color){5,5,5}, 8*20, (i+1)*40);
 		}
 
-	rat_mvprint(1, arrow_y, ">", 0);
+	draw_text(">", (SDL_Color){5,5,5}, 1*20, (arrow_y)*40);
 }
 
 static void inv_add_item(Ent *e, Item *item, int qty) {
@@ -53,7 +40,8 @@ static void inv_add_item(Ent *e, Item *item, int qty) {
 		if (e->inv[i].face == ' ') {
 			e->inv[i].face = item->face;
 			e->inv[i].name = item->name;
-			e->inv[i].color = item->color;
+			e->inv[i].img  = item->img;
+			e->inv[i].src  = item->src;
 			e->inv[i].type = item->type;
 			e->inv[i].stat = item->stat;
 			e->inv[i].map[0][0] = qty;
@@ -89,7 +77,6 @@ static void inv_drop_item(Ent *e, int num) {
 	if (e->inv[num].map[0][0] > 0) {
 		for (int i = 0; i < MAX_ITEMS; i++)
 			if (e->inv[num].face == item[i].face)
-				if (e->inv[num].color == item[i].color)
 					add_item(&item[i], e->x, e->y);
 		e->inv[num].map[0][0]--;
 	}
@@ -97,24 +84,25 @@ static void inv_drop_item(Ent *e, int num) {
 
 static void inv(Ent *e) {
 	int arrow_y = 1;
-	int k;
 
 	do {
-		if      (k == e->keys.up)   { arrow_y--; }
-		else if (k == e->keys.down) { arrow_y++; }
-		else if (k == e->keys.act)  { inv_use_item(e, arrow_y-1); }
-		else if (k == e->keys.drop) { inv_drop_item(e, arrow_y-1); }
+		const Uint8 *k = SDL_GetKeyboardState(NULL);
+		if      (k[e->keys.up])   arrow_y--;
+		else if (k[e->keys.down]) arrow_y++;
+		else if (k[e->keys.act])  inv_use_item(e, arrow_y-1);
+		else if (k[e->keys.drop]) inv_drop_item(e, arrow_y-1);
+		else if (k[e->keys.inv])  break;
 
-		if (e->inv[arrow_y-1].face == ' ')
+		if (e->inv[arrow_y-1].name == NULL)
 			arrow_y--;
 		if (arrow_y <= 0)
 			arrow_y = 1;
 
 		draw_inv(e, arrow_y);
 
-	} while ((k = rat_getch()) != e->keys.inv);
+	} while (1);
 
-	rat_clear();
+	SDL_RenderClear(ren);
 
 }
 
@@ -137,7 +125,7 @@ fire_spot(int x, int y, int dmg) {
 		}
 	if (!is_floor(x, y))
 		return false;
-	rat_mvaddch(x, y, 'x', 1);
+	/* rat_mvaddch(x, y, 'x', 1); */
 
 	return true;
 }
@@ -223,40 +211,46 @@ static void act_key(Ent *e) {
 
 }
 
-bool player_run(int c, Ent *e) {
+bool player_run(Ent *e) {
 	if (isalive(e->hp)) {
 		bool returnval = true; /* true if key pressed is valid key */
 
-		if (c == e->keys.left) {
+		const Uint8 *k = SDL_GetKeyboardState(NULL);
+		if (k[e->keys.left] && !k[e->keys.inv]) {
+			e->msg = NULL;
 			move_entity(e, -1, 0);
 			e->direc = LEFT;
-		} else if (c == e->keys.down) {
+			e->flip = SDL_FLIP_NONE;
+		}
+		if (k[e->keys.down] && !k[e->keys.inv]) {
+			e->msg = NULL;
 			move_entity(e, 0, 1);
 			e->direc = DOWN;
-		} else if (c == e->keys.up) {
+		}
+		if (k[e->keys.up] && !k[e->keys.inv]) {
+			e->msg = NULL;
 			move_entity(e, 0, -1);
 			e->direc = UP;
-		} else if  (c == e->keys.right) {
+		}
+		if (k[e->keys.right] && !k[e->keys.inv]) {
+			e->msg = NULL;
 			move_entity(e, 1, 0);
 			e->direc = RIGHT;
-		} else if  (c == e->keys.leftdown) {
-			move_entity(e, -1, 1);
-			e->direc = LEFTDOWN;
-		} else if  (c == e->keys.leftup) {
-			move_entity(e, -1, -1);
-			e->direc = LEFTUP;
-		} else if (c == e->keys.rightdown) {
-			move_entity(e, 1, 1);
-			e->direc = RIGHTDOWN;
-		} else if (c == e->keys.rightup) {
-			move_entity(e, 1, -1);
-			e->direc = RIGHTUP;
+			e->flip = SDL_FLIP_HORIZONTAL;
 		}
-		else if (c == e->keys.stand) { returnval = true; }
-		else if (c == e->keys.drop)  { drop_item(e); }
-		else if (c == e->keys.act)   { act_key(e); }
-		else if (c == e->keys.inv)   { inv(e); returnval = true; } /* TODO: Make inv not take up turn */
-		else { returnval = false; }
+		if      (k[e->keys.drop]) drop_item(e);
+		else if (k[e->keys.act])  act_key(e);
+		else if (k[e->keys.inv]) { /* TODO: move into inv() */
+			if (k[e->keys.left])
+				while (e->inv[++e->hand].face == ' ' && e->hand != 0) ;
+			else if (k[e->keys.right])
+				while (e->inv[--e->hand].face == ' ' && e->hand != 0) ;
+			if (e->hand >= MAX_INV) e->hand = -1;
+			else if (e->hand <= -2) {
+				e->hand = MAX_INV;
+				while (e->inv[--e->hand].face == ' ' && e->hand != 0) ;
+			}
+		}
 
 		/* collect item on ground */
 		for (int i = 0; i <= itemqty; i++)
@@ -273,7 +267,8 @@ bool player_run(int c, Ent *e) {
 
 	} else if (!e->isdead) {
 		/* TODO: Improve death, drop items on ground */
-		add_msg(player[0].msg, "You Died!");
+		/* add_msg(player[0].msg, "You Died!"); */
+		e->msg = "You Died!";
 		e->isdead = true;
 		return true;
 	} else

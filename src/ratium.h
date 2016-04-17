@@ -4,17 +4,23 @@
 
 /* settings for ratium */
 #define DEF_PLAYERS 1 /* default number of players */
-#define RAT_NCURSES   /* type of graphics *
-                       * right now can only be NCURSES, will soon add SDL-tff and SDL with tile sets */
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 /* max constants */
-#define MAX_X 80
-#define MAX_Y 24
+#define MAX_X 48
+#define MAX_Y 32
 #define MAX_NAME 16
 #define MAX_PLAYERS 8
 #define MAX_ENTITIES 256
 #define MAX_ITEMS 256
 #define MAX_INV 16
+
+#define U 16
+#define FONT_W 20
+#define FONT_H 40
 
 #undef false /* damn ncurses.... */
 #undef true
@@ -59,10 +65,24 @@ typedef enum {
 
 typedef struct {
 	char *name;
+	char face;
+
+	SDL_Texture *img;
+	SDL_Rect src; /* ent position on sprite sheet */
+	/* SDL_Rect dst; /1* ent position *1/ */
+
+	int stat;  /* universal variable for damage of sword, heath healed for food, etc. */
+} Block;
+
+typedef struct {
+	char *name;
 	ITEM_TYPE type;
 	int map[MAX_Y][MAX_X]; /* position and count of item in world */
 	char face; /* char that gets displayed */
-	int color; /* color of char */
+
+	SDL_Texture *img;
+	SDL_Rect src; /* ent position on sprite sheet */
+	/* SDL_Rect dst; /1* ent position *1/ */
 
 	int stat;  /* universal variable for damage of sword, heath healed for food, etc. */
 } Item;
@@ -70,9 +90,8 @@ typedef struct {
 /* player keys */
 typedef struct _Keys Keys;
 struct _Keys {
-	char left, down, up, right;
-	char leftdown, leftup, rightdown, rightup;
-	char stand, act, drop, inv;
+	Uint8 left, down, up, right;
+	Uint8 act, drop, inv;
 };
 
 /* different armor slots that entities could have items in */
@@ -88,8 +107,11 @@ struct _Ent {
 	char *name;    /* name of ent */
 	ENT_TYPE type; /* used mainly for where to spawn */
 	ENT_AI ai;     /* how ent should move around */
-	char face;     /* the ascii appearance */
-	int color;     /* color of char */
+
+	SDL_Texture *img;
+	SDL_Rect src; /* ent position on sprite sheet */
+	/* SDL_Rect dst; /1* ent position *1/ */
+	SDL_RendererFlip flip;
 
 	DIREC direc; /* direction ent is facing */
 	int x, y;    /* ent position */
@@ -111,7 +133,7 @@ struct _Ent {
 };
 
 /* game.c: game functions */
-void rat_init(void);
+bool rat_init(void);
 void rat_loop(void);
 void rat_cleanup(void);
 
@@ -142,23 +164,33 @@ void dumb_ai(Ent *e);
 /* player.c: handle the player */
 void add_msg(char *msg, char *message);
 void draw_msg(char *msg);
-bool player_run(int c, Ent *e);
+bool player_run(Ent *e);
 
 /* data.c: handle reading from data/ directory */
+bool init_block(void);
 bool init_item(void);
 bool init_entity(void);
 bool init_player(int count);
 
-/* TODO: Make local */
-int maxx;
-int maxy;
+/* gfx.c: SDL functions */
+SDL_Texture *load_img(char *path);
+void draw_text(char *str, SDL_Color color, int x, int y);
 
+int ZOOM;
+SDL_Window *win;
+SDL_Renderer *ren;
+TTF_Font *font;
+
+SDL_Texture *nullimg; /* fall back if image file cant be loaded */
+
+int blockqty;
 int itemqty;
 int playerqty;
 int entqty;
 
+Block block[MAX_ITEMS];
 Item item[MAX_ITEMS];
-Ent player[MAX_PLAYERS]; /* TODO cobine player with entity */
+Ent player[MAX_PLAYERS]; /* TODO combine player with entity */
 Ent entity[MAX_ENTITIES];
 
 #endif /* RATIUM_H */

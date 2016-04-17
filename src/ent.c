@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 #include "ratium.h"
-#include "gfx.h"
 #include "ent.h"
 
 /* can_step: determine if entity can move to a new space */
@@ -17,7 +16,8 @@ bool can_step(Ent *e, int x, int y) {
 			if (e->ai == AI_PLAYER) {
 				if (entity[i].msg != NULL &&
 				    e->inv[e->hand].type != ITEM_SWORD)
-					add_msg(player[0].msg, entity[i].msg);
+					/* add_msg(player[0].msg, entity[i].msg); */
+					player[0].msg = entity[i].msg;
 				else
 					attack(e, &entity[i]);
 			}
@@ -115,15 +115,14 @@ void draw_ent(Ent e, Ent oe, int r) {
 	if (isalive(e.hp) &&
 	    oe.x-r < e.x && oe.x+r > e.x &&
 	    oe.y-r < e.y && oe.y+r > e.y) {
-		if (e.ai == AI_PLAYER) {
-			char str[MAX_NAME];
-			sprintf(str, "HP: %d", e.hp);
-			rat_mvprint(0, e.bary, str, 0);
-		}
-		rat_mvaddch(e.x, e.y, e.face, e.color);
+		SDL_Rect dst = { e.x*U*ZOOM, e.y*U*ZOOM,
+		                     U*ZOOM,     U*ZOOM };
+		SDL_Rect dsthand = { ((holding_x(e, e.x)*U)-U/2*holding_x(e, 0)+2)*ZOOM,
+		                     ((e.y*U)+4)*ZOOM,
+		                     U*.8*ZOOM, U*.8*ZOOM };
+		SDL_RenderCopyEx(ren, e.img, &e.src, &dst, 0, NULL, e.flip);
 		if (e.hand != -1)
-			rat_mvaddch(holding_x(e, e.x), holding_y(e, e.y),
-			            e.inv[e.hand].face, e.inv[e.hand].color);
+			SDL_RenderCopyEx(ren, e.inv[e.hand].img, &e.src, &dsthand, 0, NULL, e.flip);
 	}
 }
 

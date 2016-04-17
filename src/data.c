@@ -6,8 +6,8 @@
 #include "ratium.h"
 
 static struct _Keys player_keys[MAX_PLAYERS] = {
-{ 'h', 'j', 'k', 'l', 'b', 'y', 'n', 'u', '.', 'o', 'p', 'i' },
-{ 'a', 'x', 'w', 'd', 'z', 'q', 'c', 'e', 's', 'f', 't', 'v' },
+{ SDL_SCANCODE_H, SDL_SCANCODE_J, SDL_SCANCODE_K, SDL_SCANCODE_L, SDL_SCANCODE_O, SDL_SCANCODE_P, SDL_SCANCODE_I },
+{ SDL_SCANCODE_A, SDL_SCANCODE_X, SDL_SCANCODE_W, SDL_SCANCODE_D, SDL_SCANCODE_F, SDL_SCANCODE_T, SDL_SCANCODE_V },
 };
 
 struct Ent_t {
@@ -24,14 +24,14 @@ struct Ent_t {
 };
 
 static struct Ent_t player_t[MAX_PLAYERS] = {
-{ "player1", NULL, NULL, '@', 3, 10, 1, 61, 0, TYPE_ALL, AI_PLAYER, 0 },
+{ "player1", NULL, NULL, '@', 3, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
 { "player2", NULL, NULL, '@', 1, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
 };
 
 static struct Ent_t ent_t[MAX_ENTITIES] = {
 { "rat", "rat meat", NULL,
   'r', 5, 2,  1, 4, 6, TYPE_CAVE,  AI_HOSTILE, 5 },
-{ "supper rat", "rat meat", NULL,
+{ "super rat", "rat meat", NULL,
   'R', 5, 4,  2, 8, 5,  TYPE_CAVE, AI_HOSTILE, 3 },
 { "gnu", "gnu meat", NULL,
   'G', 6, 6,  1, 3, 8,  TYPE_GRASS, AI_PEACEFUL, 2 },
@@ -48,28 +48,39 @@ static struct Ent_t ent_t[MAX_ENTITIES] = {
 };
 int entqty_t = 8;
 
-struct Item_t {
+struct {
+	char *name;
+	char face;
+	int stat;
+} block_t[MAX_ITEMS] = {
+{ "rock",        '#', 0 },
+{ "stone",       '.', 0 },
+{ "grass",       'g', 0 },
+{ "plank",       'X', 0 },
+{ "water",       'w', 0 },
+{ "door_closed", '+', 0 },
+{ "door_open",   '-', 0 },
+};
+int blockqty_t = 7;
+
+struct {
 	char *name;
 	ITEM_TYPE type;
-	char face;
-	int color;
 	int stat;
 	int rarity;
+} item_t[MAX_ITEMS] = {
+{ "gold",     0, 0,  5 },
+{ "spam",     1, 2,  4 },
+{ "haggis",   1, 10, 1 },
+{ "sword",    2, 2,  3 },
+{ "shield",   3, 4,  2 },
+{ "bow",      4, 0,  3 },
+{ "arrow",    5, 5,  4 },
+{ "rat meat", 1, -1, 0 },
+{ "gnu meat", 1, 4,  0 },
+{ "beef",     1, 22, 0 },
 };
-
-static struct Item_t item_t[MAX_ITEMS] = {
-{ "gold",     0, '$', 4,  0,  5 },
-{ "spam",     1, '=', 8,  2,  4 },
-{ "haggis",   1, 'o', 11, 10, 1 },
-{ "sword",    2, '/', 6,  2,  3 },
-{ "shield",   3, '0', 6,  4,  2 },
-{ "bow",      4, ')', 5,  0,  3 },
-{ "arrow",    5, '|', 5,  5,  4 },
-{ "rat meat", 1, '%', 5,  -1, 0 },
-{ "gnu meat", 1, '%', 6,  4,  0 },
-{ "beef",     1, '%', 5,  22, 0 },
-};
-int itemqty_t = 8;
+int itemqty_t = 10;
 
 /* TODO: Improve and implement in other functions */
 /* TODO: Add min and max parameters */
@@ -100,8 +111,31 @@ gen_ent(int *x, int *y, ENT_TYPE type) {
 		*x = rand() % MAX_X;
 		*y = rand() % MAX_Y;
 	} while ((type == TYPE_ALL) ?
-		  !is_floor(*x, *y) :
-		  get_map(*x, *y) != spawntile);
+	         !is_floor(*x, *y) :
+	         get_map(*x, *y) != spawntile);
+}
+
+bool
+init_block(void) {
+	blockqty = 0;
+
+	for (int num = 0; num < blockqty_t; num++) {
+		block[blockqty].name = malloc(MAX_NAME * sizeof(char));
+		strcpy(block[blockqty].name, block_t[blockqty].name);
+		block[blockqty].face = block_t[blockqty].face;
+		block[blockqty].stat = block_t[blockqty].stat;
+
+		char imgpath[64] = {0};
+		sprintf(imgpath, "data/blocks/%s.png", block[blockqty].name);
+		block[blockqty].img = load_img(imgpath);
+		block[blockqty].src = (SDL_Rect) { 0, 0, U, U };
+
+		blockqty++;
+	}
+
+	blockqty++;
+
+	return true;
 }
 
 /* init_item: copies values from item_t[] to item[] */
@@ -111,10 +145,13 @@ bool init_item(void) {
 	for (int num = 0; num < itemqty_t; num++) {
 		item[itemqty].name = malloc(MAX_NAME * sizeof(char));
 		strcpy(item[itemqty].name, item_t[itemqty].name);
-		item[itemqty].face = item_t[itemqty].face;
-		item[itemqty].color = item_t[itemqty].color;
 		item[itemqty].type = item_t[itemqty].type;
 		item[itemqty].stat = item_t[itemqty].stat;
+
+		char imgpath[64] = {0};
+		sprintf(imgpath, "data/items/%s.png", item[itemqty].name);
+		item[itemqty].img = load_img(imgpath);
+		item[itemqty].src = (SDL_Rect) { 0, 0, U, U };
 
 		for (int i = 0; i < MAX_X; i++)
 			for (int j = 0; j < MAX_Y; j++)
@@ -147,13 +184,17 @@ init_entity(void) {
 			strcpy(entity[entqty].name, ent_t[i].name);
 			entity[entqty].type = ent_t[i].type;
 			entity[entqty].ai = ent_t[i].ai;
-			entity[entqty].face = ent_t[i].face;
-			entity[entqty].color = ent_t[i].color;
 			entity[entqty].maxhp = ent_t[i].hp;
 			entity[entqty].hp = ent_t[i].hp;
 			entity[entqty].isdead = false;
 			entity[entqty].damage = ent_t[i].damage;
 			entity[entqty].sight = ent_t[i].sight;
+
+			char imgpath[64] = {0};
+			sprintf(imgpath, "data/ents/%s.png", entity[entqty].name);
+			entity[entqty].img = load_img(imgpath);
+			entity[entqty].src = (SDL_Rect) { 0, 0, U, U };
+			entity[entqty].flip = SDL_FLIP_NONE;
 
 			entity[entqty].speed = ent_t[i].speed;
 
@@ -167,8 +208,6 @@ init_entity(void) {
 
 			for (int j = 0; j < MAX_INV; j++) {
 				entity[entqty].inv[j].name = malloc(MAX_NAME * sizeof(char));
-				entity[entqty].inv[j].face = ' ';
-				entity[entqty].inv[j].color = 0;
 				entity[entqty].inv[j].map[0][0] = 0;
 			}
 
@@ -204,8 +243,10 @@ bool init_player(int count) {
 		strcpy(player[num].name, player_t[num].name);
 		player[num].type = TYPE_ALL;
 		player[num].ai = AI_PLAYER;
-		player[num].face = '@';
-		player[num].color = player_t[num].color;
+
+		player[num].img = load_img("data/ents/player.png");
+		player[num].src = (SDL_Rect) { 0, 0, U, U };
+		player[num].flip = SDL_FLIP_NONE;
 
 		player[num].maxhp = player_t[num].hp;
 		player[num].hp = player[num].maxhp;
@@ -225,12 +266,12 @@ bool init_player(int count) {
 
 		player[num].keys = player_keys[num];
 
-		player[num].msg = malloc(MAX_NAME * sizeof(char));
+		player[num].msg = (char *)malloc(MAX_NAME * sizeof(char));
+		player[num].msg = NULL;
 
 		for (int i = 0; i < MAX_INV; i++) {
 			player[num].inv[i].name = malloc(MAX_NAME * sizeof(char));
 			player[num].inv[i].face = ' ';
-			player[num].inv[i].color = 0;
 			player[num].inv[i].map[0][0] = 0;
 		}
 

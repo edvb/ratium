@@ -9,7 +9,7 @@ MANPREFIX = ${PREFIX}/share/man
 
 # includes and libs
 INCS = -Iinclude
-LIBS = -lncurses
+LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
 # flags
 CFLAGS = -std=c99 -pedantic -Wall ${INCS} -DVERSION=\"$(VERSION)\"

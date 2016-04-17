@@ -3,7 +3,6 @@
 
 #include "ratium.h"
 #include "map.h"
-#include "gfx.h"
 
 /* find_bld_loc: determines postion for a building on map which it can fit in */
 static bool
@@ -82,7 +81,10 @@ void init_map(void) {
 
 /* get_map: get character of map at x and y position */
 char get_map(int x, int y) {
-	return worldMap[y][x];
+	if (x > MAX_X || y > MAX_Y)
+		return ' ';
+	else
+		return worldMap[y][x];
 }
 
 /* set_map: set character of map at x and y position to newch */
@@ -129,29 +131,16 @@ void toggle_door(int x, int y) {
 	else if (get_map(x, y) == '-') set_map(x, y, '+');
 }
 
-/* draw_map: draw the map foreground (stuff that is on top of entities) */
+/* draw_map: draw the map */
 void draw_map(Ent e, int r) {
 	for (int i = e.x-r; i < e.x+r && i < MAX_X; i++)
 		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
-			if (j >= 0)
-				switch (get_map(i, j)) {
-				case '#': rat_mvaddch(i, j, '#', 12); break;
-				case 'X': rat_mvaddch(i, j, 'X', 13); break;
-				case '+': rat_mvaddch(i, j, '+', 5);  break;
-				}
-}
-
-/* draw_map: draw the map background (stuff that is below entities) */
-void draw_map_floor(Ent e, int r) {
-	for (int i = e.x-r; i < e.x+r && i < MAX_X; i++)
-		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
-			if (j >= 0)
-				switch (get_map(i, j)) {
-				case ' ': rat_mvaddch(i, j, get_map(i, j), 0); break;
-				case '.': rat_mvaddch(i, j, '.', 11); break;
-				case 'g': rat_mvaddch(i, j, '.', 10); break;
-				case 'w': rat_mvaddch(i, j, '~', 9); break;
-				case '-': rat_mvaddch(i, j, '-', 5); break;
-				}
+			if (j >= 0) {
+				SDL_Rect dst = { i*U*ZOOM, j*U*ZOOM,
+				                   U*ZOOM,   U*ZOOM };
+				for (int num = 0; num <= blockqty; num++)
+					if (get_map(i, j) == block[num].face)
+						SDL_RenderCopy(ren, block[num].img, NULL, &dst);
+			}
 }
 

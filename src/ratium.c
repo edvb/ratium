@@ -6,13 +6,6 @@
 #include <time.h>
 
 #include "ratium.h"
-#include "gfx.h"
-
-/* display error message and quit */
-#define ERROR(msg) printf("%s: error: %s\n", argv[0], msg); \
-		   return 1;
-/* end ncurses then run ERROR */
-#define NERROR(msg) rat_endwin(); ERROR(msg);
 
 static const struct option longopts[] = {
 	{"help",    no_argument, NULL, 'h'},
@@ -51,9 +44,7 @@ int main(int argc, char *argv[]) {
 			return 1;
 		}
 
-	rat_init();
-
-	if (maxx < 80 || maxy < 24) { NERROR("terminal too small"); }
+	if (!rat_init()) return 1;
 
 	rat_loop();
 
