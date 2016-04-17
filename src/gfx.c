@@ -15,6 +15,13 @@ SDL_Texture /* returns loaded png found at path */
 	return tex;
 }
 
+void
+draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, SDL_RendererFlip flip) {
+	SDL_Rect dst = { x*ZOOM, y*ZOOM,
+	                 U*ZOOM, U*ZOOM };
+	SDL_RenderCopyEx(ren, img, src, &dst, 0, NULL, flip);
+}
+
 void /* draw text str to the sdl screen */
 draw_text(char *str, SDL_Color color, int x, int y) {
 	SDL_Surface *surf = TTF_RenderText_Solid(font, str, color);

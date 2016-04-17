@@ -25,10 +25,7 @@ void add_item(Item *item, int x, int y) {
 void draw_item(Item item, Ent e, int r) {
 	for (int i = e.x-r; i < e.x+r && i < MAX_X; i++)
 		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
-			if (item.map[j][i] > 0) {
-				SDL_Rect dst = { i*U*ZOOM, j*U*ZOOM,
-				                   U*ZOOM,   U*ZOOM };
-				SDL_RenderCopy(ren, item.img, &item.src, &dst);
-			}
+			if (item.map[j][i] > 0)
+				draw_img(item.img, &item.src, i*U, j*U, SDL_FLIP_NONE);
 }
 

@@ -136,11 +136,9 @@ void draw_map(Ent e, int r) {
 	for (int i = e.x-r; i < e.x+r && i < MAX_X; i++)
 		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
 			if (j >= 0) {
-				SDL_Rect dst = { i*U*ZOOM, j*U*ZOOM,
-				                   U*ZOOM,   U*ZOOM };
 				for (int num = 0; num <= blockqty; num++)
 					if (get_map(i, j) == block[num].face)
-						SDL_RenderCopy(ren, block[num].img, NULL, &dst);
+						draw_img(block[num].img, NULL, i*U, j*U, SDL_FLIP_NONE);
 			}
 }
 

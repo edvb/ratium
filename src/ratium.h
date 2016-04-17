@@ -175,6 +175,7 @@ bool init_player(int count);
 /* gfx.c: SDL functions */
 SDL_Texture *load_img(char *path);
 void draw_text(char *str, SDL_Color color, int x, int y);
+void draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, SDL_RendererFlip flip);
 
 int ZOOM;
 SDL_Window *win;

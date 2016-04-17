@@ -115,12 +115,10 @@ void draw_ent(Ent e, Ent oe, int r) {
 	if (isalive(e.hp) &&
 	    oe.x-r < e.x && oe.x+r > e.x &&
 	    oe.y-r < e.y && oe.y+r > e.y) {
-		SDL_Rect dst = { e.x*U*ZOOM, e.y*U*ZOOM,
-		                     U*ZOOM,     U*ZOOM };
 		SDL_Rect dsthand = { ((holding_x(e, e.x)*U)-U/2*holding_x(e, 0)+2)*ZOOM,
 		                     ((e.y*U)+4)*ZOOM,
 		                     U*.8*ZOOM, U*.8*ZOOM };
-		SDL_RenderCopyEx(ren, e.img, &e.src, &dst, 0, NULL, e.flip);
+		draw_img(e.img, &e.src, e.x*U, e.y*U, e.flip);
 		if (e.hand != -1)
 			SDL_RenderCopyEx(ren, e.inv[e.hand].img, &e.src, &dsthand, 0, NULL, e.flip);
 	}
