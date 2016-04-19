@@ -20,21 +20,6 @@ void draw_msg(char *msg) {
 	draw_text(msg, color, x, y);
 }
 
-static void draw_inv(Ent *e, int arrow_y) {
-	char s[50];
-
-	draw_text(" -- Inventory -- ", (SDL_Color){5,5,5}, 8*20, 0);
-
-	for (int i = 0; i < MAX_INV; i++)
-		if (e->inv[i].face != ' ') {
-			sprintf(s, "   %c) %c %s (%d)",
-			        i+97, e->inv[i].face, e->inv[i].name, e->inv[i].map[0][0]);
-			draw_text(s, (SDL_Color){5,5,5}, 8*20, (i+1)*40);
-		}
-
-	draw_text(">", (SDL_Color){5,5,5}, 1*20, (arrow_y)*40);
-}
-
 static void inv_add_item(Ent *e, Item *item, int qty) {
 	for (int i = 0; i <= MAX_INV; i++)
 		if (e->inv[i].face == ' ') {
@@ -52,67 +37,28 @@ static void inv_add_item(Ent *e, Item *item, int qty) {
 		}
 }
 
-static void inv_use_item(Ent *e, int num) {
-	if (e->inv[num].map[0][0] > 0)
-		switch (e->inv[num].type) {
-		case ITEM_MISC:
-		case ITEM_AMMO:
-			break;
-		case ITEM_FOOD:
-			e->hp += e->inv[num].stat;
-			e->inv[num].map[0][0]--;
-			break;
-		case ITEM_SHOOTER:
-		case ITEM_SWORD:
-		case ITEM_SHIELD:
-			if (e->hand == -1) {
-				e->hand = num;
-				e->inv[num].map[0][0]--;
-			}
-			break;
-		}
-}
+static void
+inv(Ent *e) {
+	const Uint8 *k = SDL_GetKeyboardState(NULL);
+	if (k[e->keys.left])
+		while (e->inv[++e->hand].face == ' ' && e->hand != 0) ;
+	else if (k[e->keys.right])
+		while (e->inv[--e->hand].face == ' ' && e->hand != 0) ;
 
-static void inv_drop_item(Ent *e, int num) {
-	if (e->inv[num].map[0][0] > 0) {
-		for (int i = 0; i < MAX_ITEMS; i++)
-			if (e->inv[num].face == item[i].face)
-					add_item(&item[i], e->x, e->y);
-		e->inv[num].map[0][0]--;
+	if (e->hand >= MAX_INV)
+		e->hand = -1;
+	else if (e->hand <= -2) {
+		e->hand = MAX_INV;
+		while (e->inv[--e->hand].face == ' ' && e->hand != 0) ;
 	}
 }
 
-static void inv(Ent *e) {
-	int arrow_y = 1;
-
-	do {
-		const Uint8 *k = SDL_GetKeyboardState(NULL);
-		if      (k[e->keys.up])   arrow_y--;
-		else if (k[e->keys.down]) arrow_y++;
-		else if (k[e->keys.act])  inv_use_item(e, arrow_y-1);
-		else if (k[e->keys.drop]) inv_drop_item(e, arrow_y-1);
-		else if (k[e->keys.inv])  break;
-
-		if (e->inv[arrow_y-1].name == NULL)
-			arrow_y--;
-		if (arrow_y <= 0)
-			arrow_y = 1;
-
-		draw_inv(e, arrow_y);
-
-	} while (1);
-
-	SDL_RenderClear(ren);
-
-}
-
-static void drop_item(Ent *e) {
-	/* if nothing is under player put what player was holding into inv */
-	if (e->hand != -1) {
-		for (int i = 0; i < MAX_INV; i++)
-			if (strcmp(e->inv[i].name, e->inv[e->hand].name) == 0)
-				e->inv[i].map[0][0]++;
-		e->hand = -1;
+static void
+drop_item(Ent *e) {
+	if (e->inv[e->hand].map[0][0] > 0) {
+		add_item(&item[query_item(e->inv[e->hand].name)],
+		         holding_x(*e, e->x), holding_y(*e, e->y));
+		e->inv[e->hand].map[0][0]--;
 	}
 }
 
@@ -177,44 +123,48 @@ load_shooter(Ent *e) {
 			    e->inv[i].type == ITEM_AMMO) {
 				e->inv[i].map[0][0]--;
 				e->inv[e->hand].face = ']';
+				e->inv[e->hand].src.y = U;
 				return;
 			}
 }
 
-static void act_key(Ent *e) {
+static void
+act_key(Ent *e) {
 	/* toogle door if looking at one */
 	int door_x = holding_x(*e, e->x);
 	int door_y = holding_y(*e, e->y);
-	int dmg;
 	if (get_map(door_x, door_y) == '+' || get_map(door_x, door_y) == '-') {
 		toggle_door(door_x, door_y);
 		return;
 	}
 
 	/* use item in hand */
-	switch (e->inv[e->hand].type) {
-	case ITEM_MISC:
-	case ITEM_AMMO:
-	case ITEM_FOOD: break;
-	case ITEM_SHOOTER:
-		if (e->inv[e->hand].face == ']') {
-			/* TODO: Make range depened on bow and dmg depened on arrow */
-			fire_shooter(e->direc, e->x, e->y, 20, 5);
-			e->inv[e->hand].face = ')';
-		} else
-			load_shooter(e);
-		break;
-	case ITEM_SWORD:
-	case ITEM_SHIELD:
-		break;
-	}
-
+	if (e->inv[e->hand].map[0][0] > 0)
+		switch (e->inv[e->hand].type) {
+		case ITEM_MISC:
+		case ITEM_AMMO: break;
+		case ITEM_FOOD:
+			e->hp += e->inv[e->hand].stat;
+			e->inv[e->hand].map[0][0]--;
+			break;
+		case ITEM_SHOOTER:
+			if (e->inv[e->hand].face == ']') {
+				/* TODO: Make range depened on bow and dmg depened on arrow */
+				fire_shooter(e->direc, e->x, e->y, 20, 5);
+				e->inv[e->hand].face = ')';
+				e->inv[e->hand].src.y = 0;
+			} else
+				load_shooter(e);
+			break;
+		case ITEM_SWORD:
+		case ITEM_SHIELD:
+			break;
+		}
 }
 
-bool player_run(Ent *e) {
+void
+player_run(Ent *e) {
 	if (isalive(e->hp)) {
-		bool returnval = true; /* true if key pressed is valid key */
-
 		const Uint8 *k = SDL_GetKeyboardState(NULL);
 		if (k[e->keys.left] && !k[e->keys.inv]) {
 			e->msg = NULL;
@@ -240,17 +190,7 @@ bool player_run(Ent *e) {
 		}
 		if      (k[e->keys.drop]) drop_item(e);
 		else if (k[e->keys.act])  act_key(e);
-		else if (k[e->keys.inv]) { /* TODO: move into inv() */
-			if (k[e->keys.left])
-				while (e->inv[++e->hand].face == ' ' && e->hand != 0) ;
-			else if (k[e->keys.right])
-				while (e->inv[--e->hand].face == ' ' && e->hand != 0) ;
-			if (e->hand >= MAX_INV) e->hand = -1;
-			else if (e->hand <= -2) {
-				e->hand = MAX_INV;
-				while (e->inv[--e->hand].face == ' ' && e->hand != 0) ;
-			}
-		}
+		else if (k[e->keys.inv])  inv(e);
 
 		/* collect item on ground */
 		for (int i = 0; i <= itemqty; i++)
@@ -263,15 +203,11 @@ bool player_run(Ent *e) {
 		if (e->hp > e->maxhp)
 			e->hp = e->maxhp;
 
-		return returnval;
-
 	} else if (!e->isdead) {
 		/* TODO: Improve death, drop items on ground */
 		/* add_msg(player[0].msg, "You Died!"); */
 		e->msg = "You Died!";
 		e->isdead = true;
-		return true;
-	} else
-		return false;
+	}
 }
 

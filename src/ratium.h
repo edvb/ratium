@@ -164,7 +164,7 @@ void dumb_ai(Ent *e);
 /* player.c: handle the player */
 void add_msg(char *msg, char *message);
 void draw_msg(char *msg);
-bool player_run(Ent *e);
+void player_run(Ent *e);
 
 /* data.c: handle reading from data/ directory */
 bool init_block(void);
