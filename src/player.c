@@ -204,7 +204,9 @@ player_run(Ent *e) {
 			e->hp = e->maxhp;
 
 	} else if (!e->isdead) {
-		/* TODO: Improve death, drop items on ground */
+		for (int i = 0; i < MAX_INV; i++)
+			for (;e->inv[i].map[0][0] > 0; e->inv[i].map[0][0]--)
+				add_item(&item[query_item(e->inv[i].name)], e->x, e->y);
 		/* add_msg(player[0].msg, "You Died!"); */
 		e->msg = "You Died!";
 		e->isdead = true;

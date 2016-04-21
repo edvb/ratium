@@ -19,11 +19,8 @@ rand_ai(Ent *e) {
 	} else if (!e->isdead) { /* TODO: Remove isdead var, use hp var at -1 instead */
 		e->isdead = true;
 		for (int i = 0; i < MAX_INV; i++)
-			while (e->inv[i].map[0][0] > 0) {
-				add_item(&item[query_item(e->inv[i].name)],
-				         e->x, e->y);
-				e->inv[i].map[0][0]--;
-			}
+			for (;e->inv[i].map[0][0] > 0; e->inv[i].map[0][0]--)
+				add_item(&item[query_item(e->inv[i].name)], e->x, e->y);
 	}
 }
 
@@ -35,11 +32,8 @@ dumb_ai(Ent *e) {
 		if (!e->isdead) {
 			e->isdead = true;
 			for (int i = 0; i < MAX_INV; i++)
-				while (e->inv[i].map[0][0] > 0) {
-					add_item(&item[query_item(e->inv[i].name)],
-					         e->x, e->y);
-					e->inv[i].map[0][0]--;
-				}
+				for (;e->inv[i].map[0][0] > 0; e->inv[i].map[0][0]--)
+					add_item(&item[query_item(e->inv[i].name)], e->x, e->y);
 		}
 		return;
 	}
