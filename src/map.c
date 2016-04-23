@@ -57,16 +57,16 @@ draw_room(char wall, char floor, int doorqty, char door) {
 	for (int i = 0; i < doorqty; i++)
 		switch (rand()%4) {
 		case 0:
-			set_map(x_0+rand()%len, y_0, door);
+			set_map(x_0+rand()%(len-2)+1, y_0, door);
 			break;
 		case 1:
-			set_map(x_0, y_0+rand()%height, door);
+			set_map(x_0, y_0+rand()%(height-2)+1, door);
 			break;
 		case 2:
-			set_map(x_0+rand()%len, y_0+height-1, door);
+			set_map(x_0+rand()%(len-2)+1, y_0+height-1, door);
 			break;
 		case 3:
-			set_map(x_0+len-1, y_0+rand()%height, door);
+			set_map(x_0+len-1, y_0+rand()%(height-2)+1, door);
 			break;
 		}
 }
@@ -76,7 +76,7 @@ void init_map(void) {
 	for (int i = 0; i < 10; i++) /* create buildings in the world */
 		draw_building(buildings[i]);
 	for (int i = 0; i < rand()%6; i++) /* create rooms in the world */
-		draw_room('X', '.', rand()%3+1, '+');
+		draw_room('X', '.', rand()%2+1, '+');
 }
 
 /* get_map: get character of map at x and y position */
