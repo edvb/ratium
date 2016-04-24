@@ -19,13 +19,18 @@
 #define MAX_INV 16
 
 #define U 16
-#define FONT_W 20
-#define FONT_H 40
+#define FONT_W 8
+#define FONT_H 16
 
 #undef false /* damn ncurses.... */
 #undef true
 #undef bool
 typedef enum { false, true } bool;
+
+#define SDL_ERROR() { \
+	printf("SDL Error: %s\n", SDL_GetError()); \
+	return false; \
+}
 
 /* direction entities can face */
 typedef enum {
@@ -179,7 +184,7 @@ bool init_player(int count);
 
 /* gfx.c: SDL functions */
 SDL_Texture *load_img(char *path);
-void draw_text(char *str, SDL_Color color, int x, int y);
+bool draw_text(char *str, SDL_Color color, int x, int y);
 void draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, SDL_RendererFlip flip);
 bool pos_collide(Pos pos_1, Pos pos_2);
 
