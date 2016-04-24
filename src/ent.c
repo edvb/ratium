@@ -93,6 +93,29 @@ float holding_y(Ent e, float val) {
 	}
 }
 
+void
+draw_player_msg(Ent e) {
+	if (e.msg == NULL)
+		return;
+	SDL_Color color = { 255, 255, 255 };
+	int x = (e.pos.x*U+(U/2)) - (strlen(e.msg)*FONT_W / 2);
+	int y = (e.pos.y*U-(U/2)) - (FONT_H / 2);
+	draw_text(e.msg, color, x, y);
+}
+
+void
+draw_msg(Ent e) {
+	if (!isalive(e.hp) || e.msg == NULL)
+		return;
+	for (int i = 0; i <= playerqty; i++)
+		if (pos_collide(e.pos, player[i].pos)) {
+			SDL_Color color = { 255, 255, 255 };
+			int x = (e.pos.x*U+(U/2)) - (strlen(e.msg)*FONT_W / 2);
+			int y = (e.pos.y*U-(U/2)) - (FONT_H / 2);
+			draw_text(e.msg, color, x, y);
+		}
+}
+
 /* draw_ent: draw entity e if in range of entity oe by r */
 void draw_ent(Ent e, Ent oe, int r) {
 	if (isalive(e.hp) &&

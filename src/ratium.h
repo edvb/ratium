@@ -164,7 +164,9 @@ void clear_item(Item *item, int x, int y);
 void add_item(Item *item, int x, int y);
 void draw_item(Item item, Ent e, int r);
 
-/* entity.c: handle anything with entities */
+/* ent.c: handle anything with entities */
+void draw_player_msg(Ent e);
+void draw_msg(Ent e);
 void draw_ent(Ent e, Ent oe, int r);
 
 /* ai.c: different entity AIs */
@@ -172,8 +174,7 @@ void rand_ai(Ent *e);
 void dumb_ai(Ent *e);
 
 /* player.c: handle the player */
-void add_msg(char *msg, char *message);
-void draw_msg(char *msg);
+void draw_inv(Ent e);
 void player_run(Ent *e);
 
 /* data.c: handle reading from data/ directory */

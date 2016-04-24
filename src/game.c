@@ -68,8 +68,12 @@ void rat_loop(void) {
 				draw_ent(entity[j], player[i], player[i].sight);
 		}
 
-		for (int i = 0; i <= playerqty; i++)
-			draw_msg(player[i].msg);
+		for (int i = 0; i <= entqty; i++)
+			draw_msg(entity[i]);
+		for (int i = 0; i <= playerqty; i++) {
+			draw_inv(player[i]);
+			draw_player_msg(player[i]);
+		}
 
 		SDL_RenderPresent(ren);
 
@@ -108,7 +112,6 @@ void rat_cleanup(void) {
 	}
 	for (int i = 0; i <= playerqty; i++) {
 		free(player[i].name);
-		player[i].msg = NULL;
 		player[i].msg = NULL;
 		free(player[i].msg);
 		for (int j = 0; j < MAX_INV; j++)

@@ -6,20 +6,6 @@
 #include "ratium.h"
 #include "ent.h"
 
-void add_msg(char *msg, char *message) {
-	strcpy(msg, message);
-}
-
-void draw_msg(char *msg) {
-	if (msg == NULL)
-		return;
-	int x, y;
-	SDL_Color color = { 255, 255, 255 };
-	x = (MAX_X*U / 2) - ((strlen(msg)*FONT_W) / 2);
-	y = (MAX_Y*U / 2) - (FONT_H / 2);
-	draw_text(msg, color, x, y);
-}
-
 static void inv_add_item(Ent *e, Item *item, int qty) {
 	for (int i = 0; i <= MAX_INV; i++)
 		if (e->inv[i].face == ' ') {
@@ -35,6 +21,28 @@ static void inv_add_item(Ent *e, Item *item, int qty) {
 			e->inv[i].map[0][0] += qty;
 			return;
 		}
+}
+
+void
+draw_inv(Ent e) {
+	char s[128] = {0}, hps[3] = {0};
+	SDL_Color color = { 255, 255, 255 };
+	int x, y;
+
+	sprintf(s, "%s: %d", e.inv[e.hand].name, e.inv[e.hand].map[0][0]);
+	sprintf(hps, "%d", e.hp);
+
+	const Uint8 *k = SDL_GetKeyboardState(NULL);
+	if (k[e.keys.inv]) {
+		if (e.hand != -1 && s != NULL) {
+			x = (e.pos.x*U+(U/2)) - (strlen(s)*FONT_W / 2);
+			y = (e.pos.y*U-(U/2)) - (FONT_H / 2);
+			draw_text(s, color, x, y);
+		}
+		x = (e.pos.x*U+(U/2)) - (strlen(hps)*FONT_W / 2);
+		y = (e.pos.y*U-(U/2)) + (FONT_H *1.5);
+		draw_text(hps, color, x, y);
+	}
 }
 
 static void
@@ -172,23 +180,19 @@ player_run(Ent *e) {
 	if (isalive(e->hp)) {
 		const Uint8 *k = SDL_GetKeyboardState(NULL);
 		if (k[e->keys.left] && !k[e->keys.inv]) {
-			e->msg = NULL;
 			move_entity(e, -e->speed, 0);
 			e->direc = LEFT;
 			e->flip = SDL_FLIP_NONE;
 		}
 		if (k[e->keys.down] && !k[e->keys.inv]) {
-			e->msg = NULL;
 			move_entity(e, 0, e->speed);
 			e->direc = DOWN;
 		}
 		if (k[e->keys.up] && !k[e->keys.inv]) {
-			e->msg = NULL;
 			move_entity(e, 0, -e->speed);
 			e->direc = UP;
 		}
 		if (k[e->keys.right] && !k[e->keys.inv]) {
-			e->msg = NULL;
 			move_entity(e, e->speed, 0);
 			e->direc = RIGHT;
 			e->flip = SDL_FLIP_HORIZONTAL;
@@ -196,11 +200,6 @@ player_run(Ent *e) {
 		if      (k[e->keys.drop]) drop_item(e);
 		else if (k[e->keys.act])  act_key(e);
 		else if (k[e->keys.inv])  inv(e);
-
-		for (int i = 0; i <= entqty; i++)
-			if (isalive(entity[i].hp) && pos_collide(entity[i].pos, e->pos))
-				if (entity[i].msg != NULL)
-					e->msg = entity[i].msg;
 
 		/* collect item on ground */
 		for (int i = 0; i <= itemqty; i++)
@@ -217,7 +216,6 @@ player_run(Ent *e) {
 		for (int i = 0; i < MAX_INV; i++)
 			for (;e->inv[i].map[0][0] > 0; e->inv[i].map[0][0]--)
 				add_item(&item[query_item(e->inv[i].name)], e->pos.x, e->pos.y);
-		/* add_msg(player[0].msg, "You Died!"); */
 		e->msg = "You Died!";
 		e->isdead = true;
 	}
