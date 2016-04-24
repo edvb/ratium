@@ -6,41 +6,24 @@
 #include "ent.h"
 
 /* can_step: determine if entity can move to a new space */
-bool can_step(Ent *e, int x, int y) {
-	if (x < 0 || x >= MAX_X || y < 0 || y >= MAX_Y)
+bool can_step(Ent *e, Pos pos) {
+	if (pos.x < 0 || pos.x+pos.w > MAX_X || pos.y < 0 || pos.y+pos.h > MAX_Y)
 		return false;
 
-	for (int i = 0; i <= entqty; i++)
-		if (isalive(entity[i].hp) &&
-		    entity[i].x == x && entity[i].y == y) {
-			if (e->ai == AI_PLAYER) {
-				if (entity[i].msg != NULL &&
-				    e->inv[e->hand].type != ITEM_SWORD)
-					/* add_msg(player[0].msg, entity[i].msg); */
-					player[0].msg = entity[i].msg;
-				else
-					attack(e, &entity[i]);
-			}
-			return false;
-		}
-	for (int i = 0; i <= playerqty; i++)
-		if (isalive(entity[i].hp) &&
-		    player[i].x == x && player[i].y == y) {
-			attack(e, &player[i]);
-			return false;
-		}
-
-	if (!is_floor(x, y))
+	if (!is_floor(pos.x, pos.y) ||
+	    !is_floor(pos.x+pos.w-.000001, pos.y+pos.h-.000001) ||
+	    !is_floor(pos.x, pos.y+pos.h-.000001) ||
+	    !is_floor(pos.x+pos.w-.000001, pos.y))
 		return false;
 
 	return true;
 }
 
 /* move_entity: move a entity by dx and dy */
-void move_entity(Ent *e, int dx, int dy) {
-	if (can_step(e, e->x + dx, e->y + dy)) {
-		e->x += dx;
-		e->y += dy;
+void move_entity(Ent *e, float dx, float dy) {
+	if (can_step(e, (Pos){e->pos.x+dx,e->pos.y+dy,e->pos.w,e->pos.h})) {
+		e->pos.x += dx;
+		e->pos.y += dy;
 	}
 }
 
@@ -81,7 +64,7 @@ bool isalive(int hp) {
 }
 
 /* holding: return x position for what entity is holding */
-int holding_x(Ent e, int val) {
+float holding_x(Ent e, float val) {
 	switch (e.direc) {
 		case LEFT:
 		case LEFTDOWN:
@@ -96,7 +79,7 @@ int holding_x(Ent e, int val) {
 }
 
 /* holding: return y position for what entity is holding */
-int holding_y(Ent e, int val) {
+float holding_y(Ent e, float val) {
 	switch (e.direc) {
 		case DOWN:
 		case LEFTDOWN:
@@ -113,14 +96,13 @@ int holding_y(Ent e, int val) {
 /* draw_ent: draw entity e if in range of entity oe by r */
 void draw_ent(Ent e, Ent oe, int r) {
 	if (isalive(e.hp) &&
-	    oe.x-r < e.x && oe.x+r > e.x &&
-	    oe.y-r < e.y && oe.y+r > e.y) {
-		SDL_Rect dsthand = { ((holding_x(e, e.x)*U)-U/2*holding_x(e, 0)+2)*ZOOM,
-		                     ((e.y*U)+4)*ZOOM,
+	    oe.pos.x-r < e.pos.x && oe.pos.x+r > e.pos.x &&
+	    oe.pos.y-r < e.pos.y && oe.pos.y+r > e.pos.y) {
+		SDL_Rect dsthand = { ((holding_x(e, e.pos.x)*U)-U/2*holding_x(e, 0)+2)*ZOOM,
+		                     ((e.pos.y*U)+4)*ZOOM,
 		                     U*.8*ZOOM, U*.8*ZOOM };
-		draw_img(e.img, &e.src, e.x*U, e.y*U, e.flip);
+		draw_img(e.img, &e.src, e.pos.x*U, e.pos.y*U, e.flip);
 		if (e.hand != -1)
-			SDL_RenderCopyEx(ren, e.inv[e.hand].img, &e.src, &dsthand, 0, NULL, e.flip);
+			SDL_RenderCopyEx(ren, e.inv[e.hand].img, &e.inv[e.hand].src, &dsthand, 0, NULL, e.flip);
 	}
 }
-

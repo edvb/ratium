@@ -17,15 +17,15 @@ struct Ent_t {
 	int hp;
 	int damage;
 	int sight;
-	int speed;
+	float speed;
 	ENT_TYPE type;
 	ENT_AI ai;
 	int rarity;
 };
 
 static struct Ent_t player_t[MAX_PLAYERS] = {
-{ "player1", NULL, NULL, '@', 3, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
-{ "player2", NULL, NULL, '@', 1, 10, 1, 16, 0, TYPE_ALL, AI_PLAYER, 0 },
+{ "player1", NULL, NULL, '@', 3, 10, 1, 16, .5, TYPE_ALL, AI_PLAYER, 0 },
+{ "player2", NULL, NULL, '@', 1, 10, 1, 16, .5, TYPE_ALL, AI_PLAYER, 0 },
 };
 
 static struct Ent_t ent_t[MAX_ENTITIES] = {
@@ -97,7 +97,7 @@ calc_rarity(int *rarity) {
 /* gen_ent: change x and y values to a valid place for entity to be generated
  *          based on type */
 static void
-gen_ent(int *x, int *y, ENT_TYPE type) {
+gen_ent(float *x, float *y, ENT_TYPE type) {
 	int spawntile;
 
 	switch(type) {
@@ -216,7 +216,9 @@ init_entity(void) {
 				entity[entqty].inv[0].map[0][0] = rand() % 3;
 			}
 
-			gen_ent(&entity[entqty].x, &entity[entqty].y, ent_t[i].type);
+			gen_ent(&entity[entqty].pos.x, &entity[entqty].pos.y, ent_t[i].type);
+			entity[entqty].pos.w = 1.0;
+			entity[entqty].pos.h = 1.0;
 
 			switch(ent_t[i].ai) {
 			case AI_PLAYER: break;
@@ -260,8 +262,10 @@ bool init_player(int count) {
 			x_0 = rand() % MAX_X;
 			y_0 = rand() % MAX_Y;
 		} while (!is_floor(x_0, y_0));
-		player[num].x = x_0;
-		player[num].y = y_0;
+		player[num].pos.x = x_0;
+		player[num].pos.y = y_0;
+		player[num].pos.w = 1.0;
+		player[num].pos.h = 1.0;
 		player[num].bary = num;
 
 		player[num].keys = player_keys[num];

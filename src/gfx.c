@@ -39,3 +39,20 @@ draw_text(char *str, SDL_Color color, int x, int y) {
 	return;
 }
 
+static bool
+overlapping(float min1, float max1, float min2, float max2) {
+	return min2 < max1 && min1 < max2;
+}
+
+bool /* returns true if a and b are on top of each other */
+pos_collide(Pos a, Pos b) {
+	float lefta   = a.x + 0; /* TODO add starting x and y postions */
+	float leftb   = b.x + 0;
+	float righta  = lefta + a.w;
+	float rightb  = leftb + b.w;
+	float bottoma = a.y + 0;
+	float bottomb = b.y + 0;
+	float topa    = bottoma + a.h;
+	float topb    = bottomb + b.h;
+	return overlapping(lefta, righta, leftb, rightb) && overlapping(bottoma, topa, bottomb, topb);
+}

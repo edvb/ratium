@@ -133,8 +133,8 @@ void toggle_door(int x, int y) {
 
 /* draw_map: draw the map */
 void draw_map(Ent e, int r) {
-	for (int i = e.x-r; i < e.x+r && i < MAX_X; i++)
-		for (int j = e.y-r; j < e.y+r && j < MAX_Y; j++)
+	for (int i = e.pos.x-r; i < e.pos.x+r && i < MAX_X; i++)
+		for (int j = e.pos.y-r; j < e.pos.y+r && j < MAX_Y; j++)
 			if (j >= 0) {
 				for (int num = 0; num <= blockqty; num++)
 					if (get_map(i, j) == block[num].face)

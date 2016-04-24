@@ -7,7 +7,7 @@
 void
 rand_ai(Ent *e) {
 	if (isalive(e->hp)) {
-		int direc = rand() % e->speed;
+		int direc = rand() % 6;
 
 		switch (direc) {
 		case 0: move_entity(e, -1,  0); break;
@@ -16,11 +16,15 @@ rand_ai(Ent *e) {
 		case 3: move_entity(e,  1,  0); break;
 		}
 
+		for (int i = 0; i <= playerqty; i++)
+			if (isalive(player[i].hp) && pos_collide(e->pos, player[i].pos))
+				attack(e, &player[i]);
+
 	} else if (!e->isdead) { /* TODO: Remove isdead var, use hp var at -1 instead */
 		e->isdead = true;
 		for (int i = 0; i < MAX_INV; i++)
 			for (;e->inv[i].map[0][0] > 0; e->inv[i].map[0][0]--)
-				add_item(&item[query_item(e->inv[i].name)], e->x, e->y);
+				add_item(&item[query_item(e->inv[i].name)], e->pos.x, e->pos.y);
 	}
 }
 
@@ -33,25 +37,31 @@ dumb_ai(Ent *e) {
 			e->isdead = true;
 			for (int i = 0; i < MAX_INV; i++)
 				for (;e->inv[i].map[0][0] > 0; e->inv[i].map[0][0]--)
-					add_item(&item[query_item(e->inv[i].name)], e->x, e->y);
+					add_item(&item[query_item(e->inv[i].name)], e->pos.x, e->pos.y);
 		}
 		return;
 	}
 
-	if (abs(e->x - player[0].x) <= e->sight && /* TODO: Make dumb AI follow other players */
-	    abs(e->y - player[0].y) <= e->sight) {
-		if ((shouldMove = rand() % e->speed) != 0)
+	if (abs(e->pos.x - player[0].pos.x) <= e->sight && /* TODO: Make dumb AI follow other players */
+	    abs(e->pos.y - player[0].pos.y) <= e->sight) {
+		if ((shouldMove = rand() % 6) != 0)
 			return;
 
-		if (player[0].x > e->x)
+		if (player[0].pos.x > e->pos.x)
 			move_entity(e, 1, 0);
-		else if (player[0].x < e->x)
+		else if (player[0].pos.x < e->pos.x)
 			move_entity(e, -1, 0);
-		if (player[0].y > e->y)
+		if (player[0].pos.y > e->pos.y)
 			move_entity(e, 0, 1);
-		else if (player[0].y < e->y)
+		else if (player[0].pos.y < e->pos.y)
 			move_entity(e, 0, -1);
+
+		for (int i = 0; i <= playerqty; i++)
+			if (isalive(player[i].hp) && pos_collide(e->pos, player[i].pos))
+				attack(e, &player[i]);
+
 		return;
+
 	} else {
 		rand_ai(e);
 		return;

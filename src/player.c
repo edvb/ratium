@@ -57,7 +57,7 @@ static void
 drop_item(Ent *e) {
 	if (e->inv[e->hand].map[0][0] > 0) {
 		add_item(&item[query_item(e->inv[e->hand].name)],
-		         holding_x(*e, e->x), holding_y(*e, e->y));
+		         holding_x(*e, e->pos.x), holding_y(*e, e->pos.y));
 		e->inv[e->hand].map[0][0]--;
 	}
 }
@@ -65,7 +65,7 @@ drop_item(Ent *e) {
 static bool
 fire_spot(int x, int y, int dmg) {
 	for (int i = 0; i < entqty; i++)
-		if (entity[i].x == x && entity[i].y == y) {
+		if (pos_collide(entity[i].pos, (Pos){x,y,1,1})) {
 			entity[i].hp -= dmg;
 			return false;
 		}
@@ -131,8 +131,8 @@ load_shooter(Ent *e) {
 static void
 act_key(Ent *e) {
 	/* toogle door if looking at one */
-	int door_x = holding_x(*e, e->x);
-	int door_y = holding_y(*e, e->y);
+	int door_x = holding_x(*e, e->pos.x+.5);
+	int door_y = holding_y(*e, e->pos.y+.5);
 	if (get_map(door_x, door_y) == '+' || get_map(door_x, door_y) == '-') {
 		toggle_door(door_x, door_y);
 		return;
@@ -146,20 +146,25 @@ act_key(Ent *e) {
 		case ITEM_FOOD:
 			e->hp += e->inv[e->hand].stat;
 			e->inv[e->hand].map[0][0]--;
-			break;
+			return;
 		case ITEM_SHOOTER:
 			if (e->inv[e->hand].face == ']') {
 				/* TODO: Make range depened on bow and dmg depened on arrow */
-				fire_shooter(e->direc, e->x, e->y, 20, 5);
+				fire_shooter(e->direc, e->pos.x, e->pos.y, 20, 5);
 				e->inv[e->hand].face = ')';
 				e->inv[e->hand].src.y = 0;
 			} else
 				load_shooter(e);
-			break;
+			return;
 		case ITEM_SWORD:
 		case ITEM_SHIELD:
 			break;
 		}
+
+	for (int i = 0; i <= entqty; i++)
+		if (isalive(entity[i].hp) && pos_collide(e->pos, entity[i].pos))
+			attack(e, &entity[i]);
+
 }
 
 void
@@ -168,23 +173,23 @@ player_run(Ent *e) {
 		const Uint8 *k = SDL_GetKeyboardState(NULL);
 		if (k[e->keys.left] && !k[e->keys.inv]) {
 			e->msg = NULL;
-			move_entity(e, -1, 0);
+			move_entity(e, -e->speed, 0);
 			e->direc = LEFT;
 			e->flip = SDL_FLIP_NONE;
 		}
 		if (k[e->keys.down] && !k[e->keys.inv]) {
 			e->msg = NULL;
-			move_entity(e, 0, 1);
+			move_entity(e, 0, e->speed);
 			e->direc = DOWN;
 		}
 		if (k[e->keys.up] && !k[e->keys.inv]) {
 			e->msg = NULL;
-			move_entity(e, 0, -1);
+			move_entity(e, 0, -e->speed);
 			e->direc = UP;
 		}
 		if (k[e->keys.right] && !k[e->keys.inv]) {
 			e->msg = NULL;
-			move_entity(e, 1, 0);
+			move_entity(e, e->speed, 0);
 			e->direc = RIGHT;
 			e->flip = SDL_FLIP_HORIZONTAL;
 		}
@@ -192,11 +197,16 @@ player_run(Ent *e) {
 		else if (k[e->keys.act])  act_key(e);
 		else if (k[e->keys.inv])  inv(e);
 
+		for (int i = 0; i <= entqty; i++)
+			if (isalive(entity[i].hp) && pos_collide(entity[i].pos, e->pos))
+				if (entity[i].msg != NULL)
+					e->msg = entity[i].msg;
+
 		/* collect item on ground */
 		for (int i = 0; i <= itemqty; i++)
-			if (item[i].map[e->y][e->x] > 0) {
+			if (item[i].map[(int)(e->pos.y+.5)][(int)(e->pos.x+.5)] > 0) {
 				inv_add_item(e, &item[i], 1);
-				clear_item(&item[i], e->x, e->y);
+				clear_item(&item[i], e->pos.x+.5, e->pos.y+.5);
 			}
 
 		/* make sure heath does not go over max */
@@ -206,7 +216,7 @@ player_run(Ent *e) {
 	} else if (!e->isdead) {
 		for (int i = 0; i < MAX_INV; i++)
 			for (;e->inv[i].map[0][0] > 0; e->inv[i].map[0][0]--)
-				add_item(&item[query_item(e->inv[i].name)], e->x, e->y);
+				add_item(&item[query_item(e->inv[i].name)], e->pos.x, e->pos.y);
 		/* add_msg(player[0].msg, "You Died!"); */
 		e->msg = "You Died!";
 		e->isdead = true;

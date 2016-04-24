@@ -101,6 +101,11 @@ struct _Armor {
 	int body, head, chest, hands, legs, feet;
 };
 
+typedef struct _Pos Pos;
+struct _Pos {
+	float x, y, w, h;
+};
+
 /* universal struct for players and other entities */
 typedef struct _Ent Ent;
 struct _Ent {
@@ -114,14 +119,14 @@ struct _Ent {
 	SDL_RendererFlip flip;
 
 	DIREC direc; /* direction ent is facing */
-	int x, y;    /* ent position */
+	Pos pos;
 	int bary;    /* position of stat bar, mainly for player */
 
 	int maxhp, hp; /* ent heath and max heath */
 	bool isdead;   /* set to true after entity death stuff it run */
 	int damage;    /* how much damage entity deals to others */
 	int sight;     /* how far entity can see */
-	int speed;     /* how fast entity ai can move */
+	float speed;   /* how fast entity ai can move */
 
 	struct _Keys keys; /* player keys */
 	char *msg;   /* message player will display, or message to tell player */
@@ -176,6 +181,7 @@ bool init_player(int count);
 SDL_Texture *load_img(char *path);
 void draw_text(char *str, SDL_Color color, int x, int y);
 void draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, SDL_RendererFlip flip);
+bool pos_collide(Pos pos_1, Pos pos_2);
 
 int ZOOM;
 SDL_Window *win;
