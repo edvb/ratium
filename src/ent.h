@@ -1,7 +1,7 @@
 #ifndef ENT_H
 #define ENT_H
 
-bool  can_step(Ent *e, Pos pos);
+bool  can_step(Pos pos);
 void  move_entity(Ent *e, float x_0, float y_0);
 void  attack(Ent *e, Ent *foe);
 int   deal_damage(Ent *e);

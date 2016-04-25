@@ -138,7 +138,7 @@ void draw_map(Ent e, int r) {
 			if (j >= 0) {
 				for (int num = 0; num <= blockqty; num++)
 					if (get_map(i, j) == block[num].face)
-						draw_img(block[num].img, NULL, i*U, j*U, SDL_FLIP_NONE);
+						draw_img(block[num].img, NULL, i*U, j*U, 0, SDL_FLIP_NONE);
 			}
 }
 

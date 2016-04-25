@@ -6,7 +6,7 @@
 #include "ent.h"
 
 /* can_step: determine if entity can move to a new space */
-bool can_step(Ent *e, Pos pos) {
+bool can_step(Pos pos) {
 	if (pos.x < 0 || pos.x+pos.w > MAX_X || pos.y < 0 || pos.y+pos.h > MAX_Y)
 		return false;
 
@@ -21,7 +21,7 @@ bool can_step(Ent *e, Pos pos) {
 
 /* move_entity: move a entity by dx and dy */
 void move_entity(Ent *e, float dx, float dy) {
-	if (can_step(e, (Pos){e->pos.x+dx,e->pos.y+dy,e->pos.w,e->pos.h})) {
+	if (can_step((Pos){e->pos.x+dx,e->pos.y+dy,e->pos.w,e->pos.h})) {
 		e->pos.x += dx;
 		e->pos.y += dy;
 	}
@@ -124,7 +124,7 @@ void draw_ent(Ent e, Ent oe, int r) {
 		SDL_Rect dsthand = { ((holding_x(e, e.pos.x)*U)-U/2*holding_x(e, 0)+2)*ZOOM,
 		                     ((e.pos.y*U)+4)*ZOOM,
 		                     U*.8*ZOOM, U*.8*ZOOM };
-		draw_img(e.img, &e.src, e.pos.x*U, e.pos.y*U, e.flip);
+		draw_img(e.img, &e.src, e.pos.x*U, e.pos.y*U, e.rot, e.flip);
 		if (e.hand != -1)
 			SDL_RenderCopyEx(ren, e.inv[e.hand].img, &e.inv[e.hand].src, &dsthand, 0, NULL, e.flip);
 	}

@@ -13,10 +13,10 @@ SDL_Texture /* returns loaded png found at path */
 }
 
 void
-draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, SDL_RendererFlip flip) {
+draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, int rot, SDL_RendererFlip flip) {
 	SDL_Rect dst = { x*ZOOM, y*ZOOM,
 	                 U*ZOOM, U*ZOOM };
-	SDL_RenderCopyEx(ren, img, src, &dst, 0, NULL, flip);
+	SDL_RenderCopyEx(ren, img, src, &dst, rot, NULL, flip);
 }
 
 bool /* draw text str to the sdl screen */

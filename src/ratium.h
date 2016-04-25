@@ -63,9 +63,11 @@ typedef enum {
 
 /* type of entity ai, or if entity is a player */
 typedef enum {
+	AI_NONE,
 	AI_PLAYER,
 	AI_HOSTILE,
-	AI_PEACEFUL
+	AI_PEACEFUL,
+	AI_PROJECTILE
 } ENT_AI;
 
 typedef struct {
@@ -121,11 +123,11 @@ struct _Ent {
 	SDL_Texture *img;
 	SDL_Rect src; /* ent position on sprite sheet */
 	/* SDL_Rect dst; /1* ent position *1/ */
+	int rot;
 	SDL_RendererFlip flip;
 
-	DIREC direc; /* direction ent is facing */
 	Pos pos;
-	int bary;    /* position of stat bar, mainly for player */
+	DIREC direc; /* direction ent is facing */
 
 	int maxhp, hp; /* ent heath and max heath */
 	bool isdead;   /* set to true after entity death stuff it run */
@@ -170,8 +172,10 @@ void draw_msg(Ent e);
 void draw_ent(Ent e, Ent oe, int r);
 
 /* ai.c: different entity AIs */
+void no_ai(Ent *e);
 void rand_ai(Ent *e);
 void dumb_ai(Ent *e);
+void shot_ai(Ent *e);
 
 /* player.c: handle the player */
 void draw_inv(Ent e);
@@ -182,11 +186,12 @@ bool init_block(void);
 bool init_item(void);
 bool init_entity(void);
 bool init_player(int count);
+void init_shot(Pos pos, DIREC direc, int dmg, char *ammo);
 
 /* gfx.c: SDL functions */
 SDL_Texture *load_img(char *path);
 bool draw_text(char *str, SDL_Color color, int x, int y);
-void draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, SDL_RendererFlip flip);
+void draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, int rot, SDL_RendererFlip flip);
 bool pos_collide(Pos pos_1, Pos pos_2);
 
 int ZOOM;

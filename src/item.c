@@ -26,6 +26,6 @@ void draw_item(Item item, Ent e, int r) {
 	for (int i = e.pos.x-r; i < e.pos.x+r && i < MAX_X; i++)
 		for (int j = e.pos.y-r; j < e.pos.y+r && j < MAX_Y; j++)
 			if (item.map[j][i] > 0)
-				draw_img(item.img, &item.src, i*U, j*U, SDL_FLIP_NONE);
+				draw_img(item.img, &item.src, i*U, j*U, 0, SDL_FLIP_NONE);
 }
 

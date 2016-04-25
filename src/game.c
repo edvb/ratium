@@ -54,8 +54,7 @@ void rat_loop(void) {
 		SDL_RenderClear(ren);
 
 		for (int i = 0; i < entqty; i++)
-			if (SDL_GetTicks() % 10 == 0) /* TODO: improve */
-				entity[i].run(&entity[i]);
+			entity[i].run(&entity[i]);
 
 		for (int i = playerqty; i >= 0; i--) {
 			draw_map(player[i], player[i].sight);

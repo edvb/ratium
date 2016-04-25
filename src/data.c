@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "ratium.h"
+#include "ent.h"
 
 static struct _Keys player_keys[MAX_PLAYERS] = {
 { SDL_SCANCODE_H, SDL_SCANCODE_J, SDL_SCANCODE_K, SDL_SCANCODE_L, SDL_SCANCODE_O, SDL_SCANCODE_P, SDL_SCANCODE_I },
@@ -12,8 +13,6 @@ static struct _Keys player_keys[MAX_PLAYERS] = {
 
 struct Ent_t {
 	char *name, *drop, *msg; /* TODO: Make msg (& drop?) an array */
-	char face;
-	int color;
 	int hp;
 	int damage;
 	int sight;
@@ -24,27 +23,19 @@ struct Ent_t {
 };
 
 static struct Ent_t player_t[MAX_PLAYERS] = {
-{ "player1", NULL, NULL, '@', 3, 10, 1, 16, .5, TYPE_ALL, AI_PLAYER, 0 },
-{ "player2", NULL, NULL, '@', 1, 10, 1, 16, .5, TYPE_ALL, AI_PLAYER, 0 },
+{ "player1", NULL, NULL, 10, 1, 16, .5, TYPE_ALL, AI_PLAYER, 0 },
+{ "player2", NULL, NULL, 10, 1, 16, .5, TYPE_ALL, AI_PLAYER, 0 },
 };
 
 static struct Ent_t ent_t[MAX_ENTITIES] = {
-{ "rat", "rat meat", NULL,
-  'r', 5, 2,  1, 4, 6, TYPE_CAVE,  AI_HOSTILE, 5 },
-{ "super rat", "rat meat", NULL,
-  'R', 5, 4,  2, 8, 5,  TYPE_CAVE, AI_HOSTILE, 3 },
-{ "gnu", "gnu meat", NULL,
-  'G', 6, 6,  1, 3, 8,  TYPE_GRASS, AI_PEACEFUL, 2 },
-{ "cow", "beef", NULL,
-  'c', 5, 2,  0, 3, 6,  TYPE_GRASS, AI_PEACEFUL, 5 },
-{ "King Arthur", "gold", "I am King Arthur",
-  '@', 4, 10, 0, 16, 12, TYPE_ALL, AI_PEACEFUL, 1 },
-{ "knight", "sword", "Who goes there?",
-  '@', 6, 10, 0, 16, 12, TYPE_ALL, AI_PEACEFUL, 2 },
-{ "peasant", NULL, "Oh. How'd you do",
-  '@', 5, 10, 0, 16, 12, TYPE_ALL, AI_PEACEFUL, 2 },
-{ "peasant", NULL, "lovely filth down here",
-  '@', 5, 10, 0, 16, 12, TYPE_ALL, AI_PEACEFUL, 2 },
+{ "rat",         "rat meat", NULL,                     2,  1, 4,  50,  TYPE_CAVE,  AI_HOSTILE,  5 },
+{ "super rat",   "rat meat", NULL,                     4,  2, 8,  50,  TYPE_CAVE,  AI_HOSTILE,  3 },
+{ "gnu",         "gnu meat", NULL,                     6,  1, 3,  300, TYPE_GRASS, AI_PEACEFUL, 2 },
+{ "cow",         "beef",     NULL,                     2,  0, 3,  600, TYPE_GRASS, AI_PEACEFUL, 5 },
+{ "King Arthur", "gold",     "I am King Arthur",       10, 0, 16, 60,  TYPE_ALL,   AI_PEACEFUL, 1 },
+{ "knight",      "sword",    "Who goes there?",        10, 0, 16, 0,   TYPE_ALL,   AI_NONE,     2 },
+{ "peasant",     NULL,       "Oh. How'd you do",       10, 0, 16, 90,  TYPE_ALL,   AI_PEACEFUL, 2 },
+{ "peasant",     NULL,       "lovely filth down here", 10, 0, 16, 90,  TYPE_ALL,   AI_PEACEFUL, 2 },
 };
 int entqty_t = 8;
 
@@ -69,16 +60,16 @@ struct {
 	int stat;
 	int rarity;
 } item_t[MAX_ITEMS] = {
-{ "gold",     0, 0,  5 },
-{ "spam",     1, 2,  4 },
-{ "haggis",   1, 10, 1 },
-{ "sword",    2, 2,  3 },
-{ "shield",   3, 4,  2 },
-{ "bow",      4, 0,  3 },
-{ "arrow",    5, 5,  4 },
-{ "rat meat", 1, -1, 0 },
-{ "gnu meat", 1, 4,  0 },
-{ "beef",     1, 22, 0 },
+{ "gold",     ITEM_MISC,    0,  5 },
+{ "spam",     ITEM_FOOD,    2,  4 },
+{ "haggis",   ITEM_FOOD,    10, 1 },
+{ "sword",    ITEM_SWORD,   2,  3 },
+{ "shield",   ITEM_SHIELD,  4,  2 },
+{ "bow",      ITEM_SHOOTER, 20, 3 },
+{ "arrow",    ITEM_AMMO,    5,  4 },
+{ "rat meat", ITEM_FOOD,    -1, 0 },
+{ "gnu meat", ITEM_FOOD,    4,  0 },
+{ "beef",     ITEM_FOOD,    1,  0 },
 };
 int itemqty_t = 10;
 
@@ -163,7 +154,10 @@ bool init_item(void) {
 				x = rand() % MAX_X;
 				y = rand() % MAX_Y;
 			} while (get_map(x, y) != '.');
-			item[itemqty].map[y][x]++;
+			if (item_t[itemqty].type == ITEM_AMMO)
+				item[itemqty].map[y][x] += 4;
+			else
+				item[itemqty].map[y][x]++;
 		}
 
 		itemqty++;
@@ -194,6 +188,7 @@ init_entity(void) {
 			sprintf(imgpath, "data/ents/%s.png", entity[entqty].name);
 			entity[entqty].img = load_img(imgpath);
 			entity[entqty].src = (SDL_Rect) { 0, 0, U, U };
+			entity[entqty].rot = 0;
 			entity[entqty].flip = SDL_FLIP_NONE;
 
 			entity[entqty].speed = ent_t[i].speed;
@@ -221,13 +216,11 @@ init_entity(void) {
 			entity[entqty].pos.h = 1.0;
 
 			switch(ent_t[i].ai) {
+			case AI_NONE:     entity[entqty].run = no_ai;   break;
+			case AI_HOSTILE:  entity[entqty].run = dumb_ai; break;
+			case AI_PEACEFUL: entity[entqty].run = rand_ai; break;
+			case AI_PROJECTILE:
 			case AI_PLAYER: break;
-			case AI_HOSTILE:
-				entity[entqty].run = dumb_ai;
-				break;
-			case AI_PEACEFUL:
-				entity[entqty].run = rand_ai;
-				break;
 			}
 
 		}
@@ -248,6 +241,7 @@ bool init_player(int count) {
 
 		player[num].img = load_img("data/ents/player.png");
 		player[num].src = (SDL_Rect) { 0, 0, U, U };
+		player[num].rot = 0;
 		player[num].flip = SDL_FLIP_NONE;
 
 		player[num].maxhp = player_t[num].hp;
@@ -266,7 +260,6 @@ bool init_player(int count) {
 		player[num].pos.y = y_0;
 		player[num].pos.w = 1.0;
 		player[num].pos.h = 1.0;
-		player[num].bary = num;
 
 		player[num].keys = player_keys[num];
 
@@ -287,5 +280,51 @@ bool init_player(int count) {
 	playerqty = count-1;
 
 	return true;
+}
+
+void /* populates an entity as a fired shot */
+init_shot(Pos pos, DIREC direc, int dmg, char *ammo) {
+	if (entqty >= MAX_ENTITIES)
+		for (int i = 0; i < entqty; i++)
+			if (entity[i].ai == AI_PROJECTILE)
+				entqty = i;
+
+	entity[entqty].name  = malloc(MAX_NAME * sizeof(char));
+	strcpy(entity[entqty].name, ammo);
+	entity[entqty].type  = TYPE_ALL;
+	entity[entqty].ai = AI_PROJECTILE;
+
+	char imgpath[64] = {0};
+	sprintf(imgpath, "data/items/%s.png", ammo);
+	entity[entqty].img = load_img(imgpath);
+	entity[entqty].src = (SDL_Rect) { 0, 0, U, U };
+	entity[entqty].flip = SDL_FLIP_NONE;
+
+	switch(direc) {
+	case LEFT:      entity[entqty].rot = 270; break;
+	case DOWN:      entity[entqty].rot = 180; break;
+	case UP:        entity[entqty].rot =   0; break;
+	case RIGHT:     entity[entqty].rot =  90; break;
+	case LEFTDOWN:  entity[entqty].rot = 135; break;
+	case LEFTUP:    entity[entqty].rot =  45; break;
+	case RIGHTDOWN: entity[entqty].rot = 225; break;
+	case RIGHTUP:   entity[entqty].rot = 315; break;
+	}
+
+	entity[entqty].direc = direc;
+	entity[entqty].pos = (Pos){
+		pos.x+holding_x(entity[entqty], 0), pos.y+holding_y(entity[entqty], 0),
+		pos.w, pos.h
+	};
+
+	entity[entqty].maxhp = 1;
+	entity[entqty].hp = 1;
+	entity[entqty].isdead = false;
+	entity[entqty].damage = dmg;
+	entity[entqty].speed = .5;
+
+	entity[entqty].run = shot_ai;
+
+	entqty++;
 }
 
