@@ -7,7 +7,7 @@ void  attack(Ent *e, Ent *foe);
 int   deal_damage(Ent *e);
 void  take_damage(Ent *e, int damge);
 bool  isalive(int hp);
-float holding_x(Ent e, float val);
-float holding_y(Ent e, float val);
+float holding_x(Direc direc, float val);
+float holding_y(Direc direc, float val);
 
 #endif /* ENT_H */

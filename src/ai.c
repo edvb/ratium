@@ -87,10 +87,10 @@ void
 shot_ai(Ent *e) {
 	if (!isalive(e->hp))
 		return;
-	e->pos.x += holding_x(*e, 0)*e->speed;
-	e->pos.y += holding_y(*e, 0)*e->speed;
+	e->pos.x += holding_x(e->direc, 0)*e->speed;
+	e->pos.y += holding_y(e->direc, 0)*e->speed;
 	for (int i = 0; i <= entqty; i++)
-		if (pos_collide(e->pos, entity[i].pos) && entity[i].ai != AI_PROJECTILE) {
+		if (pos_collide(e->pos, entity[i].pos) && entity[i].ai != AI_SHOT) {
 			attack(e, &entity[i]);
 			e->hp = 0;
 		}

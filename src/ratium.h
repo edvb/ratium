@@ -42,7 +42,7 @@ typedef enum {
 	LEFTUP,
 	RIGHTDOWN,
 	RIGHTUP
-} DIREC;
+} Direc;
 
 typedef enum {
 	ITEM_MISC,
@@ -51,7 +51,7 @@ typedef enum {
 	ITEM_SHIELD,
 	ITEM_SHOOTER,
 	ITEM_AMMO
-} ITEM_TYPE;
+} ItemType;
 
 /* where the entity can spawn */
 typedef enum {
@@ -59,7 +59,7 @@ typedef enum {
 	TYPE_CAVE,
 	TYPE_GRASS,
 	TYPE_WATER
-} ENT_TYPE;
+} EntType;
 
 /* type of entity ai, or if entity is a player */
 typedef enum {
@@ -67,8 +67,8 @@ typedef enum {
 	AI_PLAYER,
 	AI_HOSTILE,
 	AI_PEACEFUL,
-	AI_PROJECTILE
-} ENT_AI;
+	AI_SHOT
+} EntAI;
 
 typedef struct {
 	char *name;
@@ -78,12 +78,12 @@ typedef struct {
 	SDL_Rect src; /* ent position on sprite sheet */
 	/* SDL_Rect dst; /1* ent position *1/ */
 
-	int stat;  /* universal variable for damage of sword, heath healed for food, etc. */
+	int stat;
 } Block;
 
 typedef struct {
 	char *name;
-	ITEM_TYPE type;
+	ItemType type;
 	int map[MAX_Y][MAX_X]; /* position and count of item in world */
 	char face; /* char that gets displayed */
 
@@ -117,8 +117,8 @@ struct _Pos {
 typedef struct _Ent Ent;
 struct _Ent {
 	char *name;    /* name of ent */
-	ENT_TYPE type; /* used mainly for where to spawn */
-	ENT_AI ai;     /* how ent should move around */
+	EntType type; /* used mainly for where to spawn */
+	EntAI ai;     /* how ent should move around */
 
 	SDL_Texture *img;
 	SDL_Rect src; /* ent position on sprite sheet */
@@ -127,7 +127,7 @@ struct _Ent {
 	SDL_RendererFlip flip;
 
 	Pos pos;
-	DIREC direc; /* direction ent is facing */
+	Direc direc; /* direction ent is facing */
 
 	int maxhp, hp; /* ent heath and max heath */
 	bool isdead;   /* set to true after entity death stuff it run */
@@ -186,7 +186,7 @@ bool init_block(void);
 bool init_item(void);
 bool init_entity(void);
 bool init_player(int count);
-void init_shot(Pos pos, DIREC direc, int dmg, char *ammo);
+void init_shot(Pos pos, Direc direc, int dmg, char *ammo);
 
 /* gfx.c: SDL functions */
 SDL_Texture *load_img(char *path);

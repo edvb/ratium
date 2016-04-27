@@ -64,8 +64,8 @@ bool isalive(int hp) {
 }
 
 /* holding: return x position for what entity is holding */
-float holding_x(Ent e, float val) {
-	switch (e.direc) {
+float holding_x(Direc direc, float val) {
+	switch (direc) {
 		case LEFT:
 		case LEFTDOWN:
 		case LEFTUP:
@@ -79,8 +79,8 @@ float holding_x(Ent e, float val) {
 }
 
 /* holding: return y position for what entity is holding */
-float holding_y(Ent e, float val) {
-	switch (e.direc) {
+float holding_y(Direc direc, float val) {
+	switch (direc) {
 		case DOWN:
 		case LEFTDOWN:
 		case RIGHTDOWN:
@@ -121,9 +121,11 @@ void draw_ent(Ent e, Ent oe, int r) {
 	if (isalive(e.hp) &&
 	    oe.pos.x-r < e.pos.x && oe.pos.x+r > e.pos.x &&
 	    oe.pos.y-r < e.pos.y && oe.pos.y+r > e.pos.y) {
-		SDL_Rect dsthand = { ((holding_x(e, e.pos.x)*U)-U/2*holding_x(e, 0)+2)*ZOOM,
-		                     ((e.pos.y*U)+4)*ZOOM,
-		                     U*.8*ZOOM, U*.8*ZOOM };
+		SDL_Rect dsthand = {
+			((holding_x(e.direc, e.pos.x)*U)-U/2*holding_x(e.direc, 0)+2)*ZOOM,
+			((e.pos.y*U)+4)*ZOOM,
+			U*.8*ZOOM, U*.8*ZOOM
+		};
 		draw_img(e.img, &e.src, e.pos.x*U, e.pos.y*U, e.rot, e.flip);
 		if (e.hand != -1)
 			SDL_RenderCopyEx(ren, e.inv[e.hand].img, &e.inv[e.hand].src, &dsthand, 0, NULL, e.flip);

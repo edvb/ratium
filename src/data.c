@@ -17,8 +17,8 @@ struct Ent_t {
 	int damage;
 	int sight;
 	float speed;
-	ENT_TYPE type;
-	ENT_AI ai;
+	EntType type;
+	EntAI ai;
 	int rarity;
 };
 
@@ -56,7 +56,7 @@ int blockqty_t = 7;
 
 struct {
 	char *name;
-	ITEM_TYPE type;
+	ItemType type;
 	int stat;
 	int rarity;
 } item_t[MAX_ITEMS] = {
@@ -88,7 +88,7 @@ calc_rarity(int *rarity) {
 /* gen_ent: change x and y values to a valid place for entity to be generated
  *          based on type */
 static void
-gen_ent(float *x, float *y, ENT_TYPE type) {
+gen_ent(float *x, float *y, EntType type) {
 	int spawntile;
 
 	switch(type) {
@@ -102,8 +102,7 @@ gen_ent(float *x, float *y, ENT_TYPE type) {
 		*x = rand() % MAX_X;
 		*y = rand() % MAX_Y;
 	} while ((type == TYPE_ALL) ?
-	         !is_floor(*x, *y) :
-	         get_map(*x, *y) != spawntile);
+	         !is_floor(*x, *y) : get_map(*x, *y) != spawntile);
 }
 
 bool
@@ -219,7 +218,7 @@ init_entity(void) {
 			case AI_NONE:     entity[entqty].run = no_ai;   break;
 			case AI_HOSTILE:  entity[entqty].run = dumb_ai; break;
 			case AI_PEACEFUL: entity[entqty].run = rand_ai; break;
-			case AI_PROJECTILE:
+			case AI_SHOT:
 			case AI_PLAYER: break;
 			}
 
@@ -283,16 +282,16 @@ bool init_player(int count) {
 }
 
 void /* populates an entity as a fired shot */
-init_shot(Pos pos, DIREC direc, int dmg, char *ammo) {
+init_shot(Pos pos, Direc direc, int dmg, char *ammo) {
 	if (entqty >= MAX_ENTITIES)
 		for (int i = 0; i < entqty; i++)
-			if (entity[i].ai == AI_PROJECTILE)
+			if (entity[i].ai == AI_SHOT)
 				entqty = i;
 
 	entity[entqty].name  = malloc(MAX_NAME * sizeof(char));
 	strcpy(entity[entqty].name, ammo);
 	entity[entqty].type  = TYPE_ALL;
-	entity[entqty].ai = AI_PROJECTILE;
+	entity[entqty].ai = AI_SHOT;
 
 	char imgpath[64] = {0};
 	sprintf(imgpath, "data/items/%s.png", ammo);
@@ -311,11 +310,11 @@ init_shot(Pos pos, DIREC direc, int dmg, char *ammo) {
 	case RIGHTUP:   entity[entqty].rot = 315; break;
 	}
 
-	entity[entqty].direc = direc;
 	entity[entqty].pos = (Pos){
-		pos.x+holding_x(entity[entqty], 0), pos.y+holding_y(entity[entqty], 0),
+		pos.x+holding_x(direc, 0), pos.y+holding_y(direc, 0),
 		pos.w, pos.h
 	};
+	entity[entqty].direc = direc;
 
 	entity[entqty].maxhp = 1;
 	entity[entqty].hp = 1;
