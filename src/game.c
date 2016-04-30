@@ -9,21 +9,24 @@ bool
 rat_init(void) {
 	ZOOM = 2;
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) SDL_ERROR();
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) SDL_ERROR(false);
 
 	win = NULL;
 	win = SDL_CreateWindow("ratium", 50, 0, MAX_X*ZOOM*U, MAX_Y*ZOOM*U, SDL_WINDOW_SHOWN);
+	if (win == NULL) SDL_ERROR(false);
+
 	ren = NULL;
 	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (win == NULL || ren == NULL) SDL_ERROR();
+	if (ren == NULL) SDL_ERROR(false);
 
-	if (TTF_Init() != 0) SDL_ERROR();
-	if ((font = TTF_OpenFont("data/Ricasso.ttf", 80)) == NULL) SDL_ERROR();
+	if (TTF_Init() != 0) SDL_ERROR(false);
+	if ((font = TTF_OpenFont("data/Ricasso.ttf", 80)) == NULL) SDL_ERROR(false);
 
 	SDL_SetRenderDrawColor(ren, 0x20, 0x20, 0x20, 0x20);
 	IMG_Init(IMG_INIT_PNG);
 
 	nullimg = load_img("data/null.png");
+	if (nullimg == NULL) SDL_ERROR(false);
 
 	srand(time(NULL));
 

@@ -7,7 +7,7 @@ SDL_Texture /* returns loaded png found at path */
 *load_img(char *path) {
 	SDL_Texture *tex = NULL;
 	tex = IMG_LoadTexture(ren, path);
-	if (tex == NULL) SDL_ERROR();
+	if (tex == NULL) SDL_ERROR(nullimg);
 
 	return tex;
 }
@@ -22,9 +22,9 @@ draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, int rot, SDL_RendererFli
 bool /* draw text str to the sdl screen */
 draw_text(char *str, SDL_Color color, int x, int y) {
 	SDL_Surface *surf = TTF_RenderText_Solid(font, str, color);
-	if (surf == NULL) SDL_ERROR();
+	if (surf == NULL) SDL_ERROR(false);
 	SDL_Texture *tex = SDL_CreateTextureFromSurface(ren, surf);
-	if (tex == NULL) SDL_ERROR();
+	if (tex == NULL) SDL_ERROR(false);
 	SDL_FreeSurface(surf);
 	SDL_RenderCopy(ren, tex, NULL, &(SDL_Rect){x*ZOOM,y*ZOOM,FONT_W*strlen(str)*ZOOM,FONT_H*ZOOM});
 	return true;

@@ -27,9 +27,9 @@
 #undef bool
 typedef enum { false, true } bool;
 
-#define SDL_ERROR() { \
+#define SDL_ERROR(x) { \
 	printf("SDL Error: %s\n", SDL_GetError()); \
-	return false; \
+	return x; \
 }
 
 /* direction entities can face */
