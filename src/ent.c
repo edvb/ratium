@@ -126,7 +126,7 @@ void draw_ent(Ent e, Ent oe, int r) {
 			((e.pos.y*U)+4)*ZOOM,
 			U*.8*ZOOM, U*.8*ZOOM
 		};
-		draw_img(e.img, &e.src, e.pos.x*U, e.pos.y*U, e.rot, e.flip);
+		draw_img_pos(e.img, &e.src, e.pos, e.rot, e.flip);
 		if (e.hand != -1)
 			SDL_RenderCopyEx(ren, e.inv[e.hand].img, &e.inv[e.hand].src, &dsthand, 0, NULL, e.flip);
 	}

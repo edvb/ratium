@@ -19,6 +19,13 @@ draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, int rot, SDL_RendererFli
 	SDL_RenderCopyEx(ren, img, src, &dst, rot, NULL, flip);
 }
 
+void
+draw_img_pos(SDL_Texture *img, SDL_Rect *src, Pos pos, int rot, SDL_RendererFlip flip) {
+	SDL_Rect dst = { pos.x*U*ZOOM, pos.y*U*ZOOM,
+	                 pos.w*U*ZOOM, pos.h*U*ZOOM };
+	SDL_RenderCopyEx(ren, img, src, &dst, rot, NULL, flip);
+}
+
 bool /* draw text str to the sdl screen */
 draw_text(char *str, SDL_Color color, int x, int y) {
 	SDL_Surface *surf = TTF_RenderText_Solid(font, str, color);

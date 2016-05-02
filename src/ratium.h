@@ -192,6 +192,7 @@ void init_shot(Pos pos, Direc direc, int dmg, char *ammo);
 SDL_Texture *load_img(char *path);
 bool draw_text(char *str, SDL_Color color, int x, int y);
 void draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, int rot, SDL_RendererFlip flip);
+void draw_img_pos(SDL_Texture *img, SDL_Rect *src, Pos pos, int rot, SDL_RendererFlip flip);
 bool pos_collide(Pos pos_1, Pos pos_2);
 
 int ZOOM;

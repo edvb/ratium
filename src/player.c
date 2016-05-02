@@ -147,6 +147,14 @@ player_run(Ent *e) {
 		else if (k[e->keys.act])  act_key(e);
 		else if (k[e->keys.inv])  inv(e);
 
+		if (get_map(e->pos.x, e->pos.y) == 'w') {
+			e->src.h = 8;
+			e->pos.h = .5;
+		} else {
+			e->src.h = U;
+			e->pos.h = 1.0;
+		}
+
 		/* collect item on ground */
 		for (int i = 0; i <= itemqty; i++)
 			if (item[i].map[(int)(e->pos.y+.5)][(int)(e->pos.x+.5)] > 0) {
