@@ -28,20 +28,20 @@ all: options $(EXE)
 
 options:
 	@echo $(EXE) build options:
-	@echo "CC      = $(CC)"
+	@echo "cc      = $(CC)"
 	@echo "CFLAGS  = $(CFLAGS)"
 	@echo "LDFLAGS = $(LDFLAGS)"
 
 .o:
-	@echo LD $@
+	@echo ld $@
 	@$(LD) -o $@ $< $(LDFLAGS)
 
 .c.o:
-	@echo CC $<
+	@echo cc $<
 	@$(CC) -c -o $@ $< $(CFLAGS)
 
 $(EXE): $(OBJ)
-	@echo CC -o $@
+	@echo cc -o $@
 	@$(CC) -o $@ $(OBJ) $(LDFLAGS)
 
 run: all
