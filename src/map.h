@@ -5,57 +5,45 @@ struct _Map {
 	char map[MAX_Y][MAX_X+1]; /* +1 for \0 */
 };
 
-char worldMap[MAX_Y][MAX_X+1] = {
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-"ggg#####++#####ggggggggggggggggggggggggggggggggg",
-"ggg#..........#ggggggggggggggggggggggggggggggggg",
-"ggg#..........######gggggggggggggggggggggggggggg",
-"ggg#..........#....#gggggggggggggggggggggggggggg",
-"ggg#..........+....#######gggggggggggggggggggggg",
-"ggg#####+######..........#gggggggggggggggggggggg",
-"ggggggg#.#gggg#....#####.#gggggggggggggggggggggg",
-"ggggggg#.#gggg######ggg#.#gggggggggggggggggggggg",
-"ggggggg+.+ggggggggggggg#.#gggggggggggggggggggggg",
-"ggggggg#.#ggggggggggggg#.#gggggggggggggggggggggg",
-"ggggggg#.#ggggggggggg###+#####+####ggggggggggggg",
-"gggg####.#######ggggg#............#ggggggggggggg",
-"gggg#..........#ggggg#............#ggggggggggggg",
-"gggg#..........#ggggg###########+##ggggggggggggg",
-"gggg+..........#ggggggggggggggg#.#gggggggggggggg",
-"gggg#########+##ggggggggggggggg+.#gggggggggggggg",
-"gggggggggggg#.#gggggggggggggggg#.#gggggggggggggg",
-"gggggggggggg#.##################.#gggggggggggggg",
-"gggggggggggg#....................#gggggggggggggg",
-"gggggggggggg######################gggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-"gggggggggggggggggggggggggggggggggggggggggggggggg",
-};
+char worldMap[MAX_Y][MAX_X+1];
 
 struct _Map buildings[10] = {
-{ 8, 6, 1, {
+{ 8, 6, 2, {
 " wwwww  ",
 "wwwwwww ",
 "wwwwwwww",
 "  wwwwww",
 "   wwww ",
 "    ww  " }},
-{ 3, 3, 1, {
-" # ",
-"#w#",
-" # " }},
-{ 4, 4, 3, {
-" ## ",
-"####",
-" ###",
-"  # " }}
+{ 8, 6, 2, {
+"   www  ",
+"  wwwww ",
+" wwwwww ",
+"wwwwww  ",
+"wwwwww  ",
+" ww     " }},
+{ 9, 9, 1, {
+"XXWXXWWXX",
+"XhohbbbbX",
+"XbbbboooX",
+"XhohbbbbX",
+"Xbbbbbb0X",
+"Xhohbbb0X",
+"XXWWX+XXX",
+" h hddddd",
+"     dd  ",
+}},
+{ 10, 10, 1, {
+"XXWXWXWXXX",
+"XbbbbbbbbX",
+"XooooooobX",
+"XhhhhhhhbX",
+"XhbbbbbbbX",
+"XobbhohbhX",
+"XhbbbbbhoX",
+"XXW+XWWXXX",
+" ddddd h h",
+"   dd     ",
+}},
 };
 

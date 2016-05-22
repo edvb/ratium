@@ -42,17 +42,30 @@ int entqty_t = 8;
 struct {
 	char *name;
 	char face;
+	BlockType type;
+	BlockTexType textype;
+	BlockClear texclear;
+	bool isfloor;
 	int stat;
 } block_t[MAX_ITEMS] = {
-{ "rock",        '#', 0 },
-{ "stone",       '.', 0 },
-{ "grass",       'g', 0 },
-{ "plank",       'X', 0 },
-{ "water",       'w', 0 },
-{ "door_closed", '+', 0 },
-{ "door_open",   '-', 0 },
+{ "grass",       'g', BLOCK_NORM,  TEX_RAND, CLEAR_NONE, true,  4  },
+{ "dirt",        'd', BLOCK_NORM,  TEX_XY,   CLEAR_BG,   true,  0  },
+{ "rock",        '#', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, false, 0  },
+{ "stone",       '.', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, true,  0  },
+{ "plank",       'X', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, false, 0  },
+{ "board",       'b', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, true,  0  },
+{ "water",       'w', BLOCK_WATER, TEX_SXY,  CLEAR_BG,   true,  0  },
+{ "door_closed", '+', BLOCK_DOOR,  TEX_NORM, CLEAR_FG,   false, 0  },
+{ "door_open",   '-', BLOCK_DOOR,  TEX_NORM, CLEAR_FG,   true,  1  },
+{ "window",      'W', BLOCK_NORM,  TEX_NORM, CLEAR_FG,   false, 0  },
+{ "chair",       'h', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   true,  0  },
+{ "table",       'o', BLOCK_NORM,  TEX_X,    CLEAR_BG,   false, 0  },
+{ "barrel",      '0', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   false, 0  },
+{ "bush",        's', BLOCK_NORM,  TEX_RAND, CLEAR_BG,   false, 16 },
+{ "flower",      'f', BLOCK_NORM,  TEX_RAND, CLEAR_BG,   true,  4  },
+{ "tall_grass",  'G', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   true,  0  },
 };
-int blockqty_t = 7;
+int blockqty_t = 16;
 
 struct {
 	char *name;
@@ -113,6 +126,10 @@ init_block(void) {
 		block[blockqty].name = malloc(MAX_NAME * sizeof(char));
 		strcpy(block[blockqty].name, block_t[blockqty].name);
 		block[blockqty].face = block_t[blockqty].face;
+		block[blockqty].type = block_t[blockqty].type;
+		block[blockqty].textype = block_t[blockqty].textype;
+		block[blockqty].texclear = block_t[blockqty].texclear;
+		block[blockqty].isfloor = block_t[blockqty].isfloor;
 		block[blockqty].stat = block_t[blockqty].stat;
 
 		char imgpath[64] = {0};
@@ -123,7 +140,7 @@ init_block(void) {
 		blockqty++;
 	}
 
-	blockqty++;
+	blockqty--;
 
 	return true;
 }
@@ -152,7 +169,7 @@ bool init_item(void) {
 			do {
 				x = rand() % MAX_X;
 				y = rand() % MAX_Y;
-			} while (get_map(x, y) != '.');
+			} while (get_map(x, y) != '.' && get_map(x, y) != 'b');
 			if (item_t[itemqty].type == ITEM_AMMO)
 				item[itemqty].map[y][x] += 4;
 			else

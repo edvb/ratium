@@ -45,6 +45,27 @@ typedef enum {
 } Direc;
 
 typedef enum {
+	BLOCK_NORM,
+	BLOCK_DOOR,
+	BLOCK_WATER
+} BlockType;
+
+typedef enum {
+	TEX_NORM,
+	TEX_RAND,
+	TEX_X,
+	TEX_Y,
+	TEX_SXY,
+	TEX_XY
+} BlockTexType;
+
+typedef enum {
+	CLEAR_NONE,
+	CLEAR_BG,
+	CLEAR_FG
+} BlockClear;
+
+typedef enum {
 	ITEM_MISC,
 	ITEM_FOOD,
 	ITEM_SWORD,
@@ -73,6 +94,10 @@ typedef enum {
 typedef struct {
 	char *name;
 	char face;
+	BlockType type;
+	BlockTexType textype;
+	BlockClear texclear;
+	bool isfloor;
 
 	SDL_Texture *img;
 	SDL_Rect src; /* ent position on sprite sheet */

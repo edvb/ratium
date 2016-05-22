@@ -4,24 +4,60 @@
 #include "ratium.h"
 #include "map.h"
 
-/* find_bld_loc: determines postion for a building on map which it can fit in */
-static bool
-find_bld_loc(int *x_0, int *y_0, int len, int height) {
-	int tries = 0;         /* add 2 for gap around building */
-	while (!is_floor_range(*x_0-2, *y_0-2, len+2, height+2)) {
+static bool /* determines postion for a building */
+find_bld_loc(int *x_0, int *y_0, int w, int h) {
+	int tries = 0;
+	while (!is_floor_range(*x_0-1, *y_0-1, w+1, h+1)) {
 		*x_0 = rand() % MAX_X;
 		*y_0 = rand() % MAX_Y;
-		if (tries > 100000) /* if it has tried to many times to find a place to fit, give up */
+		if (tries > 100000)
 			return false;
 		tries++;
 	}
 	return true;
 }
 
-/* init_building: called by init_map for every building in the array and puts
- * them on the map */
-static void
-draw_building(Map bld) {
+static void /* puts a single block on map */
+place_block(char face) {
+	int x_0, y_0;
+
+	do {
+		x_0 = rand() % MAX_X;
+		y_0 = rand() % MAX_Y;
+	} while (!is_floor(x_0, y_0));
+	set_map(x_0, y_0, face);
+}
+
+static void /* puts a cluster of blocks on map */
+place_blocks(char face) {
+	int x_0, y_0;
+	int qty;
+	int pos;
+
+	do {
+		x_0 = rand() % MAX_X;
+		y_0 = rand() % MAX_Y;
+	} while (!is_floor_range(x_0-1, y_0-1, 3, 3));
+	set_map(x_0, y_0, face);
+
+	qty = rand()%8;
+	for (int j = 0; j < qty; j++) {
+		pos = rand()%8;
+		switch (pos) {
+		case 0: set_map(x_0+1, y_0, face); break;
+		case 1: set_map(x_0, y_0+1, face); break;
+		case 2: set_map(x_0+1, y_0+1, face); break;
+		case 3: set_map(x_0-1, y_0, face); break;
+		case 4: set_map(x_0, y_0-1, face); break;
+		case 5: set_map(x_0-1, y_0-1, face); break;
+		case 6: set_map(x_0+1, y_0-1, face); break;
+		case 7: set_map(x_0-1, y_0+1, face); break;
+		}
+	}
+}
+
+static void /* puts building bld onto the map */
+place_bld(Map bld) {
 	int x_0, y_0;
 
 	switch (rand() % 2) { /* randomly change amount of buildings */
@@ -39,8 +75,8 @@ draw_building(Map bld) {
 	}
 }
 
-static void
-draw_room(char wall, char floor, int doorqty, char door) {
+static void /* place a rectangle of wall filled with floor on map */
+place_room(char wall, char floor, int doorqty, char door) {
 	int x_0, y_0;
 	int len = rand() % 7 + 4;
 	int height = rand() % 7 + 4;
@@ -71,12 +107,23 @@ draw_room(char wall, char floor, int doorqty, char door) {
 		}
 }
 
-/* draw buildings and rooms to map */
-void init_map(void) {
-	for (int i = 0; i < 10; i++) /* create buildings in the world */
-		draw_building(buildings[i]);
-	for (int i = 0; i < rand()%6; i++) /* create rooms in the world */
-		draw_room('X', '.', rand()%2+1, '+');
+void /* draw buildings and rooms to map */
+init_map(void) {
+	memset(worldMap, 'g', MAX_Y*MAX_X);
+	for (int i = 0; i < 10; i++) /* create buildings */
+		place_bld(buildings[i]);
+	for (int i = 0; i < rand()%6; i++) /* create houses */
+		place_room('X', 'b', rand()%2+1, '+');
+	for (int i = 0; i < rand()%4+3; i++) /* create dungeons */
+		place_room('#', '.', rand()%3+1, '+');
+	for (int i = 0; i < rand()%2+1; i++) {
+		place_blocks('0'); /* create barrels */
+		place_blocks('G'); /* create tall grass patches */
+	}
+	for (int i = 0; i < rand()%8+8; i++) {
+		place_block('s'); /* create bushes */
+		place_blocks('f'); /* create flowers */
+	}
 }
 
 /* get_map: get character of map at x and y position */
@@ -94,13 +141,10 @@ void set_map(int x, int y, char newch) {
 
 /* is_floor: returns true if tile at x and y is a floor tile */
 bool is_floor(int x, int y) {
-	switch (get_map(x, y)) {
-		case '#': return false;
-		case 'X': return false;
-		case 'w': return false;
-		case '+': return false;
-		default: return true;
-	}
+	for (int i = 0; i < blockqty; i++)
+		if (get_map(x, y) == block[i].face)
+			return block[i].isfloor;
+	return true;
 }
 
 /* is_floor_range: return weather or not the area given is all a floor tile */
@@ -131,14 +175,149 @@ void toggle_door(int x, int y) {
 	else if (get_map(x, y) == '-') set_map(x, y, '+');
 }
 
+/* TODO: clean up connect code */
+static void /* modify a block's src Rect depending on neighboring blocks to connect them */
+src_connect(Block b, int x, int y, SDL_Rect *src) {
+	*src = (SDL_Rect){0,0,U,U};
+	bool above = get_map(x, y-1) == b.face;
+	bool below = get_map(x, y+1) == b.face;
+	bool left  = get_map(x-1, y) == b.face;
+	bool right = get_map(x+1, y) == b.face;
+	bool upleft    = get_map(x-1, y-1) == b.face;
+	bool upright   = get_map(x+1, y-1) == b.face;
+	bool downleft  = get_map(x-1, y+1) == b.face;
+	bool downright = get_map(x+1, y+1) == b.face;
+	switch (b.textype) {
+	case TEX_NORM: break;
+	case TEX_RAND:
+		src->x = (x+y*x)%b.stat*U;
+		break;
+	case TEX_X:
+		if (left && right)
+			src->x = 1*U;
+		else if (right)
+			src->x = 0*U;
+		else if (left)
+			src->x = 2*U;
+		else
+			src->x = 3*U;
+		break;
+	case TEX_Y:
+		if (above && below)
+			src->y = 1*U;
+		else if (below)
+			src->y = 0*U;
+		else if (above)
+			src->y = 2*U;
+		else
+			src->y = 3*U;
+		break;
+	case TEX_SXY:
+		if (above && below && left && right) {
+			if (!upleft) {
+				src->x = 1*U;
+				src->y = 2*U;
+			} else if (!upright) {
+				src->x = 0*U;
+				src->y = 2*U;
+			} else if (!downleft) {
+				src->x = 1*U;
+				src->y = 1*U;
+			} else if (!downright) {
+				src->x = 0*U;
+				src->y = 1*U;
+			}
+		} else if (!above && below && left && right) {
+			src->x = 3*U;
+			src->y = 0*U;
+		} else if (above && !below && left && right) {
+			src->x = 3*U;
+			src->y = 2*U;
+		} else if (above && below && !left && right) {
+			src->x = 2*U;
+			src->y = 1*U;
+		} else if (above && below && left && !right) {
+			src->x = 4*U;
+			src->y = 1*U;
+		} else if (!above && below && !left && right) {
+			src->x = 2*U;
+			src->y = 0*U;
+		} else if (!above && below && left && !right) {
+			src->x = 4*U;
+			src->y = 0*U;
+		} else if (above && !below && !left && right) {
+			src->x = 2*U;
+			src->y = 2*U;
+		} else if (above && !below && left && !right) {
+			src->x = 4*U;
+			src->y = 2*U;
+		}
+		break;
+	case TEX_XY:
+		if (above) src->x += 1*U;
+		if (left)  src->x += 2*U;
+		if (below) src->x += 4*U;
+		if (right) src->x += 8*U;
+		if (above && left)
+			if (upleft)
+				src->y = U;
+		if (above && right)
+			if (upright)
+				src->y = U;
+		if (below && left)
+			if (downleft)
+				src->y = U;
+		if (below && right)
+			if (downright)
+				src->y = U;
+		if (above && left && below && right) {
+			if (!upleft && !upright && !downleft && !downright)
+				src->y = U;
+			if (!upleft && upright && downleft && downright) {
+				src->x = 5*U;
+				src->y = 2*U;
+			} else if (upleft && !upright && downleft && downright) {
+				src->x = 4*U;
+				src->y = 2*U;
+			} else if (upleft && upright && !downleft && downright) {
+				src->x = 5*U;
+				src->y = 1*U;
+			} else if (upleft && upright && downleft && !downright) {
+				src->x = 4*U;
+				src->y = 1*U;
+			}
+		}
+		break;
+	}
+}
+
+static void
+draw_clear_bg(Block b, int x, int y) {
+	if (b.texclear == CLEAR_NONE)
+		return;
+	for (int i = x-1; i <= x+1; i++)
+		for (int j = y-1; j <= y+1; j++)
+			for (int num = 0; num <= blockqty; num++)
+				if (get_map(i, j) == block[num].face &&
+				    ((b.texclear == CLEAR_BG) ? block[num].isfloor : !block[num].isfloor) &&
+				    block[num].texclear == CLEAR_NONE && block[num].type == BLOCK_NORM) {
+					draw_img(block[num].img, &(SDL_Rect){0,0,U,U}, x*U, y*U, 0, SDL_FLIP_NONE);
+					return;
+			}
+}
+
 /* draw_map: draw the map */
 void draw_map(Ent e, int r) {
+	SDL_Rect src;
 	for (int i = e.pos.x-r; i < e.pos.x+r && i < MAX_X; i++)
 		for (int j = e.pos.y-r; j < e.pos.y+r && j < MAX_Y; j++)
 			if (j >= 0) {
 				for (int num = 0; num <= blockqty; num++)
-					if (get_map(i, j) == block[num].face)
-						draw_img(block[num].img, NULL, i*U, j*U, 0, SDL_FLIP_NONE);
+					if (get_map(i, j) == block[num].face) {
+						draw_clear_bg(block[num], i ,j);
+						src_connect(block[num], i, j, &src);
+						draw_img(block[num].img, &src, i*U, j*U, 0, SDL_FLIP_NONE);
+					}
 			}
 }
 
