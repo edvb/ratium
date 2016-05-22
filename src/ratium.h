@@ -3,7 +3,7 @@
 #define RATIUM_H
 
 /* settings for ratium */
-#define DEF_PLAYERS 1 /* default number of players */
+#define DEF_PLAYERS 1
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

@@ -8,7 +8,7 @@
 
 static struct _Keys player_keys[MAX_PLAYERS] = {
 { SDL_SCANCODE_H, SDL_SCANCODE_J, SDL_SCANCODE_K, SDL_SCANCODE_L, SDL_SCANCODE_O, SDL_SCANCODE_P, SDL_SCANCODE_I },
-{ SDL_SCANCODE_A, SDL_SCANCODE_X, SDL_SCANCODE_W, SDL_SCANCODE_D, SDL_SCANCODE_F, SDL_SCANCODE_T, SDL_SCANCODE_V },
+{ SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_W, SDL_SCANCODE_D, SDL_SCANCODE_F, SDL_SCANCODE_T, SDL_SCANCODE_V },
 };
 
 struct Ent_t {
@@ -23,8 +23,8 @@ struct Ent_t {
 };
 
 static struct Ent_t player_t[MAX_PLAYERS] = {
-{ "player1", NULL, NULL, 10, 1, 16, .5, TYPE_ALL, AI_PLAYER, 0 },
-{ "player2", NULL, NULL, 10, 1, 16, .5, TYPE_ALL, AI_PLAYER, 0 },
+{ "player1", NULL, NULL, 10, 1, 8, .5, TYPE_ALL, AI_PLAYER, 0 },
+{ "player2", NULL, NULL, 10, 1, 8, .5, TYPE_ALL, AI_PLAYER, 0 },
 };
 
 static struct Ent_t ent_t[MAX_ENTITIES] = {

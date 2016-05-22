@@ -193,7 +193,9 @@ act_key(Ent *e) {
 		}
 
 	for (int i = 0; i <= entqty; i++)
-		if (isalive(entity[i].hp) && pos_collide(e->pos, entity[i].pos))
+		if (isalive(entity[i].hp) && (pos_collide(e->pos, entity[i].pos) ||
+		    pos_collide((Pos){holding_x(e->direc, e->pos.x), holding_y(e->direc, e->pos.y),1,1},
+			entity[i].pos)))
 			attack(e, &entity[i]);
 
 }
