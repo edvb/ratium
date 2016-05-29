@@ -17,25 +17,25 @@ struct Ent_t {
 	int damage;
 	int sight;
 	float speed;
-	EntType type;
+	SpawnType type;
 	EntAI ai;
 	int rarity;
 };
 
 static struct Ent_t player_t[MAX_PLAYERS] = {
-{ "player1", NULL, NULL, 10, 1, 8, .5, TYPE_ALL, AI_PLAYER, 0 },
-{ "player2", NULL, NULL, 10, 1, 8, .5, TYPE_ALL, AI_PLAYER, 0 },
+{ "player1", NULL, NULL, 10, 1, 8, .5, SPAWN_ALL, AI_PLAYER, 0 },
+{ "player2", NULL, NULL, 10, 1, 8, .5, SPAWN_ALL, AI_PLAYER, 0 },
 };
 
 static struct Ent_t ent_t[MAX_ENTITIES] = {
-{ "rat",         "rat meat", NULL,                     2,  1, 4,  50,  TYPE_CAVE,  AI_HOSTILE,  5 },
-{ "super rat",   "rat meat", NULL,                     4,  2, 8,  50,  TYPE_CAVE,  AI_HOSTILE,  3 },
-{ "gnu",         "gnu meat", NULL,                     6,  1, 3,  300, TYPE_GRASS, AI_PEACEFUL, 2 },
-{ "cow",         "beef",     NULL,                     2,  0, 3,  600, TYPE_GRASS, AI_PEACEFUL, 5 },
-{ "King Arthur", "gold",     "I am King Arthur",       10, 0, 16, 60,  TYPE_ALL,   AI_PEACEFUL, 1 },
-{ "knight",      "sword",    "Who goes there?",        10, 0, 16, 0,   TYPE_ALL,   AI_NONE,     2 },
-{ "peasant",     NULL,       "Oh. How'd you do",       10, 0, 16, 90,  TYPE_ALL,   AI_PEACEFUL, 2 },
-{ "peasant",     NULL,       "lovely filth down here", 10, 0, 16, 90,  TYPE_ALL,   AI_PEACEFUL, 2 },
+{ "rat",         "rat meat", NULL,                     2,  1, 4,  50,  SPAWN_CAVE,  AI_HOSTILE,  5 },
+{ "super rat",   "rat meat", NULL,                     4,  2, 8,  50,  SPAWN_CAVE,  AI_HOSTILE,  3 },
+{ "gnu",         "gnu meat", NULL,                     6,  1, 3,  300, SPAWN_GRASS, AI_PEACEFUL, 2 },
+{ "cow",         "beef",     NULL,                     2,  0, 3,  600, SPAWN_GRASS, AI_PEACEFUL, 5 },
+{ "King Arthur", "gold",     "I am King Arthur",       10, 0, 16, 60,  SPAWN_ALL,   AI_PEACEFUL, 1 },
+{ "knight",      "sword",    "Who goes there?",        10, 0, 16, 0,   SPAWN_ALL,   AI_NONE,     2 },
+{ "peasant",     NULL,       "Oh. How'd you do",       10, 0, 16, 90,  SPAWN_ALL,   AI_PEACEFUL, 2 },
+{ "peasant",     NULL,       "lovely filth down here", 10, 0, 16, 90,  SPAWN_ALL,   AI_PEACEFUL, 2 },
 };
 int entqty_t = 8;
 
@@ -45,25 +45,26 @@ struct {
 	BlockType type;
 	BlockTexType textype;
 	BlockClear texclear;
+	SpawnType spawntype;
 	bool isfloor;
 	int stat;
 } block_t[MAX_ITEMS] = {
-{ "grass",       'g', BLOCK_NORM,  TEX_RAND, CLEAR_NONE, true,  4  },
-{ "dirt",        'd', BLOCK_NORM,  TEX_XY,   CLEAR_BG,   true,  0  },
-{ "rock",        '#', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, false, 0  },
-{ "stone",       '.', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, true,  0  },
-{ "plank",       'X', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, false, 0  },
-{ "board",       'b', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, true,  0  },
-{ "water",       'w', BLOCK_WATER, TEX_SXY,  CLEAR_BG,   true,  0  },
-{ "door_closed", '+', BLOCK_DOOR,  TEX_NORM, CLEAR_FG,   false, 0  },
-{ "door_open",   '-', BLOCK_DOOR,  TEX_NORM, CLEAR_FG,   true,  1  },
-{ "window",      'W', BLOCK_NORM,  TEX_NORM, CLEAR_FG,   false, 0  },
-{ "chair",       'h', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   true,  0  },
-{ "table",       'o', BLOCK_NORM,  TEX_X,    CLEAR_BG,   false, 0  },
-{ "barrel",      '0', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   false, 0  },
-{ "bush",        's', BLOCK_NORM,  TEX_RAND, CLEAR_BG,   false, 16 },
-{ "flower",      'f', BLOCK_NORM,  TEX_RAND, CLEAR_BG,   true,  4  },
-{ "tall_grass",  'G', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   true,  0  },
+{ "grass",       'g', BLOCK_NORM,  TEX_RAND, CLEAR_NONE, SPAWN_ALL,   true,  4  },
+{ "dirt",        'd', BLOCK_NORM,  TEX_XY,   CLEAR_BG,   SPAWN_ALL,   true,  0  },
+{ "rock",        '#', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, SPAWN_ALL,   false, 0  },
+{ "stone",       '.', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, SPAWN_ALL,   true,  0  },
+{ "plank",       'X', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, SPAWN_ALL,   false, 0  },
+{ "board",       'b', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, SPAWN_ALL,   true,  0  },
+{ "water",       'w', BLOCK_WATER, TEX_SXY,  CLEAR_BG,   SPAWN_ALL,   true,  0  },
+{ "door_closed", '+', BLOCK_DOOR,  TEX_NORM, CLEAR_FG,   SPAWN_ALL,   false, 0  },
+{ "door_open",   '-', BLOCK_DOOR,  TEX_NORM, CLEAR_FG,   SPAWN_ALL,   true,  1  },
+{ "window",      'W', BLOCK_NORM,  TEX_NORM, CLEAR_FG,   SPAWN_ALL,   false, 0  },
+{ "chair",       'h', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   SPAWN_ALL,   true,  0  },
+{ "table",       'o', BLOCK_NORM,  TEX_X,    CLEAR_BG,   SPAWN_ALL,   false, 0  },
+{ "barrel",      '0', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   SPAWN_GRASS, false, 0  },
+{ "bush",        's', BLOCK_NORM,  TEX_RAND, CLEAR_BG,   SPAWN_GRASS, false, 16 },
+{ "flower",      'f', BLOCK_NORM,  TEX_RAND, CLEAR_BG,   SPAWN_GRASS, true,  4  },
+{ "tall_grass",  'G', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   SPAWN_GRASS, true,  0  },
 };
 int blockqty_t = 16;
 
@@ -98,24 +99,12 @@ calc_rarity(int *rarity) {
 		}
 }
 
-/* gen_ent: change x and y values to a valid place for entity to be generated
- *          based on type */
-static void
-gen_ent(float *x, float *y, EntType type) {
-	int spawntile;
-
-	switch(type) {
-	case TYPE_ALL:                    break;
-	case TYPE_CAVE:  spawntile = '.'; break;
-	case TYPE_GRASS: spawntile = 'g'; break;
-	case TYPE_WATER: spawntile = 'w'; break;
-	}
-
+static void /* change x and y values to a valid location based on spawn type */
+gen_ent(float *x, float *y, SpawnType type) {
 	do {
 		*x = rand() % MAX_X;
 		*y = rand() % MAX_Y;
-	} while ((type == TYPE_ALL) ?
-	         !is_floor(*x, *y) : get_map(*x, *y) != spawntile);
+	} while (is_spawn(*x, *y, type));
 }
 
 bool
@@ -129,6 +118,7 @@ init_block(void) {
 		block[blockqty].type = block_t[blockqty].type;
 		block[blockqty].textype = block_t[blockqty].textype;
 		block[blockqty].texclear = block_t[blockqty].texclear;
+		block[blockqty].spawntype = block_t[blockqty].spawntype;
 		block[blockqty].isfloor = block_t[blockqty].isfloor;
 		block[blockqty].stat = block_t[blockqty].stat;
 
@@ -252,7 +242,7 @@ bool init_player(int count) {
 	for (int num = 0; num < count; num++) {
 		player[num].name = malloc(MAX_NAME * sizeof(char));
 		strcpy(player[num].name, player_t[num].name);
-		player[num].type = TYPE_ALL;
+		player[num].type = SPAWN_ALL;
 		player[num].ai = AI_PLAYER;
 
 		player[num].img = load_img("data/ents/player.png");
@@ -307,7 +297,7 @@ init_shot(Pos pos, Direc direc, int dmg, char *ammo) {
 
 	entity[entqty].name  = malloc(MAX_NAME * sizeof(char));
 	strcpy(entity[entqty].name, ammo);
-	entity[entqty].type  = TYPE_ALL;
+	entity[entqty].type  = SPAWN_ALL;
 	entity[entqty].ai = AI_SHOT;
 
 	char imgpath[64] = {0};

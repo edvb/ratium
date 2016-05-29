@@ -7,7 +7,7 @@
 static bool /* determines postion for a building */
 find_bld_loc(int *x_0, int *y_0, int w, int h) {
 	int tries = 0;
-	while (!is_floor_range(*x_0-1, *y_0-1, w+1, h+1)) {
+	while (is_spawn_range(*x_0-1, *y_0-1, w+1, h+1, SPAWN_GRASS)) { /* TODO: add type var */
 		*x_0 = rand() % MAX_X;
 		*y_0 = rand() % MAX_Y;
 		if (tries > 100000)
@@ -18,18 +18,17 @@ find_bld_loc(int *x_0, int *y_0, int w, int h) {
 }
 
 static void /* puts a single block on map */
-place_block(char face) {
-	int x_0, y_0;
-
+place_block(int id) {
+	int x, y;
 	do {
-		x_0 = rand() % MAX_X;
-		y_0 = rand() % MAX_Y;
-	} while (!is_floor(x_0, y_0));
-	set_map(x_0, y_0, face);
+		x = rand() % MAX_X;
+		y = rand() % MAX_Y;
+	} while (is_spawn(x, y, block[id].spawntype));
+	set_map((int)x, (int)y, block[id].face);
 }
 
 static void /* puts a cluster of blocks on map */
-place_blocks(char face) {
+place_blocks(int id) {
 	int x_0, y_0;
 	int qty;
 	int pos;
@@ -37,21 +36,21 @@ place_blocks(char face) {
 	do {
 		x_0 = rand() % MAX_X;
 		y_0 = rand() % MAX_Y;
-	} while (!is_floor_range(x_0-1, y_0-1, 3, 3));
-	set_map(x_0, y_0, face);
+	} while (is_spawn_range(x_0-1, y_0-1, 3, 3, block[id].spawntype));
+	set_map(x_0, y_0, block[id].face);
 
 	qty = rand()%8;
 	for (int j = 0; j < qty; j++) {
 		pos = rand()%8;
 		switch (pos) {
-		case 0: set_map(x_0+1, y_0, face); break;
-		case 1: set_map(x_0, y_0+1, face); break;
-		case 2: set_map(x_0+1, y_0+1, face); break;
-		case 3: set_map(x_0-1, y_0, face); break;
-		case 4: set_map(x_0, y_0-1, face); break;
-		case 5: set_map(x_0-1, y_0-1, face); break;
-		case 6: set_map(x_0+1, y_0-1, face); break;
-		case 7: set_map(x_0-1, y_0+1, face); break;
+		case 0: set_map(x_0+1, y_0, block[id].face); break;
+		case 1: set_map(x_0, y_0+1, block[id].face); break;
+		case 2: set_map(x_0+1, y_0+1, block[id].face); break;
+		case 3: set_map(x_0-1, y_0, block[id].face); break;
+		case 4: set_map(x_0, y_0-1, block[id].face); break;
+		case 5: set_map(x_0-1, y_0-1, block[id].face); break;
+		case 6: set_map(x_0+1, y_0-1, block[id].face); break;
+		case 7: set_map(x_0-1, y_0+1, block[id].face); break;
 		}
 	}
 }
@@ -117,13 +116,43 @@ init_map(void) {
 	for (int i = 0; i < rand()%4+3; i++) /* create dungeons */
 		place_room('#', '.', rand()%3+1, '+');
 	for (int i = 0; i < rand()%2+1; i++) {
-		place_blocks('0'); /* create barrels */
-		place_blocks('G'); /* create tall grass patches */
+		place_blocks(12); /* create barrels */
+		place_blocks(15); /* create tall grass patches */
 	}
 	for (int i = 0; i < rand()%8+8; i++) {
-		place_block('s'); /* create bushes */
-		place_blocks('f'); /* create flowers */
+		place_block(13);  /* create bushes */
+		place_blocks(14); /* create flowers */
 	}
+}
+
+char /* return tile which SpawnType can spawn on */
+spawn_tile(SpawnType type) {
+	switch(type) {
+	case SPAWN_ALL:   return ' ';
+	case SPAWN_CAVE:  return '.';
+	case SPAWN_GRASS: return 'g';
+	case SPAWN_WATER: return 'w';
+	default:          return ' ';
+	}
+}
+
+bool /* return true if x and y can not spawn there */
+is_spawn(int x, int y, SpawnType type) {
+	int tile = spawn_tile(type);
+	return (type == SPAWN_ALL) ? !is_floor(x, y) : get_map(x, y) != tile;
+}
+
+bool /* return true if x and y can not spawn in range */
+is_spawn_range(int x, int y, int dx, int dy, SpawnType type) {
+	int tile = spawn_tile(type);
+	if (type == SPAWN_ALL)
+		return !is_floor_range(x, y, dx, dy);
+	else
+		for (int i = x; i <= dx+x; i++)
+			for (int j = y; j <= dy+y; j++)
+				if (get_map(i, j) != tile)
+					return true;
+	return false;
 }
 
 /* get_map: get character of map at x and y position */
@@ -139,19 +168,19 @@ void set_map(int x, int y, char newch) {
 	worldMap[y][x] = newch;
 }
 
-/* is_floor: returns true if tile at x and y is a floor tile */
-bool is_floor(int x, int y) {
+bool /* returns true if tile at x and y is a floor tile */
+is_floor(int x, int y) {
 	for (int i = 0; i < blockqty; i++)
 		if (get_map(x, y) == block[i].face)
 			return block[i].isfloor;
 	return true;
 }
 
-/* is_floor_range: return weather or not the area given is all a floor tile */
-bool is_floor_range(int x, int y, int dx, int dy) {
+bool /* return whether or not the area given is all a floor tile */
+is_floor_range(int x, int y, int dx, int dy) {
 	for (int i = x; i <= dx+x; i++)
 		for (int j = y; j <= dy+y; j++)
-			if (get_map(i, j) != 'g')
+			if (get_map(i, j) != 'g') /* TODO: is_floor */
 				return false;
 	return true;
 }

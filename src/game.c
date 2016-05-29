@@ -30,8 +30,8 @@ rat_init(void) {
 
 	srand(time(NULL));
 
-	init_map();
 	init_block();
+	init_map();
 	init_entity();
 	init_player(DEF_PLAYERS);
 	init_item();

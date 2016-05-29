@@ -76,11 +76,11 @@ typedef enum {
 
 /* where the entity can spawn */
 typedef enum {
-	TYPE_ALL,
-	TYPE_CAVE,
-	TYPE_GRASS,
-	TYPE_WATER
-} EntType;
+	SPAWN_ALL,
+	SPAWN_CAVE,
+	SPAWN_GRASS,
+	SPAWN_WATER
+} SpawnType;
 
 /* type of entity ai, or if entity is a player */
 typedef enum {
@@ -97,6 +97,7 @@ typedef struct {
 	BlockType type;
 	BlockTexType textype;
 	BlockClear texclear;
+	SpawnType spawntype;
 	bool isfloor;
 
 	SDL_Texture *img;
@@ -142,7 +143,7 @@ struct _Pos {
 typedef struct _Ent Ent;
 struct _Ent {
 	char *name;    /* name of ent */
-	EntType type; /* used mainly for where to spawn */
+	SpawnType type; /* used mainly for where to spawn */
 	EntAI ai;     /* how ent should move around */
 
 	SDL_Texture *img;
@@ -176,6 +177,9 @@ void rat_cleanup(void);
 
 /* map.c: handle the map */
 void init_map(void);
+char spawn_tile(SpawnType type);
+bool is_spawn(int x, int y, SpawnType type);
+bool is_spawn_range(int x, int y, int dx, int dy, SpawnType type);
 char get_map(int x, int y);
 void set_map(int x, int y, char newch);
 bool is_floor(int x, int y);
