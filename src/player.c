@@ -79,8 +79,9 @@ cmd_run(Ent *e, char *text) {
 		for (int i = 0; i <= blockqty; i++)
 			if (estrcmp(block[i].name, textv[1]) == 0)
 				set_map(holding_x(e->direc, e->pos.x), holding_y(e->direc, e->pos.y),
-				        block[i].face);
-	}
+				        block[i]);
+	} else if (estrcmp(textv[0], "dis") == 0)
+		e->msg = get_map(e->pos.x, e->pos.y).name;
 
 	free(textv);
 }
@@ -164,7 +165,7 @@ act_key(Ent *e) {
 	/* toogle door if looking at one */
 	int door_x = holding_x(e->direc, e->pos.x+.5);
 	int door_y = holding_y(e->direc, e->pos.y+.5);
-	if (get_map(door_x, door_y) == '+' || get_map(door_x, door_y) == '-') {
+	if (get_map(door_x, door_y).type == BLOCK_DOOR) {
 		toggle_door(door_x, door_y);
 		return;
 	}
@@ -227,7 +228,7 @@ player_run(Ent *e) {
 		else if (k[e->keys.inv])  inv(e);
 		else if (k[SDL_SCANCODE_SLASH])  cmd(e);
 
-		if (get_map(e->pos.x, e->pos.y) == 'w') {
+		if (estrcmp(get_map(e->pos.x, e->pos.y).name, "water") == 0) {
 			e->src.h = 8;
 			e->pos.h = .5;
 		} else {

@@ -41,35 +41,6 @@ int entqty_t = 8;
 
 struct {
 	char *name;
-	char face;
-	BlockType type;
-	BlockTexType textype;
-	BlockClear texclear;
-	SpawnType spawntype;
-	bool isfloor;
-	int stat;
-} block_t[MAX_ITEMS] = {
-{ "grass",       'g', BLOCK_NORM,  TEX_RAND, CLEAR_NONE, SPAWN_ALL,   true,  4  },
-{ "dirt",        'd', BLOCK_NORM,  TEX_XY,   CLEAR_BG,   SPAWN_ALL,   true,  0  },
-{ "rock",        '#', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, SPAWN_ALL,   false, 0  },
-{ "stone",       '.', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, SPAWN_ALL,   true,  0  },
-{ "plank",       'X', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, SPAWN_ALL,   false, 0  },
-{ "board",       'b', BLOCK_NORM,  TEX_NORM, CLEAR_NONE, SPAWN_ALL,   true,  0  },
-{ "water",       'w', BLOCK_WATER, TEX_SXY,  CLEAR_BG,   SPAWN_ALL,   true,  0  },
-{ "door_closed", '+', BLOCK_DOOR,  TEX_NORM, CLEAR_FG,   SPAWN_ALL,   false, 0  },
-{ "door_open",   '-', BLOCK_DOOR,  TEX_NORM, CLEAR_FG,   SPAWN_ALL,   true,  1  },
-{ "window",      'W', BLOCK_NORM,  TEX_NORM, CLEAR_FG,   SPAWN_ALL,   false, 0  },
-{ "chair",       'h', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   SPAWN_ALL,   true,  0  },
-{ "table",       'o', BLOCK_NORM,  TEX_X,    CLEAR_BG,   SPAWN_ALL,   false, 0  },
-{ "barrel",      '0', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   SPAWN_GRASS, false, 0  },
-{ "bush",        's', BLOCK_NORM,  TEX_RAND, CLEAR_BG,   SPAWN_GRASS, false, 16 },
-{ "flower",      'f', BLOCK_NORM,  TEX_RAND, CLEAR_BG,   SPAWN_GRASS, true,  4  },
-{ "tall_grass",  'G', BLOCK_NORM,  TEX_NORM, CLEAR_BG,   SPAWN_GRASS, true,  0  },
-};
-int blockqty_t = 16;
-
-struct {
-	char *name;
 	ItemType type;
 	int stat;
 	int rarity;
@@ -101,43 +72,19 @@ calc_rarity(int *rarity) {
 
 static void /* change x and y values to a valid location based on spawn type */
 gen_ent(float *x, float *y, SpawnType type) {
+	int tries = 0;
 	do {
 		*x = rand() % MAX_X;
 		*y = rand() % MAX_Y;
+		if (tries > 100000) return;
+		tries++;
 	} while (is_spawn(*x, *y, type));
-}
-
-bool
-init_block(void) {
-	blockqty = 0;
-
-	for (int num = 0; num < blockqty_t; num++) {
-		block[blockqty].name = malloc(MAX_NAME * sizeof(char));
-		strcpy(block[blockqty].name, block_t[blockqty].name);
-		block[blockqty].face = block_t[blockqty].face;
-		block[blockqty].type = block_t[blockqty].type;
-		block[blockqty].textype = block_t[blockqty].textype;
-		block[blockqty].texclear = block_t[blockqty].texclear;
-		block[blockqty].spawntype = block_t[blockqty].spawntype;
-		block[blockqty].isfloor = block_t[blockqty].isfloor;
-		block[blockqty].stat = block_t[blockqty].stat;
-
-		char imgpath[64] = {0};
-		sprintf(imgpath, "data/blocks/%s.png", block[blockqty].name);
-		block[blockqty].img = load_img(imgpath);
-		block[blockqty].src = (SDL_Rect) { 0, 0, U, U };
-
-		blockqty++;
-	}
-
-	blockqty--;
-
-	return true;
 }
 
 /* init_item: copies values from item_t[] to item[] */
 bool init_item(void) {
 	itemqty = 0;
+	int tries = 0;
 
 	for (int num = 0; num < itemqty_t; num++) {
 		item[itemqty].name = malloc(MAX_NAME * sizeof(char));
@@ -159,7 +106,9 @@ bool init_item(void) {
 			do {
 				x = rand() % MAX_X;
 				y = rand() % MAX_Y;
-			} while (get_map(x, y) != '.' && get_map(x, y) != 'b');
+				if (tries > 100000) return false;
+				tries++;
+			} while (estrcmp(get_map(x, y).name, "stone") != 0 && estrcmp(get_map(x, y).name, "board") != 0);
 			if (item_t[itemqty].type == ITEM_AMMO)
 				item[itemqty].map[y][x] += 4;
 			else

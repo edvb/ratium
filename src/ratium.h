@@ -93,7 +93,6 @@ typedef enum {
 
 typedef struct {
 	char *name;
-	char face;
 	BlockType type;
 	BlockTexType textype;
 	BlockClear texclear;
@@ -101,8 +100,7 @@ typedef struct {
 	bool isfloor;
 
 	SDL_Texture *img;
-	SDL_Rect src; /* ent position on sprite sheet */
-	/* SDL_Rect dst; /1* ent position *1/ */
+	SDL_Rect src; /* position on sprite sheet */
 
 	int stat;
 } Block;
@@ -115,7 +113,6 @@ typedef struct {
 
 	SDL_Texture *img;
 	SDL_Rect src; /* ent position on sprite sheet */
-	/* SDL_Rect dst; /1* ent position *1/ */
 
 	int stat;  /* universal variable for damage of sword, heath healed for food, etc. */
 } Item;
@@ -176,12 +173,13 @@ void rat_loop(void);
 void rat_cleanup(void);
 
 /* map.c: handle the map */
+bool init_block(void);
 void init_map(void);
-char spawn_tile(SpawnType type);
+char *spawn_tile(SpawnType type);
 bool is_spawn(int x, int y, SpawnType type);
 bool is_spawn_range(int x, int y, int dx, int dy, SpawnType type);
-char get_map(int x, int y);
-void set_map(int x, int y, char newch);
+Block get_map(int x, int y);
+void set_map(int x, int y, Block b);
 bool is_floor(int x, int y);
 bool is_floor_range(int x, int y, int dx, int dy);
 int  floor_count(char ch);
@@ -211,7 +209,6 @@ void draw_inv(Ent e);
 void player_run(Ent *e);
 
 /* data.c: handle reading from data/ directory */
-bool init_block(void);
 bool init_item(void);
 bool init_entity(void);
 bool init_player(int count);
