@@ -1,10 +1,10 @@
 /* See LICENSE for licence details. */
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "ratium.h"
 #include "ent.h"
+#include "util.h"
 
 static struct _Keys player_keys[MAX_PLAYERS] = {
 { SDL_SCANCODE_H, SDL_SCANCODE_J, SDL_SCANCODE_K, SDL_SCANCODE_L, SDL_SCANCODE_O, SDL_SCANCODE_P, SDL_SCANCODE_I },

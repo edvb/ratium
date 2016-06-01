@@ -1,14 +1,13 @@
 /* See LICENSE for licence details. */
-#include <string.h>
-
 #include "ratium.h"
+#include "util.h"
 
 /* query_item: return element number of array matching name supplied */
 int query_item(char *name) {
 	if (name == NULL)
 		return -1;
 	for (int i = 0; i <= itemqty; i++)
-		if (strcmp(item[i].name, name) == 0)
+		if (estrcmp(item[i].name, name) == 0)
 			return i;
 	return -1;
 }

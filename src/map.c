@@ -3,6 +3,7 @@
 
 #include "ratium.h"
 #include "map.h"
+#include "util.h"
 
 static bool /* determines postion for a building */
 find_bld_loc(int *x_0, int *y_0, int w, int h) {

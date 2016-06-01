@@ -66,18 +66,18 @@ static void
 cmd_run(Ent *e, char *text) {
 	char **textv = str_split(text, ' ');
 
-	if (strcmp(textv[0], "give") == 0) {
+	if (estrcmp(textv[0], "give") == 0) {
 		if (query_item(textv[1]) == -1) return;
 		for (int i = 0; i < ((textv[2] == NULL) ? 1 : strtol(textv[2], NULL, 10)); i++)
 			add_item(&item[query_item(textv[1])], e->pos.x, e->pos.y);
-	} else if (strcmp(textv[0], "heal") == 0)
+	} else if (estrcmp(textv[0], "heal") == 0)
 		e->hp += (textv[1] == NULL) ? e->maxhp : atoi(textv[1]);
-	else if (strcmp(textv[0], "dmg") == 0)
+	else if (estrcmp(textv[0], "dmg") == 0)
 		e->hp -= (textv[1] == NULL) ? 5 : atoi(textv[1]);
-	else if (strcmp(textv[0], "add") == 0) {
+	else if (estrcmp(textv[0], "add") == 0) {
 		if (textv[1] == NULL) return;
 		for (int i = 0; i <= blockqty; i++)
-			if (strcmp(block[i].name, textv[1]) == 0)
+			if (estrcmp(block[i].name, textv[1]) == 0)
 				set_map(holding_x(e->direc, e->pos.x), holding_y(e->direc, e->pos.y),
 				        block[i].face);
 	}

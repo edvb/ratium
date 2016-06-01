@@ -2,6 +2,16 @@
 #include <string.h>
 #include <stdlib.h>
 
+int
+estrcmp(const char *s1, const char *s2) {
+	if (s1 == NULL || s2 == NULL)
+		return 1;
+	for ( ; *s1 == *s2; s1++, s2++)
+		if (*s1 == '\0')
+			return 0;
+	return ((*(unsigned char *)s1 < *(unsigned char *)s2) ? -1 : +1);
+}
+
 char *
 strdup(const char *s) {
 	char *d = malloc(strlen(s) + 1);
