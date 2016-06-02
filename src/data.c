@@ -28,14 +28,14 @@ static struct Ent_t player_t[MAX_PLAYERS] = {
 };
 
 static struct Ent_t ent_t[MAX_ENTITIES] = {
-{ "rat",         "rat meat", NULL,                     2,  1, 4,  50,  SPAWN_CAVE,  AI_HOSTILE,  5 },
-{ "super rat",   "rat meat", NULL,                     4,  2, 8,  50,  SPAWN_CAVE,  AI_HOSTILE,  3 },
-{ "gnu",         "gnu meat", NULL,                     6,  1, 3,  300, SPAWN_GRASS, AI_PEACEFUL, 2 },
-{ "cow",         "beef",     NULL,                     2,  0, 3,  600, SPAWN_GRASS, AI_PEACEFUL, 5 },
-{ "King Arthur", "gold",     "I am King Arthur",       10, 0, 16, 60,  SPAWN_ALL,   AI_PEACEFUL, 1 },
-{ "knight",      "sword",    "Who goes there?",        10, 0, 16, 0,   SPAWN_ALL,   AI_NONE,     2 },
-{ "peasant",     NULL,       "Oh. How'd you do",       10, 0, 16, 90,  SPAWN_ALL,   AI_PEACEFUL, 2 },
-{ "peasant",     NULL,       "lovely filth down here", 10, 0, 16, 90,  SPAWN_ALL,   AI_PEACEFUL, 2 },
+{ "rat",         "meat",  NULL,                     4,  1, 4,  50,  SPAWN_CAVE,  AI_HOSTILE,  5 },
+{ "super rat",   "meat",  NULL,                     6,  2, 8,  50,  SPAWN_CAVE,  AI_HOSTILE,  3 },
+{ "gnu",         "meat",  NULL,                     6,  1, 3,  300, SPAWN_GRASS, AI_PEACEFUL, 2 },
+{ "cow",         "meat",  "moo",                    2,  0, 3,  600, SPAWN_GRASS, AI_PEACEFUL, 5 },
+{ "King Arthur", "gold",  "I am King Arthur",       10, 0, 16, 60,  SPAWN_ALL,   AI_PEACEFUL, 1 },
+{ "knight",      "sword", "Who goes there?",        10, 0, 16, 0,   SPAWN_ALL,   AI_NONE,     2 },
+{ "peasant",     NULL,    "Oh. How'd you do",       10, 0, 16, 90,  SPAWN_ALL,   AI_PEACEFUL, 2 },
+{ "peasant",     NULL,    "lovely filth down here", 10, 0, 16, 90,  SPAWN_ALL,   AI_PEACEFUL, 2 },
 };
 int entqty_t = 8;
 
@@ -45,18 +45,15 @@ struct {
 	int stat;
 	int rarity;
 } item_t[MAX_ITEMS] = {
-{ "gold",     ITEM_MISC,    0,  5 },
-{ "spam",     ITEM_FOOD,    2,  4 },
-{ "haggis",   ITEM_FOOD,    10, 1 },
-{ "sword",    ITEM_SWORD,   2,  3 },
+{ "gold",     ITEM_MISC,    0,  4 },
+{ "spam",     ITEM_FOOD,    3,  4 },
+{ "sword",    ITEM_SWORD,   2,  2 },
 { "shield",   ITEM_SHIELD,  4,  2 },
-{ "bow",      ITEM_SHOOTER, 20, 3 },
+{ "bow",      ITEM_SHOOTER, 20, 2 },
 { "arrow",    ITEM_AMMO,    5,  4 },
-{ "rat meat", ITEM_FOOD,    -1, 0 },
-{ "gnu meat", ITEM_FOOD,    4,  0 },
-{ "beef",     ITEM_FOOD,    1,  0 },
+{ "meat",     ITEM_FOOD,    1,  0 },
 };
-int itemqty_t = 10;
+int itemqty_t = 7;
 
 /* TODO: Improve and implement in other functions */
 /* TODO: Add min and max parameters */
