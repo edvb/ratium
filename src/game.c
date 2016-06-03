@@ -77,6 +77,16 @@ void rat_loop(void) {
 			draw_player_msg(player[i]);
 		}
 
+		for (int i = 0; i < MAX_X; i++)
+			for (int j = 0; j < MAX_Y; j++)
+				if (get_map(i,j).type == BLOCK_DOOR)
+					for (int num = 0; num <= playerqty; num++)
+						if (pos_collide(player[num].pos, (Pos){i-.5,j,2,1}) ||
+						    pos_collide(player[num].pos, (Pos){i,j-.5,1,2}))
+							set_door(i, j, true);
+						else
+							set_door(i, j, false);
+
 		SDL_RenderPresent(ren);
 
 		for (int i = 0; i <= playerqty; i++)

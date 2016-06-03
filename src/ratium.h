@@ -183,6 +183,7 @@ void set_map(int x, int y, Block b);
 bool is_floor(int x, int y);
 bool is_floor_range(int x, int y, int dx, int dy);
 int  floor_count(char ch);
+void set_door(int x, int y, bool isopen);
 void toggle_door(int x, int y);
 void draw_map(Ent e, int r);
 void draw_map_floor(Ent e, int r);

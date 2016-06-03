@@ -162,14 +162,6 @@ load_shooter(Ent *e) {
 
 static void
 act_key(Ent *e) {
-	/* toogle door if looking at one */
-	int door_x = holding_x(e->direc, e->pos.x+.5);
-	int door_y = holding_y(e->direc, e->pos.y+.5);
-	if (get_map(door_x, door_y).type == BLOCK_DOOR) {
-		toggle_door(door_x, door_y);
-		return;
-	}
-
 	/* use item in hand */
 	if (e->inv[e->hand].map[0][0] > 0)
 		switch (e->inv[e->hand].type) {

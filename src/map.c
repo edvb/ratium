@@ -222,12 +222,20 @@ int floor_count(char ch) {
 	return count;
 }
 
-/* toggle_door: open or close door next to entity */
-void toggle_door(int x, int y) {
+void /* open or close door */
+toggle_door(int x, int y) {
 	if (get_map(x,y).type != BLOCK_DOOR)
 		return;
 	map[y][x].stat = (get_map(x,y).stat == 0) ? 1 : 0;
 	map[y][x].isfloor = (get_map(x,y).stat == 0) ? false : true;
+}
+
+void /* force door open or close */
+set_door(int x, int y, bool isopen) {
+	if (get_map(x,y).type != BLOCK_DOOR)
+		return;
+	map[y][x].stat = isopen;
+	map[y][x].isfloor = isopen;
 }
 
 /* TODO: clean up connect code */
