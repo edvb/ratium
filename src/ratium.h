@@ -195,7 +195,6 @@ void add_item(Item *item, int x, int y);
 void draw_item(Item item, Ent e, int r);
 
 /* ent.c: handle anything with entities */
-void draw_player_msg(Ent e);
 void draw_msg(Ent e);
 void draw_ent(Ent e, Ent oe, int r);
 

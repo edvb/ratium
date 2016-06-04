@@ -4,12 +4,14 @@
 
 #include "ratium.h"
 #include "ent.h"
+#include "util.h"
 
 /* can_step: determine if entity can move to a new space */
 bool can_step(Pos pos) {
 	if (pos.x < 0 || pos.x+pos.w > MAX_X || pos.y < 0 || pos.y+pos.h > MAX_Y)
 		return false;
 
+	/* TODO: clean up */
 	if (!is_floor(pos.x, pos.y) ||
 	    !is_floor(pos.x+pos.w-.000001, pos.y+pos.h-.000001) ||
 	    !is_floor(pos.x, pos.y+pos.h-.000001) ||
@@ -94,26 +96,18 @@ float holding_y(Direc direc, float val) {
 }
 
 void
-draw_player_msg(Ent e) {
+draw_msg(Ent e) {
 	if (e.msg == NULL)
 		return;
 	SDL_Color color = { 255, 255, 255 };
-	int x = (e.pos.x*U+(U/2)) - (strlen(e.msg)*FONT_W / 2);
-	int y = (e.pos.y*U-(U/2)) - (FONT_H / 2);
-	draw_text(e.msg, color, x, y);
-}
-
-void
-draw_msg(Ent e) {
-	if (!isalive(e.hp) || e.msg == NULL)
-		return;
-	for (int i = 0; i <= playerqty; i++)
-		if (pos_collide(e.pos, player[i].pos)) {
-			SDL_Color color = { 255, 255, 255 };
-			int x = (e.pos.x*U+(U/2)) - (strlen(e.msg)*FONT_W / 2);
-			int y = (e.pos.y*U-(U/2)) - (FONT_H / 2);
-			draw_text(e.msg, color, x, y);
-		}
+	int count = count_chars(e.msg, ';') + 1;
+	char stmp[64] = {0}; strcpy(stmp, e.msg);
+	char **s = str_split(stmp, ';');
+	for (int i = 0; i < count; i++) {
+		draw_text(s[i], color,
+		          (e.pos.x*U+(U/2)) - (strlen(s[i])*FONT_W / 2),
+		          (e.pos.y*U-(U/2)) - (FONT_H / 2) - (((count-1)-i)*FONT_H));
+	}
 }
 
 /* draw_ent: draw entity e if in range of entity oe by r */

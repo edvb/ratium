@@ -21,7 +21,7 @@ strdup(const char *s) {
 }
 
 char **
-str_split(char* a_str, const char a_delim) {
+str_split(char *a_str, const char a_delim) {
 	char** result    = 0;
 	size_t count     = 0;
 	char* last_delim = 0;
@@ -57,4 +57,14 @@ str_split(char* a_str, const char a_delim) {
 	}
 
 	return result;
+}
+
+int
+count_chars(char *s, char ch) {
+	int count = 0;
+	int len = strlen(s);
+	for (int i = 0; i < len; i++)
+		if (s[i] == ch)
+			count++;
+	return count;
 }
