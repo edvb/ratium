@@ -182,7 +182,7 @@ is_spawn_range(int x, int y, int dx, int dy, SpawnType type) {
 
 Block /* get character of map at x and y position */
 get_map(int x, int y) {
-	if (x > MAX_X || y >= MAX_Y || x < 0 || y < 0)
+	if (x >= MAX_X || y >= MAX_Y || x < 0 || y < 0)
 		return block[0];
 	else
 		return map[y][x];
@@ -190,8 +190,7 @@ get_map(int x, int y) {
 
 void /* set character of map at x and y position to newch */
 set_map(int x, int y, Block b) {
-	if (x > MAX_X || y >= MAX_Y || x < 0 || y < 0) ;
-	else
+	if (x < MAX_X && y < MAX_Y && x > 0 && y > 0)
 		map[y][x] = b;
 }
 
@@ -375,7 +374,7 @@ draw_clear_bg(Block b, int x, int y) {
 void draw_map(Ent e, int r) {
 	for (int i = e.pos.x-r; i < e.pos.x+r && i < MAX_X; i++)
 		for (int j = e.pos.y-r; j < e.pos.y+r && j < MAX_Y; j++)
-			if (i <= MAX_X && j <= MAX_Y && i >= 0 && j >= 0) {
+			if (i < MAX_X && j < MAX_Y && i >= 0 && j >= 0) {
 				for (int num = 0; num < blockqty; num++)
 					if (estrcmp(block[num].name, get_map(i,j).name) == 0) {
 						draw_clear_bg(block[num], i ,j);
