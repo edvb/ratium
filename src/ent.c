@@ -41,6 +41,7 @@ void take_damage(Ent *e, int damage) {
 		case ITEM_SHIELD:
 			e->inv[e->hand].stat -= damage;
 			if (e->inv[e->hand].stat < 0) {
+				e->inv[e->hand].map[0][0]--;
 				e->hand = -1;
 			}
 			break;
