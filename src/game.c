@@ -12,7 +12,7 @@ rat_init(void) {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) SDL_ERROR(false);
 
 	win = NULL;
-	win = SDL_CreateWindow("ratium", 50, 0, MAX_X*ZOOM*U, MAX_Y*ZOOM*U, SDL_WINDOW_SHOWN);
+	win = SDL_CreateWindow("ratium", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, MAX_X*ZOOM*U, MAX_Y*ZOOM*U, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	if (win == NULL) SDL_ERROR(false);
 
 	ren = NULL;
