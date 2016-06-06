@@ -210,6 +210,8 @@ void player_run(Ent *e);
 
 /* data.c: handle reading from data/ directory */
 bool init_item(void);
+void add_ent_name(char *name, int x_0, int y_0, int qty);
+void add_ent(int entnum, int x_0, int y_0, int qty);
 bool init_entity(void);
 bool init_player(int count);
 void init_shot(Pos pos, Direc direc, int dmg, char *ammo);

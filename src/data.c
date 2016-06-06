@@ -120,6 +120,67 @@ bool init_item(void) {
 	return true;
 }
 
+void /* spawn entity by name */
+add_ent_name(char *name, int x_0, int y_0, int qty) {
+	for (int i = 0; i < entqty_t; i++)
+		if (estrcmp(ent_t[i].name, name) == 0)
+			add_ent(i, x_0, y_0, qty);
+}
+
+void /* spawn qty entities with id entnum at x and y postion */
+add_ent(int entnum, int x_0, int y_0, int qty) {
+	for (int i = 0; i < qty; i++, entqty++) {
+		entity[entqty].name = malloc(MAX_NAME * sizeof(char));
+		strcpy(entity[entqty].name, ent_t[entnum].name);
+		entity[entqty].type = ent_t[entnum].type;
+		entity[entqty].ai = ent_t[entnum].ai;
+
+		char imgpath[64] = {0};
+		sprintf(imgpath, "data/ents/%s.png", entity[entqty].name);
+		entity[entqty].img = load_img(imgpath);
+		entity[entqty].src = (SDL_Rect) { 0, 0, U, U };
+		entity[entqty].rot = 0;
+		entity[entqty].flip = SDL_FLIP_NONE;
+
+		entity[entqty].pos = (Pos) { x_0, y_0, 1, 1 };
+		entity[entqty].direc = RIGHT;
+
+		entity[entqty].maxhp = ent_t[entnum].hp;
+		entity[entqty].hp = ent_t[entnum].hp;
+		entity[entqty].isdead = false;
+		entity[entqty].damage = ent_t[entnum].damage;
+		entity[entqty].sight = ent_t[entnum].sight;
+		entity[entqty].speed = ent_t[entnum].speed;
+
+		entity[entqty].keys = (struct _Keys){0};
+
+		entity[entqty].msg = malloc(MAX_MSG * sizeof(char));
+		if (ent_t[entnum].msg != NULL) {
+			strcpy(entity[entqty].msg, ent_t[entnum].msg);
+		} else
+			entity[entqty].msg = NULL;
+
+		for (int j = 0; j < MAX_INV; j++) {
+			entity[entqty].inv[j].name = malloc(MAX_NAME * sizeof(char));
+			entity[entqty].inv[j].map[0][0] = 0;
+		}
+		entity[entqty].hand = -1;
+
+		if (ent_t[entnum].drop != NULL) {
+			strcpy(entity[entqty].inv[0].name, ent_t[entnum].drop);
+			entity[entqty].inv[0].map[0][0] = rand() % 3;
+		}
+
+		switch(ent_t[entnum].ai) {
+		case AI_NONE:     entity[entqty].run = no_ai;   break;
+		case AI_HOSTILE:  entity[entqty].run = dumb_ai; break;
+		case AI_PEACEFUL: entity[entqty].run = rand_ai; break;
+		case AI_SHOT:
+		case AI_PLAYER: break;
+		}
+	}
+}
+
 bool /* copies values from ent_t[] to entity[] */
 init_entity(void) {
 	entqty = 0;
