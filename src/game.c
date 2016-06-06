@@ -98,7 +98,8 @@ void rat_loop(void) {
 			}
 
 		SDL_PollEvent(&e);
-	} while (e.key.keysym.sym != SDLK_ESCAPE);
+	} while (e.key.keysym.sym != SDLK_ESCAPE &&
+	         e.type != SDL_QUIT && e.type != SDL_WINDOWEVENT_CLOSE);
 }
 
 void rat_cleanup(void) {
