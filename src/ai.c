@@ -29,6 +29,8 @@ void
 no_ai(Ent *e) {
 	if (!check_isalive(e)) return;
 	attack_player(e);
+
+	ent_checks(e);
 }
 
 void
@@ -45,6 +47,8 @@ rand_ai(Ent *e) {
 	}
 
 	attack_player(e);
+
+	ent_checks(e);
 }
 
 void
@@ -68,6 +72,8 @@ dumb_ai(Ent *e) {
 			move_entity(e, 0, -1);
 
 		attack_player(e);
+
+		ent_checks(e);
 
 	} else
 		rand_ai(e);

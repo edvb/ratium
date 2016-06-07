@@ -3,6 +3,7 @@
 
 bool  can_step(Pos pos);
 void  move_entity(Ent *e, float x_0, float y_0);
+void  ent_checks(Ent *e);
 void  attack(Ent *e, Ent *foe);
 int   deal_damage(Ent *e);
 void  take_damage(Ent *e, int damge);

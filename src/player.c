@@ -241,9 +241,7 @@ player_run(Ent *e) {
 				clear_item(&item[i], e->pos.x+.5, e->pos.y+.5);
 			}
 
-		/* make sure heath does not go over max */
-		if (e->hp > e->maxhp)
-			e->hp = e->maxhp;
+		ent_checks(e);
 
 	} else if (!e->isdead) {
 		for (int i = 0; i < MAX_INV; i++)

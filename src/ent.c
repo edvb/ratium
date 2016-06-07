@@ -29,6 +29,12 @@ void move_entity(Ent *e, float dx, float dy) {
 	}
 }
 
+void /* checks each entity's run code should check for */
+ent_checks(Ent *e) {
+	if (e->hp > e->maxhp)
+		e->hp = e->maxhp;
+}
+
 /* attack: entity e attack entity foe */
 void attack(Ent *e, Ent *foe) {
 	if (e->ai != AI_PEACEFUL)
