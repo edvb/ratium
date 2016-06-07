@@ -37,6 +37,12 @@ void
 rand_ai(Ent *e) {
 	if (!check_isalive(e)) return;
 
+	for (int i = 0; i <= playerqty; i++)
+		if (e->msg != NULL && pos_collide(e->pos, player[i].pos)) {
+			ent_checks(e);
+			return;
+		}
+
 	int direc = rand() % (int)e->speed;
 
 	switch (direc) {
@@ -54,6 +60,12 @@ rand_ai(Ent *e) {
 void
 dumb_ai(Ent *e) {
 	if (!check_isalive(e)) return;
+
+	for (int i = 0; i <= playerqty; i++)
+		if (e->msg != NULL && pos_collide(e->pos, player[i].pos)) {
+			ent_checks(e);
+			return;
+		}
 
 	int shouldMove;
 	if (abs(e->pos.x - player[0].pos.x) <= e->sight && /* TODO: Make dumb AI follow other players */
