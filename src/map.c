@@ -6,9 +6,9 @@
 #include "util.h"
 
 static bool /* determines postion for a building */
-find_bld_loc(int *x_0, int *y_0, int w, int h) {
+find_bld_loc(int *x_0, int *y_0, int w, int h, SpawnType type) {
 	int tries = 0;
-	while (is_spawn_range(*x_0-1, *y_0-1, w+1, h+1, SPAWN_GRASS)) { /* TODO: add type var */
+	while (is_spawn_range(*x_0-1, *y_0-1, w+1, h+1, type)) {
 		*x_0 = rand() % MAX_X;
 		*y_0 = rand() % MAX_Y;
 		if (tries > 100000)
@@ -69,7 +69,7 @@ place_bld(Map bld) {
 	}
 
 	for (int num = 0; num < bld.rarity; num++) {
-		if (!find_bld_loc(&x_0, &y_0, bld.len, bld.height))
+		if (!find_bld_loc(&x_0, &y_0, bld.len, bld.height, bld.type))
 			return;
 		for (int i = 0; i < bld.len; i++) /* copy building to world */
 			for (int j = 0; j < bld.height; j++)
@@ -79,12 +79,12 @@ place_bld(Map bld) {
 }
 
 static void /* place a rectangle of wall filled with floor on map */
-place_room(Block wall, Block floor, int doorqty, Block door) {
+place_room(Block wall, Block floor, int doorqty, Block door, SpawnType type) {
 	int x_0 = 0, y_0 = 0;
 	int len = rand() % 7 + 4;
 	int height = rand() % 7 + 4;
 
-	if (!find_bld_loc(&x_0, &y_0, len, height))
+	if (!find_bld_loc(&x_0, &y_0, len, height, type))
 		return;
 
 	for (int i = 0; i < len; i++)
@@ -139,9 +139,9 @@ init_map(void) {
 	for (int i = 0; i < 10; i++) /* create buildings */
 		place_bld(buildings[i]);
 	for (int i = 0; i < rand()%6; i++) /* create houses */
-		place_room(block[5], block[6], rand()%2+1, block[8]);
+		place_room(block[5], block[6], rand()%2+1, block[8], SPAWN_GRASS);
 	for (int i = 0; i < rand()%4+3; i++) /* create dungeons */
-		place_room(block[3], block[4], rand()%3+1, block[8]);
+		place_room(block[3], block[4], rand()%3+1, block[8], SPAWN_GRASS);
 	for (int i = 0; i < rand()%2+1; i++) {
 		place_blocks(block[12]); /* create barrels */
 		place_blocks(block[15]); /* create tall grass patches */
