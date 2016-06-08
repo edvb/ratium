@@ -8,7 +8,7 @@
 #include "util.h"
 
 static void inv_add_item(Ent *e, Item *item, int qty) {
-	for (int i = 0; i <= MAX_INV; i++)
+	for (int i = 0; i < MAX_INV; i++)
 		if (e->inv[i].face == ' ') {
 			e->inv[i].face = item->face;
 			e->inv[i].name = item->name;
@@ -157,7 +157,7 @@ drop_item(Ent *e) {
 static void
 load_shooter(Ent *e) {
 	if (e->inv[e->hand].type == ITEM_SHOOTER)
-		for (int i = 0; i <= MAX_INV; i++)
+		for (int i = 0; i < MAX_INV; i++)
 			if (e->inv[i].map[0][0] > 0 && e->inv[i].type == ITEM_AMMO) {
 				e->inv[i].map[0][0]--;
 				e->inv[e->hand].face = ']';
