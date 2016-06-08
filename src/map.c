@@ -190,7 +190,7 @@ get_map(int x, int y) {
 
 void /* set character of map at x and y position to newch */
 set_map(int x, int y, Block b) {
-	if (x < MAX_X && y < MAX_Y && x > 0 && y > 0)
+	if (x < MAX_X && y < MAX_Y && x >= 0 && y >= 0)
 		map[y][x] = b;
 }
 
