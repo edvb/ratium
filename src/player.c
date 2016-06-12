@@ -241,7 +241,19 @@ player_run(Ent *e) {
 				clear_item(&item[i], e->pos.x+.5, e->pos.y+.5);
 			}
 
-		ent_checks(e);
+		ent_checks(e); /* TODO: move to main game loop? */
+
+		if (e->msg != NULL) {
+			if (e->t.msg != 0) {
+				e->t.msg--;
+				if (e->t.msg <= 0)
+					e->msg = NULL;
+			} else
+				e->t.msg = 60;
+		}
+
+		if (e->t.swing > 0)
+			e->t.swing--;
 
 	} else if (!e->isdead) {
 		for (int i = 0; i < MAX_INV; i++)

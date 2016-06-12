@@ -164,6 +164,12 @@ struct _Ent {
 	int hand;
 	Armor armor;
 
+	struct {
+		int dmg;
+		int msg;
+		int swing;
+	} t;
+
 	void (*run)(Ent *e); /* function containing entity movement logic */
 };
 

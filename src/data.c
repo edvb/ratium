@@ -171,6 +171,10 @@ add_ent(int entnum, int x_0, int y_0, int qty) {
 			entity[entqty].inv[0].map[0][0] = rand() % 3;
 		}
 
+		entity[entqty].t.dmg   = 0;
+		entity[entqty].t.msg   = 0;
+		entity[entqty].t.swing = 0;
+
 		switch(ent_t[entnum].ai) {
 		case AI_NONE:     entity[entqty].run = no_ai;   break;
 		case AI_HOSTILE:  entity[entqty].run = dumb_ai; break;
@@ -191,11 +195,6 @@ init_entity(void) {
 			strcpy(entity[entqty].name, ent_t[i].name);
 			entity[entqty].type = ent_t[i].type;
 			entity[entqty].ai = ent_t[i].ai;
-			entity[entqty].maxhp = ent_t[i].hp;
-			entity[entqty].hp = ent_t[i].hp;
-			entity[entqty].isdead = false;
-			entity[entqty].damage = ent_t[i].damage;
-			entity[entqty].sight = ent_t[i].sight;
 
 			char imgpath[64] = {0};
 			sprintf(imgpath, "data/ents/%s.png", entity[entqty].name);
@@ -204,9 +203,18 @@ init_entity(void) {
 			entity[entqty].rot = 0;
 			entity[entqty].flip = SDL_FLIP_NONE;
 
+			entity[entqty].maxhp = ent_t[i].hp;
+			entity[entqty].hp = ent_t[i].hp;
+			entity[entqty].isdead = false;
+			entity[entqty].damage = ent_t[i].damage;
+			entity[entqty].sight = ent_t[i].sight;
 			entity[entqty].speed = ent_t[i].speed;
 
-			entity[entqty].hand = -1;
+			gen_ent(&entity[entqty].pos.x, &entity[entqty].pos.y, ent_t[i].type);
+			entity[entqty].pos.w = 1.0;
+			entity[entqty].pos.h = 1.0;
+
+			entity[entqty].keys = (struct _Keys) {0};
 
 			entity[entqty].msg = malloc(MAX_NAME * sizeof(char));
 			if (ent_t[i].msg != NULL) {
@@ -218,15 +226,16 @@ init_entity(void) {
 				entity[entqty].inv[j].name = malloc(MAX_NAME * sizeof(char));
 				entity[entqty].inv[j].map[0][0] = 0;
 			}
+			entity[entqty].hand = -1;
 
 			if (ent_t[i].drop != NULL) {
 				strcpy(entity[entqty].inv[0].name, ent_t[i].drop);
 				entity[entqty].inv[0].map[0][0] = rand() % 3;
 			}
 
-			gen_ent(&entity[entqty].pos.x, &entity[entqty].pos.y, ent_t[i].type);
-			entity[entqty].pos.w = 1.0;
-			entity[entqty].pos.h = 1.0;
+			entity[entqty].t.dmg   = 0;
+			entity[entqty].t.msg   = 0;
+			entity[entqty].t.swing = 0;
 
 			switch(ent_t[i].ai) {
 			case AI_NONE:     entity[entqty].run = no_ai;   break;
@@ -287,6 +296,10 @@ bool init_player(int count) {
 
 		player[num].hand = -1;
 
+		player[num].t.dmg   = 0;
+		player[num].t.msg   = 0;
+		player[num].t.swing = 0;
+
 		player[num].run = NULL;
 	}
 
@@ -334,7 +347,12 @@ init_shot(Pos pos, Direc direc, int dmg, char *ammo) {
 	entity[entqty].hp = 1;
 	entity[entqty].isdead = false;
 	entity[entqty].damage = dmg;
+	entity[entqty].sight = 0;
 	entity[entqty].speed = .5;
+
+	entity[entqty].t.dmg   = 0;
+	entity[entqty].t.msg   = 0;
+	entity[entqty].t.swing = 0;
 
 	entity[entqty].run = shot_ai;
 

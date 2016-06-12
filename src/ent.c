@@ -33,12 +33,19 @@ void /* checks each entity's run code should check for */
 ent_checks(Ent *e) {
 	if (e->hp > e->maxhp)
 		e->hp = e->maxhp;
+	if (e->t.dmg > 0)
+		e->t.dmg--;
+	else
+		SDL_SetTextureColorMod(e->img, 255, 255, 255);
 }
 
 /* attack: entity e attack entity foe */
 void attack(Ent *e, Ent *foe) {
-	if (e->ai != AI_PEACEFUL)
-		take_damage(foe, deal_damage(e));
+	if (e->ai == AI_PEACEFUL || e->ai == AI_NONE) return;
+	take_damage(foe, deal_damage(e));
+	SDL_SetTextureColorMod(foe->img, 255, 64, 64);
+	foe->t.dmg = 5;
+	move_entity(foe, holding_x(e->direc, 0) / 2, holding_y(e->direc, 0) / 2);
 }
 
 /* take_damage: determine how much damage entity e should take */
