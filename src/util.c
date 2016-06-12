@@ -21,11 +21,13 @@ strdup(const char *s) {
 }
 
 char **
-str_split(char *a_str, const char a_delim) {
+str_split(const char *s, const char a_delim) {
 	char** result    = 0;
 	size_t count     = 0;
 	char* last_delim = 0;
 	char delim[2] = { a_delim, 0 }; /* converet a_delim into string for strtok */
+	char *a_str = malloc((strlen(s)+1) * sizeof(char));
+	strcpy(a_str, s);
 
 	/* count number of elements that will be extracted. */
 	for (char *tmp = a_str; *tmp; tmp++)
@@ -41,7 +43,7 @@ str_split(char *a_str, const char a_delim) {
 	 * knows where the list of returned strings ends. */
 	count++;
 
-	result = malloc(sizeof(char*) * count);
+	result = malloc(count * sizeof(char*));
 
 	if (result) {
 		size_t idx  = 0;
@@ -56,6 +58,7 @@ str_split(char *a_str, const char a_delim) {
 		*(result + idx) = 0;
 	}
 
+	free(a_str);
 	return result;
 }
 
