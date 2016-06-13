@@ -203,7 +203,7 @@ bool /* return whether or not the area given is all a floor tile */
 is_floor_range(int x, int y, int dx, int dy) {
 	for (int i = x; i <= dx+x; i++)
 		for (int j = y; j <= dy+y; j++)
-			if (estrcmp(get_map(i, j).name, "grass") != 0) /* TODO: is_floor */
+			if (!is_floor(i,j))
 				return false;
 	return true;
 }
