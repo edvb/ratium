@@ -13,6 +13,7 @@
 #define MAX_X 48
 #define MAX_Y 32
 #define MAX_NAME 16
+#define MAX_MSG 256
 #define MAX_PLAYERS 8
 #define MAX_ENTITIES 256
 #define MAX_ITEMS 256
@@ -159,7 +160,7 @@ struct _Ent {
 	float speed;   /* how fast entity ai can move */
 
 	struct _Keys keys; /* player keys */
-	char *msg;   /* message player will display, or message to tell player */
+	char *msg; /* message player will display, or message to tell player */
 	Item inv[MAX_INV]; /* inventory of ent */
 	int hand;
 	Armor armor;
@@ -201,7 +202,7 @@ void add_item(Item *item, int x, int y);
 void draw_item(Item item, Ent e, int r);
 
 /* ent.c: handle anything with entities */
-void draw_msg(Ent e);
+void draw_msg(Ent *e);
 void draw_ent(Ent e, Ent oe, int r);
 
 /* ai.c: different entity AIs */

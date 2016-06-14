@@ -73,10 +73,10 @@ void rat_loop(void) {
 		for (int i = 0; i <= entqty; i++)
 			for (int j = 0; j <= playerqty; j++)
 				if (pos_collide(entity[i].pos, player[j].pos) && entity[i].hp > 0)
-					draw_msg(entity[i]);
+					draw_msg(&entity[i]);
 		for (int i = 0; i <= playerqty; i++) {
 			draw_inv(player[i]);
-			draw_msg(player[i]);
+			draw_msg(&player[i]);
 		}
 
 		for (int i = 0; i < MAX_X; i++)

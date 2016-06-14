@@ -27,15 +27,16 @@ static struct Ent_t player_t[MAX_PLAYERS] = {
 { "player2", NULL, NULL, 10, 1, 8, .5, SPAWN_ALL, AI_PLAYER, 0 },
 };
 
+#define PEASANT_MSG "Oh.;How'd you do./Lovely filth;down here"
+#define KING_MSG "I am Arthur/King of the Britons"
 static struct Ent_t ent_t[MAX_ENTITIES] = {
-{ "rat",         "meat",  NULL,                     4,  1, 4,  50,  SPAWN_CAVE,  AI_HOSTILE,  5 },
-{ "super rat",   "meat",  NULL,                     6,  2, 8,  50,  SPAWN_CAVE,  AI_HOSTILE,  3 },
-{ "gnu",         "meat",  NULL,                     6,  1, 3,  300, SPAWN_GRASS, AI_PEACEFUL, 2 },
-{ "cow",         "meat",  "moo",                    2,  0, 3,  600, SPAWN_GRASS, AI_PEACEFUL, 5 },
-{ "King Arthur", "gold",  "I am King Arthur",       10, 0, 16, 60,  SPAWN_ALL,   AI_PEACEFUL, 1 },
-{ "knight",      "sword", "Who goes there?",        10, 0, 16, 0,   SPAWN_ALL,   AI_NONE,     2 },
-{ "peasant",     NULL,    "Oh. How'd you do",       10, 0, 16, 90,  SPAWN_ALL,   AI_PEACEFUL, 2 },
-{ "peasant",     NULL,    "lovely filth down here", 10, 0, 16, 90,  SPAWN_ALL,   AI_PEACEFUL, 2 },
+{ "rat",         "meat",  NULL,              2,  1, 4,  50,  SPAWN_CAVE,  AI_HOSTILE,  5 },
+{ "super rat",   "meat",  NULL,              4,  2, 8,  50,  SPAWN_CAVE,  AI_HOSTILE,  3 },
+{ "gnu",         "meat",  NULL,              6,  1, 3,  300, SPAWN_GRASS, AI_PEACEFUL, 2 },
+{ "cow",         "meat",  "moo",             2,  0, 3,  600, SPAWN_GRASS, AI_PEACEFUL, 5 },
+{ "King Arthur", "gold",  KING_MSG,          10, 0, 16, 60,  SPAWN_ALL,   AI_PEACEFUL, 1 },
+{ "knight",      "sword", "Who goes there?", 10, 0, 16, 0,   SPAWN_ALL,   AI_NONE,     2 },
+{ "peasant",     NULL,    PEASANT_MSG,       10, 0, 16, 90,  SPAWN_ALL,   AI_PEACEFUL, 4 },
 };
 int entqty_t = 8;
 
@@ -216,7 +217,7 @@ init_entity(void) {
 
 			entity[entqty].keys = (struct _Keys) {0};
 
-			entity[entqty].msg = malloc(MAX_NAME * sizeof(char));
+			entity[entqty].msg = malloc(MAX_MSG * sizeof(char));
 			if (ent_t[i].msg != NULL) {
 				strcpy(entity[entqty].msg, ent_t[i].msg);
 			} else

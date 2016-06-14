@@ -110,18 +110,30 @@ float holding_y(Direc direc, float val) {
 }
 
 void
-draw_msg(Ent e) {
-	if (e.msg == NULL)
-		return;
-	SDL_Color color = { 255, 255, 255 };
-	int count = count_chars(e.msg, ';') + 1;
-	char stmp[64] = {0}; strcpy(stmp, e.msg);
-	char **s = str_split(stmp, ';');
-	for (int i = 0; i < count; i++) {
-		draw_text(s[i], color,
-		          (e.pos.x*U+(U/2)) - (strlen(s[i])*FONT_W / 2),
-		          (e.pos.y*U-(U/2)) - (FONT_H / 2) - (((count-1)-i)*FONT_H));
+draw_msg(Ent *e) {
+	if (e->msg == NULL) return;
+	int ncount  = count_chars(e->msg, '/');
+	char **nstr = str_split(e->msg, '/');
+	static int i = 64; /* TODO */
+
+	if (e->t.msg > 0)
+		e->t.msg--;
+	else {
+		e->t.msg = 48;
+		i++;
+		if (i > ncount) i = 0;
 	}
+
+	int lcount  = count_chars(nstr[i], ';');
+	char **lstr = str_split(nstr[i], ';');
+	for (int j = 0; j <= lcount; j++) {
+		draw_text(lstr[j], (SDL_Color){255,255,255},
+				(e->pos.x*U+(U/2)) - (strlen(lstr[j])*FONT_W / 2),
+				(e->pos.y*U-(U/2)) - (FONT_H / 2) - ((lcount-j)*FONT_H));
+	}
+
+	free(nstr);
+	free(lstr);
 }
 
 /* draw_ent: draw entity e if in range of entity oe by r */
