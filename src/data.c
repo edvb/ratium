@@ -22,11 +22,6 @@ struct Ent_t {
 	int rarity;
 };
 
-static struct Ent_t player_t[MAX_PLAYERS] = {
-{ "player1", NULL, NULL, 10, 1, 8, .5, SPAWN_ALL, AI_PLAYER, 0 },
-{ "player2", NULL, NULL, 10, 1, 8, .5, SPAWN_ALL, AI_PLAYER, 0 },
-};
-
 #define PEASANT_MSG "Oh.;How'd you do./Lovely filth;down here"
 #define KING_MSG "I am Arthur/King of the Britons"
 static struct Ent_t ent_t[MAX_ENTITIES] = {
@@ -258,7 +253,7 @@ bool init_player(int count) {
 
 	for (int num = 0; num < count; num++) {
 		player[num].name = malloc(MAX_NAME * sizeof(char));
-		strcpy(player[num].name, player_t[num].name);
+		strcpy(player[num].name, "player");
 		player[num].type = SPAWN_ALL;
 		player[num].ai = AI_PLAYER;
 
@@ -267,14 +262,6 @@ bool init_player(int count) {
 		player[num].rot = 0;
 		player[num].flip = SDL_FLIP_NONE;
 
-		player[num].maxhp = player_t[num].hp;
-		player[num].hp = player[num].maxhp;
-		player[num].isdead = false;
-		player[num].damage = player_t[num].damage;
-		player[num].sight = player_t[num].sight;
-		player[num].speed = player_t[num].speed;
-
-		player[num].direc = RIGHT;
 		do {
 			x_0 = rand() % MAX_X;
 			y_0 = rand() % MAX_Y;
@@ -283,6 +270,14 @@ bool init_player(int count) {
 		player[num].pos.y = y_0;
 		player[num].pos.w = 1.0;
 		player[num].pos.h = 1.0;
+		player[num].direc = RIGHT;
+
+		player[num].maxhp = 10;
+		player[num].hp    = player[num].maxhp;
+		player[num].isdead = false;
+		player[num].damage = 1;
+		player[num].sight  = 16;
+		player[num].speed  = .25;
 
 		player[num].keys = player_keys[num];
 
@@ -294,7 +289,6 @@ bool init_player(int count) {
 			player[num].inv[i].face = ' ';
 			player[num].inv[i].map[0][0] = 0;
 		}
-
 		player[num].hand = -1;
 
 		player[num].t.dmg   = 0;
