@@ -23,9 +23,6 @@
 #define FONT_W 8
 #define FONT_H 16
 
-#undef false /* damn ncurses.... */
-#undef true
-#undef bool
 typedef enum { false, true } bool;
 
 #define SDL_ERROR(x) { \
