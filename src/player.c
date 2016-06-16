@@ -50,9 +50,9 @@ static void
 inv(Ent *e) {
 	const Uint8 *k = SDL_GetKeyboardState(NULL);
 	if (k[e->keys.left])
-		while (e->inv[++e->hand].face == ' ' && e->hand != 0) ;
-	else if (k[e->keys.right])
 		while (e->inv[--e->hand].face == ' ' && e->hand != 0) ;
+	else if (k[e->keys.right])
+		while (e->inv[++e->hand].face == ' ' && e->hand != 0) ;
 
 	if (e->hand >= MAX_INV)
 		e->hand = -1;
