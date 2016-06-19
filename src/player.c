@@ -168,6 +168,10 @@ load_shooter(Ent *e) {
 
 static void
 act_key(Ent *e) {
+	if (e->t.swing > 0)
+		return;
+	e->t.swing = 8;
+
 	/* use item in hand */
 	if (e->inv[e->hand].map[0][0] > 0)
 		switch (e->inv[e->hand].type) {
@@ -196,7 +200,6 @@ act_key(Ent *e) {
 		    pos_collide((Pos){holding_x(e->direc, e->pos.x), holding_y(e->direc, e->pos.y),1,1},
 			entity[i].pos)))
 			attack(e, &entity[i]);
-
 }
 
 void
