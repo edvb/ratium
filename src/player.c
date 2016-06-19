@@ -191,6 +191,8 @@ act_key(Ent *e) {
 				load_shooter(e);
 			return;
 		case ITEM_SWORD:
+			move_entity(e, holding_x(e->direc, 0) / 2, holding_y(e->direc, 0) / 2);
+			break;
 		case ITEM_SHIELD:
 			break;
 		}
