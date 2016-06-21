@@ -13,20 +13,13 @@ static const struct option longopts[] = {
 	{NULL,      0,           NULL, 0  }
 };
 
-static void
-ratium_help(void) {
-	printf("\
-Usage: ratium [OPTION]\n\
-A dumb little ncurses game where you play as a '@' and have to kill rats\n\
-\n\
-      --help      display this help and exit\n\
-      --version   output version information and exit\n\
-\n\
-For more info see man page\n\
-\n\
-ratium home page: <http://edvb.itch.io/ratium>\n\
-");
-}
+const char rat_usage_string[] =
+	"ratium [--help] [--version]\n"
+	"\n"
+	"      --help      display this help and exit\n"
+	"      --version   output version information and exit\n"
+	"\n"
+	"For more info see man page\n";
 
 int main(int argc, char *argv[]) {
 	int optc;
@@ -34,7 +27,7 @@ int main(int argc, char *argv[]) {
 	while ((optc = getopt_long(argc, argv, "", longopts, NULL)) != -1)
 		switch (optc) {
 		case 'h':
-			ratium_help();
+			printf("usage: %s", rat_usage_string);
 			return 0;
 		case 'v':
 			printf("ratium v%s\n", VERSION);
