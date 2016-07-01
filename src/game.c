@@ -32,16 +32,16 @@ rat_init(void) {
 
 	init_block();
 	init_map();
-	/* init_entity(); */
+	init_entity();
 	init_player(DEF_PLAYERS);
-	/* init_item(); */
+	init_item();
 
 	return true;
 }
 
 void rat_loop(void) {
 	SDL_Event e;
-	Uint32 ticksstep = 1000 / 30;
+	Uint32 ticksstep = 1440 / 30;
 	Uint32 ticksnow = SDL_GetTicks();
 	Uint32 tickselapsed = 0;
 

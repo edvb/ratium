@@ -44,7 +44,7 @@ void attack(Ent *e, Ent *foe) {
 	if (e->ai == AI_PEACEFUL || e->ai == AI_NONE) return;
 	take_damage(foe, deal_damage(e));
 	SDL_SetTextureColorMod(foe->img, 255, 64, 64);
-	foe->t.dmg = 5;
+	foe->t.dmg = 8;
 	move_entity(foe, holding_x(e->direc, 0) / 2, holding_y(e->direc, 0) / 2);
 }
 
@@ -119,10 +119,10 @@ draw_msg(Ent *e) {
 	if (e->t.msg > 0)
 		e->t.msg--;
 	else {
-		e->t.msg = 48;
+		e->t.msg = 128;
 		i++;
-		if (i > ncount) i = 0;
 	}
+	if (i > ncount) i = 0;
 
 	int lcount  = count_chars(nstr[i], ';');
 	char **lstr = str_split(nstr[i], ';');

@@ -170,7 +170,7 @@ static void
 act_key(Ent *e) {
 	if (e->t.swing > 0)
 		return;
-	e->t.swing = 8;
+	e->t.swing = 16;
 
 	/* use item in hand */
 	if (e->inv[e->hand].map[0][0] > 0)
@@ -254,7 +254,7 @@ player_run(Ent *e) {
 				if (e->t.msg <= 0)
 					e->msg = NULL;
 			} else
-				e->t.msg = 60;
+				e->t.msg = 128;
 		}
 
 		if (e->t.swing > 0)
