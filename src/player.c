@@ -81,8 +81,8 @@ cmd_run(Ent *e, char *text) {
 				set_map(holding_x(e->direc, e->pos.x), holding_y(e->direc, e->pos.y),
 				        block[i]);
 	} else if (estrcmp(textv[0], "pos") == 0) {
-		e->msg = malloc(MAX_NAME * sizeof(char));
-		snprintf(e->msg, MAX_NAME*sizeof(char), "%.1f, %.1f", e->pos.x, e->pos.y);
+		e->msg = malloc(MAX_MSG * sizeof(char));
+		snprintf(e->msg, MAX_MSG, "%.1f, %.1f", e->pos.x, e->pos.y);
 	} else if (estrcmp(textv[0], "spawn") == 0)
 		if (textv[1] != NULL)
 			add_ent_name(textv[1],
