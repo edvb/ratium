@@ -12,7 +12,7 @@ INCS = -Iinclude
 LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
 # flags
-CFLAGS = -std=c99 -pedantic -Wall ${INCS} -DVERSION=\"$(VERSION)\"
+CFLAGS = -g -std=c99 -pedantic -Wall ${INCS} -DVERSION=\"$(VERSION)\"
 LDFLAGS = ${LIBS}
 
 # compiler and linker
@@ -45,6 +45,9 @@ $(EXE): $(OBJ)
 
 run: all
 	./$(EXE)
+
+db: all
+	gdb -q $(EXE)
 
 clean:
 	@echo -n cleaning...
@@ -86,4 +89,4 @@ update-man:
 		| md2man-roff > $(EXE).1
 	@echo \ done
 
-.PHONY: all options run clean dist install uninstall update-man
+.PHONY: all options run db clean dist install uninstall update-man
