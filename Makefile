@@ -1,13 +1,13 @@
 # ratium version number
 VERSION = 0.0.0
 
-### Change the varibles below for your system
+### Change the variables below for your system
 
 # paths
 PREFIX = /usr/local
 MANPREFIX = ${PREFIX}/share/man
 
-# includes and libs
+# includes and libraries
 INCS = -Iinclude
 LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
@@ -28,20 +28,19 @@ all: options $(EXE)
 
 options:
 	@echo $(EXE) build options:
-	@echo "cc      = $(CC)"
 	@echo "CFLAGS  = $(CFLAGS)"
 	@echo "LDFLAGS = $(LDFLAGS)"
 
 .o:
-	@echo ld $@
+	@echo $(LD) $@
 	@$(LD) -o $@ $< $(LDFLAGS)
 
 .c.o:
-	@echo cc $<
+	@echo $(CC) $<
 	@$(CC) -c -o $@ $< $(CFLAGS)
 
 $(EXE): $(OBJ)
-	@echo cc -o $@
+	@echo $(CC) -o $@
 	@$(CC) -o $@ $(OBJ) $(LDFLAGS)
 
 run: all
@@ -49,14 +48,13 @@ run: all
 
 clean:
 	@echo -n cleaning...
-	@rm -f $(OBJ) $(EXE)
+	@rm -f $(LUAH) $(OBJ) $(EXE)
 	@echo \ done
 
 dist: clean
 	@echo -n creating dist tarball...
 	@mkdir -p $(EXE)-$(VERSION)
-	@cp -R Makefile src/ data/ misc/ \
-		$(EXE).1 $(EXE)-$(VERSION)
+	@cp -R LICENSE README.md Makefile src/ data/ $(EXE).1 $(EXE)-$(VERSION)
 	@tar -cf $(EXE)-$(VERSION).tar $(EXE)-$(VERSION)
 	@gzip $(EXE)-$(VERSION).tar
 	@rm -rf $(EXE)-$(VERSION)
