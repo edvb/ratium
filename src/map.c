@@ -2,113 +2,9 @@
 #include <stdlib.h>
 
 #include "ratium.h"
+#include "rat-lua.h"
 #include "map.h"
 #include "util.h"
-
-static bool /* determines postion for a building */
-find_bld_loc(int *x_0, int *y_0, int w, int h, SpawnType type) {
-	int tries = 0;
-	while (is_spawn_range(*x_0-1, *y_0-1, w+1, h+1, type)) {
-		*x_0 = rand() % MAX_X;
-		*y_0 = rand() % MAX_Y;
-		if (tries > 100000)
-			return false;
-		tries++;
-	}
-	return true;
-}
-
-static void /* puts a single block on map */
-place_block(Block b) {
-	int x, y, tries = 0;
-	do {
-		x = rand() % MAX_X;
-		y = rand() % MAX_Y;
-		if (tries > 100000) return;
-		tries++;
-	} while (is_spawn(x, y, b.spawntype));
-	set_map((int)x, (int)y, b);
-}
-
-static void /* puts a cluster of blocks on map */
-place_blocks(Block b) {
-	int x_0, y_0, qty, pos;
-	int tries = 0;
-
-	do {
-		x_0 = rand() % MAX_X;
-		y_0 = rand() % MAX_Y;
-		if (tries > 100000) return;
-		tries++;
-	} while (is_spawn_range(x_0-1, y_0-1, 3, 3, b.spawntype));
-	set_map(x_0, y_0, b);
-
-	qty = rand()%8;
-	for (int j = 0; j < qty; j++) {
-		pos = rand()%8;
-		switch (pos) {
-		case 0: set_map(x_0+1, y_0, b); break;
-		case 1: set_map(x_0, y_0+1, b); break;
-		case 2: set_map(x_0+1, y_0+1, b); break;
-		case 3: set_map(x_0-1, y_0, b); break;
-		case 4: set_map(x_0, y_0-1, b); break;
-		case 5: set_map(x_0-1, y_0-1, b); break;
-		case 6: set_map(x_0+1, y_0-1, b); break;
-		case 7: set_map(x_0-1, y_0+1, b); break;
-		}
-	}
-}
-
-static void /* puts building bld onto the map */
-place_bld(Map bld) {
-	int x_0, y_0;
-
-	switch (rand() % 2) { /* randomly change amount of buildings */
-	case 0: bld.rarity += rand() % 2;
-	case 1: bld.rarity -= rand() % 2;
-	}
-
-	for (int num = 0; num < bld.rarity; num++) {
-		if (!find_bld_loc(&x_0, &y_0, bld.len, bld.height, bld.type))
-			return;
-		for (int i = 0; i < bld.len; i++) /* copy building to world */
-			for (int j = 0; j < bld.height; j++)
-				if (bld.map[j][i] != 0)
-					set_map(i+x_0, j+y_0, block[bld.map[j][i]]);
-	}
-}
-
-static void /* place a rectangle of wall filled with floor on map */
-place_room(Block wall, Block floor, int doorqty, Block door, SpawnType type) {
-	int x_0 = 0, y_0 = 0;
-	int len = rand() % 7 + 4;
-	int height = rand() % 7 + 4;
-
-	if (!find_bld_loc(&x_0, &y_0, len, height, type))
-		return;
-
-	for (int i = 0; i < len; i++)
-		for (int j = 0; j < height; j++)
-			set_map(i+x_0, j+y_0, wall);
-	for (int i = 0; i < len-2; i++)
-		for (int j = 0; j < height-2; j++)
-			set_map(i+x_0+1, j+y_0+1, floor);
-	for (int i = 0; i < doorqty; i++)
-		switch (rand()%4) {
-		case 0:
-			set_map(x_0+rand()%(len-2)+1, y_0, door);
-			break;
-		case 1:
-			set_map(x_0, y_0+rand()%(height-2)+1, door);
-			break;
-		case 2:
-			set_map(x_0+rand()%(len-2)+1, y_0+height-1, door);
-			break;
-		case 3:
-			set_map(x_0+len-1, y_0+rand()%(height-2)+1, door);
-			break;
-		}
-}
 
 bool
 init_block(void) {
@@ -131,25 +27,43 @@ init_block(void) {
 	return true;
 }
 
+static int
+lua_is_spawn(lua_State *L) {
+	LUA_ARG_COUNT(3, "is_spawn");
+	return !is_spawn(lua_tonumber(L, 1), lua_tonumber(L, 2),
+	                 block[(int)lua_tonumber(L, 3)].spawntype);
+}
+
+static int
+lua_is_spawn_range(lua_State *L) {
+	LUA_ARG_COUNT(5, "is_spawn_range");
+	return !is_spawn_range(lua_tonumber(L, 1), lua_tonumber(L, 2),
+	                       lua_tonumber(L, 3), lua_tonumber(L, 4),
+	                       block[(int)lua_tonumber(L, 5)].spawntype);
+}
+
+static int
+lua_set_map(lua_State *L) {
+	LUA_ARG_COUNT(3, "set_map");
+	set_map(lua_tonumber(L, 1), lua_tonumber(L, 2), block[(int)lua_tonumber(L, 3)]);
+	return 0;
+}
+
 void /* draw buildings and rooms to map */
 init_map(void) {
 	for (int i = 0; i < MAX_X; i++)
 		for (int j = 0; j < MAX_Y; j++)
 			set_map(i, j, block[1]);
-	for (int i = 0; i < 10; i++) /* create buildings */
-		place_bld(buildings[i]);
-	for (int i = 0; i < rand()%6; i++) /* create houses */
-		place_room(block[5], block[6], rand()%2+1, block[8], SPAWN_GRASS);
-	for (int i = 0; i < rand()%4+3; i++) /* create dungeons */
-		place_room(block[3], block[4], rand()%3+1, block[8], SPAWN_GRASS);
-	for (int i = 0; i < rand()%2+1; i++) {
-		place_blocks(block[12]); /* create barrels */
-		place_blocks(block[15]); /* create tall grass patches */
-	}
-	for (int i = 0; i < rand()%8+8; i++) {
-		place_block(block[13]);  /* create bushes */
-		place_blocks(block[14]); /* create flowers */
-	}
+	lua_State *L = luaL_newstate();
+	luaL_openlibs(L);
+	lua_register(L, "set_map", lua_set_map);
+	lua_register(L, "is_spawn", lua_is_spawn);
+	lua_register(L, "is_spawn_range", lua_is_spawn_range);
+	LUA_SET_VAR(MAX_X);
+	LUA_SET_VAR(MAX_Y);
+	LUA_LOAD_FILE("data/blds.lua");
+	LUA_LOAD_FILE("data/map.lua");
+	lua_close(L);
 }
 
 char * /* return tile which SpawnType can spawn on */

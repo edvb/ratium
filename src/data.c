@@ -35,22 +35,6 @@ static struct Ent_t ent_t[MAX_ENTITIES] = {
 };
 int entqty_t = 8;
 
-struct {
-	char *name;
-	ItemType type;
-	int stat;
-	int rarity;
-} item_t[MAX_ITEMS] = {
-{ "gold",     ITEM_MISC,    0,  4 },
-{ "spam",     ITEM_FOOD,    3,  4 },
-{ "sword",    ITEM_SWORD,   2,  2 },
-{ "shield",   ITEM_SHIELD,  4,  2 },
-{ "bow",      ITEM_SHOOTER, 20, 2 },
-{ "arrow",    ITEM_AMMO,    5,  4 },
-{ "meat",     ITEM_FOOD,    1,  0 },
-};
-int itemqty_t = 7;
-
 /* TODO: Improve and implement in other functions */
 /* TODO: Add min and max parameters */
 /* calc_rarity: change rarity to make it random */
@@ -72,48 +56,6 @@ gen_ent(float *x, float *y, SpawnType type) {
 		if (tries > 100000) return;
 		tries++;
 	} while (is_spawn(*x, *y, type));
-}
-
-/* init_item: copies values from item_t[] to item[] */
-bool init_item(void) {
-	itemqty = 0;
-	int tries = 0;
-
-	for (int num = 0; num < itemqty_t; num++) {
-		item[itemqty].name = malloc(MAX_NAME * sizeof(char));
-		strcpy(item[itemqty].name, item_t[itemqty].name);
-		item[itemqty].type = item_t[itemqty].type;
-		item[itemqty].stat = item_t[itemqty].stat;
-
-		char imgpath[64] = {0};
-		sprintf(imgpath, "data/items/%s.png", item[itemqty].name);
-		item[itemqty].img = load_img(imgpath);
-		item[itemqty].src = (SDL_Rect) { 0, 0, U, U };
-
-		for (int i = 0; i < MAX_X; i++)
-			for (int j = 0; j < MAX_Y; j++)
-				item[itemqty].map[j][i] = 0;
-
-		calc_rarity(&item_t[itemqty].rarity);
-		for (int x, y, i = 0; i < item_t[itemqty].rarity; i++) {
-			do {
-				x = rand() % MAX_X;
-				y = rand() % MAX_Y;
-				if (tries > 100000) return false;
-				tries++;
-			} while (estrcmp(get_map(x, y).name, "stone") != 0 && estrcmp(get_map(x, y).name, "board") != 0);
-			if (item_t[itemqty].type == ITEM_AMMO)
-				item[itemqty].map[y][x] += 4;
-			else
-				item[itemqty].map[y][x]++;
-		}
-
-		itemqty++;
-	}
-
-	itemqty++;
-
-	return true;
 }
 
 void /* spawn entity by name */

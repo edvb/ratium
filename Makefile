@@ -9,7 +9,7 @@ MANPREFIX = ${PREFIX}/share/man
 
 # includes and libraries
 INCS = -Iinclude
-LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf
+LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf -llua5.3
 
 # flags
 CFLAGS = -g -std=c99 -pedantic -Wall ${INCS} -DVERSION=\"$(VERSION)\"
@@ -23,6 +23,8 @@ CC = gcc
 EXE = ratium
 SRC = $(wildcard src/*.c)
 OBJ = $(SRC:.c=.o)
+LUA = $(wildcard src/*.lua)
+LUAH = $(LUA:.lua=.lua.h)
 
 all: options $(EXE)
 
@@ -30,6 +32,10 @@ options:
 	@echo $(EXE) build options:
 	@echo "CFLAGS  = $(CFLAGS)"
 	@echo "LDFLAGS = $(LDFLAGS)"
+
+%.lua.h: %.lua
+	@echo xxd $<
+	@xxd -i $< $@
 
 .o:
 	@echo $(LD) $@
@@ -39,7 +45,7 @@ options:
 	@echo $(CC) $<
 	@$(CC) -c -o $@ $< $(CFLAGS)
 
-$(EXE): $(OBJ)
+$(EXE): $(LUAH) $(OBJ)
 	@echo $(CC) -o $@
 	@$(CC) -o $@ $(OBJ) $(LDFLAGS)
 
