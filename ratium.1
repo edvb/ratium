@@ -1,164 +1,92 @@
 .TH ratium 1
 .SH NAME
 .PP
-ratium  \- A Dumb Little NCurses ASCII Game
+ratium  \- extendible top\-down pixel adventure game
 .SH SYNOPSIS
 .PP
-ratium [\-\-help] [\-\-version]
+\fB\fCratium\fR [\-\-help] [\-\-version]
 .SH DESCRIPTION
 .PP
-ratium  is a dumb little game where you are a '@' and have to survive in an
-ASCII world by defending yourself from various enemies, like the super rat.
-Collect items such as spam, swords, and haggises to aid you in your battles.
+Ratium is a dumb little game where you play as an adventurer and have to
+survive in a pixel world by defending yourself from various enemies, such as
+the super rat. Collect items such as spam, swords, and arrows to aid you in
+your battles and exploration.
 .SH COMMANDS
-.PP
-To quit the game press ESC, you can also press ctrl\-z to suspend the game.
-.SS MOVEMENT
-.PP
-y k u
-.PP
-h . l
-.PP
-b j n
-.SS PLAYER ACTIONS
-.RS
-.IP \(bu 2
-\fBi\fP: Open/close inventory menu.
-.IP \(bu 2
-\fBo\fP: Action key.
-.IP \(bu 2
-\fBp\fP: drop key.
-.RE
+.TS
+allbox;
+cb cb
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+.
+Key	Function
+h	Move left
+j	Move down
+k	Move up
+l	Move left
+e	Open inventory menu
+r	Action key
+t	Drop key
+ESC	Quit
+.TE
 .SH ENTITIES
-.RS
-.IP \(bu 2
-Rat (r)
-.RS
-.IP \(bu 2
-A hostile creature.
-.IP \(bu 2
-Attack: 1
-.IP \(bu 2
-Heath:  2
-.IP \(bu 2
-Drops rat meat on death.
-.RE
-.IP \(bu 2
-Super Rat (R)
-.RS
-.IP \(bu 2
-A hostile creature.
-.IP \(bu 2
-Attack: 2
-.IP \(bu 2
-Heath:  4
-.IP \(bu 2
-Drops rat meat on death.
-.RE
-.IP \(bu 2
-Gnu (G)
-.RS
-.IP \(bu 2
-A peaceful animal.
-.IP \(bu 2
-Heath:  6
-.IP \(bu 2
-Drops gnu meat on death.
-.RE
-.IP \(bu 2
-Cow (c)
-.RS
-.IP \(bu 2
-A peaceful animal.
-.IP \(bu 2
-Heath:  2
-.IP \(bu 2
-Drops beef on death.
-.RE
-.IP \(bu 2
-King Arthur (@)
-.RS
-.IP \(bu 2
-A NPC which will talk to you.
-.IP \(bu 2
-Heath:  10
-.IP \(bu 2
-Drops gold on death.
-.RE
-.RE
+.TS
+allbox;
+cb cb cb cb cb
+l l l l l
+l l l l l
+l l l l l
+l l l l l
+l l l l l
+l l l l l
+l l l l l
+.
+Name	Description	Heath	Attack	Drops
+Rat	A small pest	2	1	Meat
+Super Rat	A rat you don't want to mess with	4	2	Meat
+Gnu	A harmless animal that just wants to be free	6	1	Meat
+Cow	"moo"	2	0	Meat
+King Arthur	King of the Britons	10	0	Gold
+Knight	A humble warrior	10	0	Sword
+Peasant	A worthless low life	10	0	None
+.TE
 .SH ITEMS
-.RS
-.IP \(bu 2
-Gold ($)
-.RS
-.IP \(bu 2
-Increase score
-.RE
-.IP \(bu 2
-Spam (=)
-.RS
-.IP \(bu 2
-Eat to restore 2 heath
-.RE
-.IP \(bu 2
-Haggis (o)
-.RS
-.IP \(bu 2
-Eat to restore 10 heath
-.RE
-.IP \(bu 2
-Sword (/)
-.RS
-.IP \(bu 2
-Hold to deal more damage
-.RE
-.IP \(bu 2
-Shield (0)
-.RS
-.IP \(bu 2
-Hold to block damage
-.RE
-.IP \(bu 2
-Bow ())
-.RS
-.IP \(bu 2
-Hold to fire arrows
-.RE
-.IP \(bu 2
-Arrow (|)
-.RS
-.IP \(bu 2
-Used by bow to deal 5 damage
-.RE
-.IP \(bu 2
-Rat Meat (%)
-.RS
-.IP \(bu 2
-Eat to remove 1 heath
-.RE
-.IP \(bu 2
-Gnu Meat (%)
-.RS
-.IP \(bu 2
-Eat to restore 4 heath
-.RE
-.IP \(bu 2
-Beef (%)
-.RS
-.IP \(bu 2
-Eat to restore 22 heath
-.RE
-.RE
+.TS
+allbox;
+cb cb
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+.
+Item	Description
+Gold	Increase score
+Spam	Eat to restore 3 heath
+Sword	Hold to deal more 2 damage
+Shield	Hold to block 4 damage
+Bow	Hold to load then fire arrows up to 20 blocks
+Arrow	Fire with bow to deal 5 damage
+Meat	Eat to restore 1 heath
+.TE
 .SH AUTHOR
 .PP
-Written by ED van Bruggen.
+Ed van Bruggen 
+\<edvb54@gmail.com\>
 .SH SEE ALSO
 .PP
 View source code at: 
-\[la]https://gitlab.com/edvb/ratium\[ra]
+\<https://gitlab.com/edvb/ratium\>
 .PP
 See screenshots, videos, and binary download at: 
-\[la]http://edvb.itch.io/ratium\[ra]
+\<http://edvb.itch.io/ratium\>
 .SH LICENSE
 .PP
 GPL v3 License

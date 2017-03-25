@@ -1,82 +1,56 @@
-# ratium - A Dumb Little NCurses ASCII Game
+# ratium - extendible top-down pixel adventure game
 
 ## SYNOPSIS
 
-ratium [--help] [--version]
+`ratium` [--help] [--version]
 
 ## DESCRIPTION
 
-ratium  is a dumb little game where you are a '@' and have to survive in an
-ASCII world by defending yourself from various enemies, like the super rat.
-Collect items such as spam, swords, and haggises to aid you in your battles.
+Ratium is a dumb little game where you play as an adventurer and have to
+survive in a pixel world by defending yourself from various enemies, such as
+the super rat. Collect items such as spam, swords, and arrows to aid you in
+your battles and exploration.
 
 ## COMMANDS
 
-To quit the game press ESC, you can also press ctrl-z to suspend the game.
-
-### MOVEMENT
-
-y k u
-
-h . l
-
-b j n
-
-### PLAYER ACTIONS
-
- * **i**: Open/close inventory menu.
- * **o**: Action key.
- * **p**: drop key.
+| Key | Function            |
+| --- | ------------------- |
+| h   | Move left           |
+| j   | Move down           |
+| k   | Move up             |
+| l   | Move left           |
+| e   | Open inventory menu |
+| r   | Action key          |
+| t   | Drop key            |
+| ESC | Quit                |
 
 ## ENTITIES
- * Rat (r)
-   * A hostile creature.
-   * Attack: 1
-   * Heath:  2
-   * Drops rat meat on death.
- * Super Rat (R)
-   * A hostile creature.
-   * Attack: 2
-   * Heath:  4
-   * Drops rat meat on death.
- * Gnu (G)
-   * A peaceful animal.
-   * Heath:  6
-   * Drops gnu meat on death.
- * Cow (c)
-   * A peaceful animal.
-   * Heath:  2
-   * Drops beef on death.
- * King Arthur (@)
-   * A NPC which will talk to you.
-   * Heath:  10
-   * Drops gold on death.
+
+| Name        | Description                                  | Heath | Attack | Drops |
+| ----------- | ---------------------------------            | ----- | ------ | ----- |
+| Rat         | A small pest                                 | 2     | 1      | Meat  |
+| Super Rat   | A rat you don't want to mess with            | 4     | 2      | Meat  |
+| Gnu         | A harmless animal that just wants to be free | 6     | 1      | Meat  |
+| Cow         | "moo"                                        | 2     | None   | Meat  |
+| King Arthur | King of the Britons                          | 10    | None   | Gold  |
+| Knight      | A humble warrior                             | 10    | None   | Sword |
+| Peasant     | A worthless low life                         | 10    | None   | None  |
 
 ## ITEMS
- * Gold ($)
-   * Increase score
- * Spam (=)
-   * Eat to restore 2 heath
- * Haggis (o)
-   * Eat to restore 10 heath
- * Sword (/)
-   * Hold to deal more damage
- * Shield (0)
-   * Hold to block damage
- * Bow ())
-   * Hold to fire arrows
- * Arrow (|)
-   * Used by bow to deal 5 damage
- * Rat Meat (%)
-   * Eat to remove 1 heath
- * Gnu Meat (%)
-   * Eat to restore 4 heath
- * Beef (%)
-   * Eat to restore 22 heath
+
+| Item   | Description                                   |
+| ------ | --------------------------------------------- |
+| Gold   | Increase score                                |
+| Spam   | Eat to restore 3 heath                        |
+| Sword  | Hold to deal more 2 damage                    |
+| Shield | Hold to block 4 damage                        |
+| Bow    | Hold to load then fire arrows up to 20 blocks |
+| Arrow  | Fire with bow to deal 5 damage                |
+| Meat   | Eat to restore 1 heath                        |
 
 ## AUTHOR
 
-Written by ED van Bruggen.
+Ed van Bruggen <edvb54@gmail.com>
 
 ## SEE ALSO
 
