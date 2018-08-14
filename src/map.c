@@ -9,6 +9,7 @@
 bool
 init_block(void) {
 	blockqty = 0;
+	char *path;
 
 	for (int num = 0; num < blockqty_t; num++) {
 		block[blockqty] = block_t[blockqty];
@@ -16,10 +17,13 @@ init_block(void) {
 		block[blockqty].name = malloc(MAX_NAME * sizeof(char));
 		strcpy(block[blockqty].name, block_t[blockqty].name);
 
-		char imgpath[64] = {0};
-		sprintf(imgpath, "data/blocks/%s.png", block[blockqty].name);
-		block[blockqty].img = load_img(imgpath);
+		block[blockqty].img = load_img(get_data("gfx/blocks/%s.png", block[blockqty].name));
 		block[blockqty].src = (SDL_Rect) { 0, 0, U, U };
+		for (int i = 0; i < 2; i++) {
+			path = get_data("sfx/blocks/%s_%d.png", block[blockqty].name, i);
+			if (file_exists(path))
+				block[blockqty].sfx[i] = load_sound(path);
+		}
 
 		blockqty++;
 	}
@@ -61,8 +65,8 @@ init_map(void) {
 	lua_register(L, "is_spawn_range", lua_is_spawn_range);
 	LUA_SET_VAR(MAX_X);
 	LUA_SET_VAR(MAX_Y);
-	LUA_LOAD_FILE("data/blds.lua");
-	LUA_LOAD_FILE("data/map.lua");
+	LUA_LOAD_FILE(get_data("data/blds.lua"));
+	LUA_LOAD_FILE(get_data("data/map.lua"));
 	lua_close(L);
 }
 

@@ -2,9 +2,31 @@
 #include <stdlib.h>
 
 #include "ratium.h"
+#include "util.h"
 
-SDL_Texture /* returns loaded png found at path */
-*load_img(char *path) {
+char *
+get_data(const char *file, ...)
+{
+	va_list ap;
+	/* char *ret = ecalloc(256, sizeof(char)); */
+	/* char *tmp = ecalloc(256, sizeof(char)); */
+	static char ret[256], tmp[256];
+
+	va_start(ap, file);
+
+	snprintf(ret, sizeof(ret), "%s/packs/%s/", datapath, pack);
+	vsnprintf(tmp, sizeof(tmp), file, ap);
+	strcat(ret, tmp);
+
+	va_end(ap);
+	/* free(tmp); */
+
+	return ret;
+}
+
+/* returns loaded png found at path */
+SDL_Texture *
+load_img(char *path) {
 	SDL_Texture *tex = NULL;
 	tex = IMG_LoadTexture(ren, path);
 	if (tex == NULL) SDL_ERROR(nullimg);

@@ -30,7 +30,7 @@
 typedef enum { false, true } bool;
 
 #define SDL_ERROR(x) { \
-	printf("SDL Error: %s\n", SDL_GetError()); \
+	printf("SDL error: %s\n", SDL_GetError()); \
 	return x; \
 }
 
@@ -141,9 +141,9 @@ struct _Pos {
 /* universal struct for players and other entities */
 typedef struct _Ent Ent;
 struct _Ent {
-	char *name;    /* name of ent */
-	SpawnType type; /* used mainly for where to spawn */
-	EntAI ai;     /* how ent should move around */
+	char *name;     /* name of ent */
+	SpawnType type; /* where ent should spawn */
+	EntAI ai;       /* how ent should move around */
 
 	SDL_Texture *img;
 	SDL_Rect src; /* ent position on sprite sheet */
@@ -225,11 +225,15 @@ bool init_player(int count);
 void init_shot(Pos pos, Direc direc, int dmg, char *ammo);
 
 /* gfx.c: SDL functions */
+char *get_data(const char *file, ...);
 SDL_Texture *load_img(char *path);
 bool draw_text(char *str, SDL_Color color, int x, int y);
 void draw_img(SDL_Texture *img, SDL_Rect *src, int x, int y, int rot, SDL_RendererFlip flip);
 void draw_img_pos(SDL_Texture *img, SDL_Rect *src, Pos pos, int rot, SDL_RendererFlip flip);
 bool pos_collide(Pos pos_1, Pos pos_2);
+
+char *datapath;
+char *pack;
 
 int ZOOM;
 SDL_Window *win;

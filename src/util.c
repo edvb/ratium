@@ -1,12 +1,13 @@
 #include <assert.h>
-#include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 int
 estrcmp(const char *s1, const char *s2) {
 	if (s1 == NULL || s2 == NULL)
 		return 1;
-	for ( ; *s1 == *s2; s1++, s2++)
+	for (; *s1 == *s2; s1++, s2++)
 		if (*s1 == '\0')
 			return 0;
 	return ((*(unsigned char *)s1 < *(unsigned char *)s2) ? -1 : +1);
@@ -47,7 +48,7 @@ str_split(const char *s, const char a_delim) {
 
 	if (result) {
 		size_t idx  = 0;
-		char* token = strtok(a_str, delim);
+		char *token = strtok(a_str, delim);
 
 		while (token) {
 			assert(idx < count);
@@ -70,4 +71,35 @@ count_chars(char *s, char ch) {
 		if (s[i] == ch)
 			count++;
 	return count;
+}
+
+/* checks if file fname can be read */
+int
+file_exists(const char *fname) {
+	FILE *file;
+	if ((file = fopen(fname, "r")) != NULL) {
+		fclose(file);
+		return 1;
+	}
+	return 0;
+}
+
+void
+die(int eval, const char *fmt, ...)
+{
+	va_list ap;
+
+	va_start(ap, fmt);
+	vfprintf(stderr, fmt, ap);
+	va_end(ap);
+
+	if (fmt[0] && fmt[strlen(fmt)-1] == ':') {
+		fputc(' ', stderr);
+		perror(NULL);
+	} else {
+		fputc('\n', stderr);
+	}
+
+	if (eval > -1)
+		exit(eval);
 }

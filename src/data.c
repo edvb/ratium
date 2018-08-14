@@ -73,9 +73,7 @@ add_ent(int entnum, int x_0, int y_0, int qty) {
 		entity[entqty].type = ent_t[entnum].type;
 		entity[entqty].ai = ent_t[entnum].ai;
 
-		char imgpath[64] = {0};
-		sprintf(imgpath, "data/ents/%s.png", entity[entqty].name);
-		entity[entqty].img = load_img(imgpath);
+		entity[entqty].img = load_img(get_data("gfx/ents/%s.png", entity[entqty].name));
 		entity[entqty].src = (SDL_Rect) { 0, 0, U, U };
 		entity[entqty].rot = 0;
 		entity[entqty].flip = SDL_FLIP_NONE;
@@ -134,9 +132,7 @@ init_entity(void) {
 			entity[entqty].type = ent_t[i].type;
 			entity[entqty].ai = ent_t[i].ai;
 
-			char imgpath[64] = {0};
-			sprintf(imgpath, "data/ents/%s.png", entity[entqty].name);
-			entity[entqty].img = load_img(imgpath);
+			entity[entqty].img = load_img(get_data("gfx/ents/%s.png", entity[entqty].name));
 			entity[entqty].src = (SDL_Rect) { 0, 0, U, U };
 			entity[entqty].rot = 0;
 			entity[entqty].flip = SDL_FLIP_NONE;
@@ -199,7 +195,7 @@ bool init_player(int count) {
 		player[num].type = SPAWN_ALL;
 		player[num].ai = AI_PLAYER;
 
-		player[num].img = load_img("data/ents/player.png");
+		player[num].img = load_img(get_data("gfx/ents/player.png"));
 		player[num].src = (SDL_Rect) { 0, 0, U, U };
 		player[num].rot = 0;
 		player[num].flip = SDL_FLIP_NONE;
@@ -257,9 +253,7 @@ init_shot(Pos pos, Direc direc, int dmg, char *ammo) {
 	entity[entqty].type  = SPAWN_ALL;
 	entity[entqty].ai = AI_SHOT;
 
-	char imgpath[64] = {0};
-	sprintf(imgpath, "data/items/%s.png", ammo);
-	entity[entqty].img = load_img(imgpath);
+	entity[entqty].img = load_img(get_data("gfx/items/%s.png", ammo));
 	entity[entqty].src = (SDL_Rect) { 0, 0, U, U };
 	entity[entqty].flip = SDL_FLIP_NONE;
 

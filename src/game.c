@@ -4,10 +4,19 @@
 #include <time.h>
 
 #include "ratium.h"
+#include "util.h"
 
 bool
 rat_init(void) {
 	ZOOM = 2;
+
+	datapath = SDL_GetPrefPath("", "ratium");
+	pack = strdup("default");
+	if (!file_exists(get_data(""))) {
+		datapath = strdup(".");
+		if (!file_exists(get_data("")))
+			die(1, "ratium: %s does not exist", get_data(""));
+	}
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) SDL_ERROR(false);
 
@@ -20,12 +29,16 @@ rat_init(void) {
 	if (ren == NULL) SDL_ERROR(false);
 
 	if (TTF_Init() != 0) SDL_ERROR(false);
-	if ((font = TTF_OpenFont("data/Ricasso.ttf", 80)) == NULL) SDL_ERROR(false);
+	if ((font = TTF_OpenFont(get_data("gfx/font.ttf"), 80)) == NULL) SDL_ERROR(false);
 
 	SDL_SetRenderDrawColor(ren, 0x20, 0x20, 0x20, 0x20);
-	IMG_Init(IMG_INIT_PNG);
 
-	nullimg = load_img("data/null.png");
+	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+		printf("SDL_image error: %s\n", IMG_GetError());
+		return 1;
+	}
+
+	nullimg = load_img(get_data("gfx/null.png"));
 	if (nullimg == NULL) SDL_ERROR(false);
 
 	srand(time(NULL));
@@ -103,13 +116,15 @@ void rat_loop(void) {
 }
 
 void rat_cleanup(void) {
-	SDL_DestroyWindow(win);
-	win = NULL;
+	IMG_Quit();
 	TTF_CloseFont(font);
 	TTF_Quit();
+	SDL_DestroyWindow(win);
+	win = NULL;
 	SDL_Quit();
-	printf("GAME OVER\n");
 
+	free(datapath);
+	free(pack);
 	for (int i = 0; i <= blockqty; i++) {
 		free(block[i].name);
 		SDL_DestroyTexture(block[i].img);

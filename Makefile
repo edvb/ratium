@@ -9,7 +9,7 @@ OBJ = $(SRC:.c=.o)
 LUA = $(wildcard src/*.lua)
 LUAH = $(LUA:.lua=.lua.h)
 
-all: options $(EXE)
+all: options $(EXE) $(DESTDIR)$(PREF)
 
 options:
 	@echo $(EXE) build options:
@@ -42,7 +42,7 @@ clean:
 dist: clean
 	@echo creating dist tarball
 	@mkdir -p $(EXE)-$(VERSION)
-	@cp -R LICENSE README.md Makefile src/ data/ $(EXE).1 $(EXE)-$(VERSION)
+	@cp -R LICENSE README.md Makefile src/ packs/ $(EXE).1 $(EXE)-$(VERSION)
 	@tar -cf $(EXE)-$(VERSION).tar $(EXE)-$(VERSION)
 	@gzip $(EXE)-$(VERSION).tar
 	@rm -rf $(EXE)-$(VERSION)
@@ -56,6 +56,12 @@ install: all
 	@mkdir -p $(DESTDIR)$(MANPREFIX)/man1
 	@sed "s/VERSION/$(VERSION)/g" < $(EXE).1 > $(DESTDIR)$(MANPREFIX)/man1/$(EXE).1
 	@chmod 644 $(DESTDIR)$(MANPREFIX)/man1/$(EXE).1
+
+$(DESTDIR)$(PREF): $(shell find packs | sed "s/\ /\\\ /g")
+	@echo installing default pack to $(DESTDIR)$(PREF)/
+	@mkdir -p $(DESTDIR)$(PREF)
+	@cp -fr packs/ $(DESTDIR)$(PREF)
+	@touch $(DESTDIR)$(PREF)
 
 uninstall:
 	@echo removing executable file from $(DESTDIR)$(PREFIX)/bin

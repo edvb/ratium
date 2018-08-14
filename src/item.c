@@ -42,9 +42,7 @@ lua_add_item(lua_State *L) {
 	item[itemqty].type = lua_tonumber(L, 2);
 	item[itemqty].stat = lua_tonumber(L, 3);
 
-	char imgpath[64] = {0};
-	sprintf(imgpath, "data/items/%s.png", item[itemqty].name);
-	item[itemqty].img = load_img(imgpath);
+	item[itemqty].img = load_img(get_data("gfx/items/%s.png", item[itemqty].name));
 	item[itemqty].src = (SDL_Rect) { 0, 0, U, U };
 
 	for (int i = 0; i < MAX_X; i++)
@@ -75,7 +73,7 @@ init_item(void) {
 	LUA_SET_VAR(ITEM_SHIELD);
 	LUA_SET_VAR(ITEM_SHOOTER);
 	LUA_SET_VAR(ITEM_AMMO);
-	LUA_LOAD_FILE("data/items.lua");
+	LUA_LOAD_FILE(get_data("data/items.lua"));
 	lua_register(L, "add_item", lua_add_item);
 #include "items.lua.h"
 	LUA_LOAD_HEADER("src/items.lua.h", src_items_lua, src_items_lua_len);
