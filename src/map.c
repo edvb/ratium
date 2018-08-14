@@ -9,21 +9,15 @@
 bool
 init_block(void) {
 	blockqty = 0;
-	char *path;
 
 	for (int num = 0; num < blockqty_t; num++) {
 		block[blockqty] = block_t[blockqty];
 
-		block[blockqty].name = malloc(MAX_NAME * sizeof(char));
+		block[blockqty].name = emalloc(MAX_NAME * sizeof(char));
 		strcpy(block[blockqty].name, block_t[blockqty].name);
 
 		block[blockqty].img = load_img(get_data("gfx/blocks/%s.png", block[blockqty].name));
 		block[blockqty].src = (SDL_Rect) { 0, 0, U, U };
-		for (int i = 0; i < 2; i++) {
-			path = get_data("sfx/blocks/%s_%d.png", block[blockqty].name, i);
-			if (file_exists(path))
-				block[blockqty].sfx[i] = load_sound(path);
-		}
 
 		blockqty++;
 	}

@@ -81,7 +81,7 @@ cmd_run(Ent *e, char *text) {
 				set_map(holding_x(e->direc, e->pos.x), holding_y(e->direc, e->pos.y),
 				        block[i]);
 	} else if (estrcmp(textv[0], "pos") == 0) {
-		e->msg = malloc(MAX_MSG * sizeof(char));
+		e->msg = emalloc(MAX_MSG * sizeof(char));
 		snprintf(e->msg, MAX_MSG, "%.1f, %.1f", e->pos.x, e->pos.y);
 	} else if (estrcmp(textv[0], "spawn") == 0)
 		if (textv[1] != NULL)
@@ -96,7 +96,7 @@ static void
 cmd(Ent *e) {
 	bool quit = false;
 	SDL_Event event;
-	char *text = malloc(sizeof(char*));
+	char *text = emalloc(sizeof(char*));
 	text[0] = '\0';
 
 	SDL_StartTextInput();
@@ -129,10 +129,10 @@ cmd(Ent *e) {
 				if (!((event.text.text[0] == 'c' || event.text.text[0] == 'C') &&
 				      (event.text.text[0] == 'v' || event.text.text[0] == 'V') &&
 				       SDL_GetModState() & KMOD_CTRL)) {
-					char *tmpstr = malloc(strlen(text)+1);
+					char *tmpstr = emalloc(strlen(text)+1);
 					tmpstr[0] = '\0';
 					strcat(tmpstr, text);
-					text = malloc(strlen(text)+strlen(event.text.text)+1);
+					text = emalloc(strlen(text)+strlen(event.text.text)+1);
 					text[0] = '\0';
 					strcat(text, tmpstr);
 					strcat(text, event.text.text);

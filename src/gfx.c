@@ -8,8 +8,6 @@ char *
 get_data(const char *file, ...)
 {
 	va_list ap;
-	/* char *ret = ecalloc(256, sizeof(char)); */
-	/* char *tmp = ecalloc(256, sizeof(char)); */
 	static char ret[256], tmp[256];
 
 	va_start(ap, file);
@@ -19,7 +17,6 @@ get_data(const char *file, ...)
 	strcat(ret, tmp);
 
 	va_end(ap);
-	/* free(tmp); */
 
 	return ret;
 }

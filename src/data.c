@@ -68,7 +68,7 @@ add_ent_name(char *name, int x_0, int y_0, int qty) {
 void /* spawn qty entities with id entnum at x and y postion */
 add_ent(int entnum, int x_0, int y_0, int qty) {
 	for (int i = 0; i < qty; i++, entqty++) {
-		entity[entqty].name = malloc(MAX_NAME * sizeof(char));
+		entity[entqty].name = emalloc(MAX_NAME * sizeof(char));
 		strcpy(entity[entqty].name, ent_t[entnum].name);
 		entity[entqty].type = ent_t[entnum].type;
 		entity[entqty].ai = ent_t[entnum].ai;
@@ -90,14 +90,14 @@ add_ent(int entnum, int x_0, int y_0, int qty) {
 
 		entity[entqty].keys = (struct _Keys){0};
 
-		entity[entqty].msg = malloc(MAX_MSG * sizeof(char));
+		entity[entqty].msg = emalloc(MAX_MSG * sizeof(char));
 		if (ent_t[entnum].msg != NULL) {
 			strcpy(entity[entqty].msg, ent_t[entnum].msg);
 		} else
 			entity[entqty].msg = NULL;
 
 		for (int j = 0; j < MAX_INV; j++) {
-			entity[entqty].inv[j].name = malloc(MAX_NAME * sizeof(char));
+			entity[entqty].inv[j].name = emalloc(MAX_NAME * sizeof(char));
 			entity[entqty].inv[j].map[0][0] = 0;
 		}
 		entity[entqty].hand = -1;
@@ -127,7 +127,7 @@ init_entity(void) {
 	for (int i = 0; i < entqty_t; i++) {
 		calc_rarity(&ent_t[i].rarity);
 		for (int num = 0; num < ent_t[i].rarity; num++, entqty++) {
-			entity[entqty].name = malloc(MAX_NAME * sizeof(char));
+			entity[entqty].name = emalloc(MAX_NAME * sizeof(char));
 			strcpy(entity[entqty].name, ent_t[i].name);
 			entity[entqty].type = ent_t[i].type;
 			entity[entqty].ai = ent_t[i].ai;
@@ -150,14 +150,14 @@ init_entity(void) {
 
 			entity[entqty].keys = (struct _Keys) {0};
 
-			entity[entqty].msg = malloc(MAX_MSG * sizeof(char));
+			entity[entqty].msg = emalloc(MAX_MSG * sizeof(char));
 			if (ent_t[i].msg != NULL) {
 				strcpy(entity[entqty].msg, ent_t[i].msg);
 			} else
 				entity[entqty].msg = NULL;
 
 			for (int j = 0; j < MAX_INV; j++) {
-				entity[entqty].inv[j].name = malloc(MAX_NAME * sizeof(char));
+				entity[entqty].inv[j].name = emalloc(MAX_NAME * sizeof(char));
 				entity[entqty].inv[j].map[0][0] = 0;
 			}
 			entity[entqty].hand = -1;
@@ -190,7 +190,7 @@ bool init_player(int count) {
 	int x_0, y_0;
 
 	for (int num = 0; num < count; num++) {
-		player[num].name = malloc(MAX_NAME * sizeof(char));
+		player[num].name = emalloc(MAX_NAME * sizeof(char));
 		strcpy(player[num].name, "player");
 		player[num].type = SPAWN_ALL;
 		player[num].ai = AI_PLAYER;
@@ -219,11 +219,11 @@ bool init_player(int count) {
 
 		player[num].keys = player_keys[num];
 
-		player[num].msg = (char *)malloc(MAX_NAME * sizeof(char));
+		player[num].msg = emalloc(MAX_NAME * sizeof(char));
 		player[num].msg = NULL;
 
 		for (int i = 0; i < MAX_INV; i++) {
-			player[num].inv[i].name = malloc(MAX_NAME * sizeof(char));
+			player[num].inv[i].name = emalloc(MAX_NAME * sizeof(char));
 			player[num].inv[i].face = ' ';
 			player[num].inv[i].map[0][0] = 0;
 		}
@@ -248,7 +248,7 @@ init_shot(Pos pos, Direc direc, int dmg, char *ammo) {
 			if (entity[i].ai == AI_SHOT)
 				entqty = i;
 
-	entity[entqty].name  = malloc(MAX_NAME * sizeof(char));
+	entity[entqty].name  = emalloc(MAX_NAME * sizeof(char));
 	strcpy(entity[entqty].name, ammo);
 	entity[entqty].type  = SPAWN_ALL;
 	entity[entqty].ai = AI_SHOT;

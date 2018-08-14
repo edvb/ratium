@@ -2,6 +2,56 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include "util.h"
+
+void *
+ecalloc(size_t nmemb, size_t size)
+{
+	void *p;
+
+	if (!(p = calloc(nmemb, size)))
+		die(1, "calloc:");
+
+	return p;
+}
+
+void *
+emalloc(size_t size)
+{
+	void *p;
+
+	if (!(p = malloc(size)))
+		die(1, "malloc:");
+
+	return p;
+}
+
+void *
+erealloc(void *p, size_t size)
+{
+	if (!(p = realloc(p, size)))
+		die(1, "realloc:");
+
+	return p;
+}
+
+char *
+estrdup(char *s)
+{
+	if (!(s = strdup(s)))
+		die(1, "strdup:");
+
+	return s;
+}
+
+void
+efree(void *p)
+{
+	if (p)
+		free(p);
+}
 
 int
 estrcmp(const char *s1, const char *s2) {
@@ -13,21 +63,17 @@ estrcmp(const char *s1, const char *s2) {
 	return ((*(unsigned char *)s1 < *(unsigned char *)s2) ? -1 : +1);
 }
 
-char *
-strdup(const char *s) {
-	char *d = malloc(strlen(s) + 1);
-	if (d == NULL) return NULL;
-	strcpy(d, s);
-	return d;
-}
-
+/* split string s into muiltple strings by a_delim */
 char **
-str_split(const char *s, const char a_delim) {
-	char** result    = 0;
-	size_t count     = 0;
-	char* last_delim = 0;
+str_split(const char *s, const char a_delim)
+{
+	if (!s) die(1, "strsplit: given null pointer");
+
+	char **ret = 0;
+	size_t count = 0;
+	char *last_delim = 0;
 	char delim[2] = { a_delim, 0 }; /* converet a_delim into string for strtok */
-	char *a_str = malloc((strlen(s)+1) * sizeof(char));
+	char *a_str = ecalloc(strlen(s)+1, sizeof(char));
 	strcpy(a_str, s);
 
 	/* count number of elements that will be extracted. */
@@ -44,30 +90,31 @@ str_split(const char *s, const char a_delim) {
 	 * knows where the list of returned strings ends. */
 	count++;
 
-	result = malloc(count * sizeof(char*));
+	ret = ecalloc(count, sizeof(char*));
 
-	if (result) {
+	if (ret) {
 		size_t idx  = 0;
 		char *token = strtok(a_str, delim);
 
 		while (token) {
 			assert(idx < count);
-			*(result + idx++) = strdup(token);
+			*(ret + idx++) = estrdup(token);
 			token = strtok(0, delim);
 		}
 		assert(idx == count - 1);
-		*(result + idx) = 0;
+		*(ret + idx) = 0;
 	}
 
 	free(a_str);
-	return result;
+	return ret;
 }
 
+/* counts the number of times ch appears in s */
 int
 count_chars(char *s, char ch) {
+	if (s == NULL) return 0;
 	int count = 0;
-	int len = strlen(s);
-	for (int i = 0; i < len; i++)
+	for (int i = 0; i < strlen(s); i++)
 		if (s[i] == ch)
 			count++;
 	return count;

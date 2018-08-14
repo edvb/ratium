@@ -35,7 +35,7 @@ static int
 lua_add_item(lua_State *L) {
 	LUA_ARG_COUNT(4, "add_item");
 
-	item[itemqty].name = malloc(MAX_NAME * sizeof(char));
+	item[itemqty].name = emalloc(MAX_NAME * sizeof(char));
 	size_t len = MAX_NAME;
 	const char *str = lua_tolstring(L, 1, &len);
 	strcpy(item[itemqty].name, str);
